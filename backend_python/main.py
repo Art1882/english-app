@@ -14,12 +14,9 @@ app.add_middleware(
 # 🔥 NEW: in-memory storage
 submissions = []
 
-@app.get("/")
-def root():
-    return {"status": "backend working"}
-
 @app.post("/check")
 def check_sentence(data: dict):
+    student = data.get("student", "Unknown")
     sentence = data.get("sentence", "").strip()
 
     feedback = []
@@ -28,25 +25,24 @@ def check_sentence(data: dict):
         feedback.append("Write a sentence.")
     else:
         if not sentence[0].isupper():
-            feedback.append("Start your sentence with a capital letter.")
+            feedback.append("Start with a capital letter.")
         if not sentence.endswith("."):
-            feedback.append("End your sentence with a full stop.")
+            feedback.append("End with a full stop.")
         if len(sentence.split()) < 3:
-            feedback.append("Try to write a longer sentence.")
+            feedback.append("Write a longer sentence.")
 
     if not feedback:
         feedback.append("Good sentence.")
 
     result = {
+        "student": student,
         "sentence": sentence,
         "feedback": " ".join(feedback)
     }
 
-    # 🔥 SAVE submission
     submissions.append(result)
 
     return result
-
 
 # 🔥 NEW: endpoint to view all submissions
 @app.get("/submissions")

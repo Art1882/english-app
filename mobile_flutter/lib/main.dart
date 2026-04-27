@@ -80,6 +80,8 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if (role == 'Learner') {
       return const LearnerScreen();
+    } else if (role == 'Teacher') {
+      return const TeacherScreen();
     }
 
     return Scaffold(
@@ -103,46 +105,62 @@ class LearnerScreen extends StatefulWidget {
   State<LearnerScreen> createState() => _LearnerScreenState();
 }
 
+
 class _LearnerScreenState extends State<LearnerScreen> {
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController sentenceController = TextEditingController();
+
   String feedback = '';
 
-Future<void> submitSentence() async {
-  final sentence = sentenceController.text.trim();
+  Future<void> submitSentence() async {
+    final student = nameController.text.trim();
+    final sentence = sentenceController.text.trim();
 
-  if (sentence.isEmpty) {
-    setState(() {
-      feedback = 'Please write a sentence first.';
-    });
-    return;
-  }
-
-  try {
-    final response = await http.post(
-      Uri.parse('$baseUrl/check'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'sentence': sentence}),
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+    if (student.isEmpty) {
       setState(() {
-        feedback = data['feedback'];
+        feedback = 'Please write your name first.';
       });
-    } else {
+      return;
+    }
+
+    if (sentence.isEmpty) {
       setState(() {
-        feedback = 'Server error.';
+        feedback = 'Please write a sentence first.';
+      });
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/check'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'student': student,
+          'sentence': sentence,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          feedback = data['feedback'];
+          sentenceController.clear();
+        });
+      } else {
+        setState(() {
+          feedback = 'Server error.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        feedback = 'Cannot connect to backend.';
       });
     }
-  } catch (e) {
-    setState(() {
-      feedback = 'Cannot connect to backend.';
-    });
   }
-}
 
   @override
   void dispose() {
+    nameController.dispose();
     sentenceController.dispose();
     super.dispose();
   }
@@ -164,6 +182,14 @@ Future<void> submitSentence() async {
                 const Text(
                   'Write one English sentence',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Your name',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -189,6 +215,90 @@ Future<void> submitSentence() async {
           ),
         ),
       ),
+    );
+  }
+}
+class TeacherScreen extends StatefulWidget {
+  const TeacherScreen({super.key});
+
+  @override
+  State<TeacherScreen> createState() => _TeacherScreenState();
+}
+
+class _TeacherScreenState extends State<TeacherScreen> {
+  List submissions = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSubmissions();
+  }
+
+  Future<void> fetchSubmissions() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/submissions'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          submissions = data['submissions'];
+          loading = false;
+        });
+      } else {
+        setState(() {
+          loading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Teacher Dashboard'),
+      ),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : submissions.isEmpty
+              ? const Center(child: Text('No submissions yet'))
+              : ListView.builder(
+                  itemCount: submissions.length,
+                  itemBuilder: (context, index) {
+                    final item = submissions[index];
+
+                    return Card(
+                      margin: const EdgeInsets.all(10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${item['student']}: ${item['sentence']}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              item['feedback'],
+                              style: const TextStyle(color: Colors.blue),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }
