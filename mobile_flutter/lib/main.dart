@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'config.dart';
 
 void main() {
   runApp(const EnglishApp());
@@ -118,7 +119,7 @@ Future<void> submitSentence() async {
 
   try {
     final response = await http.post(
-      Uri.parse('http://192.168.0.106:8000/check'),
+      Uri.parse('$baseUrl/check'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'sentence': sentence}),
     );
