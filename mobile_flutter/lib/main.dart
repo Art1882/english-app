@@ -97,7 +97,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-
+// Learner
 class LearnerScreen extends StatefulWidget {
   const LearnerScreen({super.key});
 
@@ -109,6 +109,7 @@ class LearnerScreen extends StatefulWidget {
 class _LearnerScreenState extends State<LearnerScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController sentenceController = TextEditingController();
+  final TextEditingController classController = TextEditingController();
 
   String feedback = '';
 
@@ -136,6 +137,7 @@ class _LearnerScreenState extends State<LearnerScreen> {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'student': student,
+          'class': classController.text.trim(),
           'sentence': sentence,
         }),
       );
@@ -193,6 +195,14 @@ class _LearnerScreenState extends State<LearnerScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  controller: classController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Class',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
                   controller: sentenceController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -228,6 +238,7 @@ class TeacherScreen extends StatefulWidget {
 class _TeacherScreenState extends State<TeacherScreen> {
   List submissions = [];
   bool loading = true;
+  String selectedClass = '';
 
   @override
   void initState() {
@@ -261,44 +272,77 @@ class _TeacherScreenState extends State<TeacherScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final filtered = selectedClass.isEmpty
+        ? submissions
+        : submissions.where((s) => s['class'] == selectedClass).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teacher Dashboard'),
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : submissions.isEmpty
-              ? const Center(child: Text('No submissions yet'))
-              : ListView.builder(
-                  itemCount: submissions.length,
-                  itemBuilder: (context, index) {
-                    final item = submissions[index];
-
-                    return Card(
-                      margin: const EdgeInsets.all(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${item['student']}: ${item['sentence']}",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              item['feedback'],
-                              style: const TextStyle(color: Colors.blue),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+          : Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: DropdownButton<String>(
+                    value: selectedClass.isEmpty ? null : selectedClass,
+                    hint: const Text('Select Class'),
+                    isExpanded: true,
+                    items: submissions
+                        .map((e) => e['class'] as String)
+                        .toSet()
+                        .map((className) => DropdownMenuItem(
+                              value: className,
+                              child: Text(className),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedClass = value ?? '';
+                      });
+                    },
+                  ),
                 ),
+                Expanded(
+                  child: filtered.isEmpty
+                      ? const Center(child: Text('No submissions yet'))
+                      : ListView.builder(
+                          itemCount: filtered.length,
+                          itemBuilder: (context, index) {
+                            final item = filtered[index];
+
+                            return Card(
+                              margin: const EdgeInsets.all(10),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${item['class']} - ${item['student']}: ${item['sentence']}",
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      item['feedback'],
+                                      style: const TextStyle(
+                                          color: Colors.blue),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
     );
   }
 }

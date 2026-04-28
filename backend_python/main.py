@@ -14,9 +14,11 @@ app.add_middleware(
 # 🔥 NEW: in-memory storage
 submissions = []
 
+#check
 @app.post("/check")
 def check_sentence(data: dict):
     student = data.get("student", "Unknown")
+    class_name = data.get("class", "Default")
     sentence = data.get("sentence", "").strip()
 
     feedback = []
@@ -36,12 +38,12 @@ def check_sentence(data: dict):
 
     result = {
         "student": student,
+        "class": class_name,
         "sentence": sentence,
         "feedback": " ".join(feedback)
     }
 
     submissions.append(result)
-
     return result
 
 # 🔥 NEW: endpoint to view all submissions
