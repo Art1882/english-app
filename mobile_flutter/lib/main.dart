@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'config.dart';
 
+// App starts here
 void main() {
   runApp(const EnglishApp());
 }
@@ -23,9 +24,13 @@ class EnglishApp extends StatelessWidget {
   }
 }
 
+// This screen lets user choose Admin / Teacher / Learner
+class RoleSelectionScreen extends StatelessWidget {
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
 
+// This function moves to the next screen based on role
+void openDashboard(BuildContext context, String role) {
   void openDashboard(BuildContext context, String role) {
     Navigator.push(
       context,
@@ -76,6 +81,7 @@ class DashboardScreen extends StatelessWidget {
 
   const DashboardScreen({super.key, required this.role});
 
+// Decides which screen to show based on role
   @override
   Widget build(BuildContext context) {
     if (role == 'Learner') {
@@ -97,7 +103,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-// Learner
+// Learner Screen
 class LearnerScreen extends StatefulWidget {
   const LearnerScreen({super.key});
 
@@ -105,7 +111,7 @@ class LearnerScreen extends StatefulWidget {
   State<LearnerScreen> createState() => _LearnerScreenState();
 }
 
-
+// Controllers store what user types in inputs
 class _LearnerScreenState extends State<LearnerScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController sentenceController = TextEditingController();
@@ -113,6 +119,7 @@ class _LearnerScreenState extends State<LearnerScreen> {
 
   String feedback = '';
 
+// Sends data to backend
   Future<void> submitSentence() async {
     final student = nameController.text.trim();
     final sentence = sentenceController.text.trim();
@@ -131,10 +138,12 @@ class _LearnerScreenState extends State<LearnerScreen> {
       return;
     }
 
+// This is your API call (frontend → backend)
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/check'),
         headers: {'Content-Type': 'application/json'},
+// This is the DATA you send
         body: jsonEncode({
           'student': student,
           'class': classController.text.trim(),
@@ -145,6 +154,7 @@ class _LearnerScreenState extends State<LearnerScreen> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
+// Shows response from backend
           feedback = data['feedback'];
           sentenceController.clear();
         });
@@ -228,6 +238,8 @@ class _LearnerScreenState extends State<LearnerScreen> {
     );
   }
 }
+
+// Teacher Screen
 class TeacherScreen extends StatefulWidget {
   const TeacherScreen({super.key});
 
@@ -236,10 +248,10 @@ class TeacherScreen extends StatefulWidget {
 }
 
 class _TeacherScreenState extends State<TeacherScreen> {
-  List submissions = [];
-  bool loading = true;
+  List submissions = []; // stores all data from backend
+  bool loading = true; // shows loading spinner
   String selectedClass = '';
-  String teacherClass = '';
+  String teacherClass = ''; // the class teacher wants to view
 
   @override
   void initState() {
@@ -247,8 +259,10 @@ class _TeacherScreenState extends State<TeacherScreen> {
     fetchSubmissions();
   }
 
+// Fetch data from backend
   Future<void> fetchSubmissions() async {
     try {
+// GET request (read data)
       final response = await http.get(
         Uri.parse('$baseUrl/submissions'),
       );
@@ -273,6 +287,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
 
   @override
   Widget build(BuildContext context) {
+// Filter data based on teacher's class
     final filtered = teacherClass.isEmpty
       ? []
       : submissions.where((s) => s['class'] == teacherClass).toList();
@@ -292,6 +307,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                       labelText: 'Enter your class (e.g. 10A)',
                       border: OutlineInputBorder(),
                     ),
+// Teacher types class → updates filter
                     onChanged: (value) {
                       setState(() {
                         teacherClass = value;
@@ -302,6 +318,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                 Expanded(
                   child: filtered.isEmpty
                       ? const Center(child: Text('No submissions yet'))
+// Display list of submissions
                       : ListView.builder(
                           itemCount: filtered.length,
                           itemBuilder: (context, index) {
