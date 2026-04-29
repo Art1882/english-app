@@ -239,6 +239,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
   List submissions = [];
   bool loading = true;
   String selectedClass = '';
+  String teacherClass = '';
 
   @override
   void initState() {
@@ -272,9 +273,9 @@ class _TeacherScreenState extends State<TeacherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filtered = selectedClass.isEmpty
-        ? submissions
-        : submissions.where((s) => s['class'] == selectedClass).toList();
+    final filtered = teacherClass.isEmpty
+      ? []
+      : submissions.where((s) => s['class'] == teacherClass).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -286,21 +287,14 @@ class _TeacherScreenState extends State<TeacherScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(12),
-                  child: DropdownButton<String>(
-                    value: selectedClass.isEmpty ? null : selectedClass,
-                    hint: const Text('Select Class'),
-                    isExpanded: true,
-                    items: submissions
-                        .map((e) => e['class'] as String)
-                        .toSet()
-                        .map((className) => DropdownMenuItem(
-                              value: className,
-                              child: Text(className),
-                            ))
-                        .toList(),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Enter your class (e.g. 10A)',
+                      border: OutlineInputBorder(),
+                    ),
                     onChanged: (value) {
                       setState(() {
-                        selectedClass = value ?? '';
+                        teacherClass = value;
                       });
                     },
                   ),
