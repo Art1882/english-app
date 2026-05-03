@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'unit_one_lesson_screen.dart';
+import 'unit_one_overview_screen.dart';
 
 class LearnerDashboard extends StatelessWidget {
   const LearnerDashboard({super.key});
@@ -10,8 +10,37 @@ class LearnerDashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Learner Dashboard'),
       ),
-      body: const Center(
-        child: const Text('Unit 1: How People Communicate'),
+      body: Center(
+        child: SizedBox(
+          width: 400,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Choose a lesson',
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UnitOneOverviewScreen(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Unit 1: How People Communicate',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

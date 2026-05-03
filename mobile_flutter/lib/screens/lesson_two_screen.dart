@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class UnitOneLessonScreen extends StatefulWidget {
-  const UnitOneLessonScreen({super.key});
+class LessonTwoScreen extends StatefulWidget {
+  const LessonTwoScreen({super.key});
 
   @override
-  State<UnitOneLessonScreen> createState() => _UnitOneLessonScreenState();
+  State<LessonTwoScreen> createState() => _LessonTwoScreenState();
 }
 
-class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
+class _LessonTwoScreenState extends State<LessonTwoScreen> {
   int step = 0;
   String? selectedAnswer;
   String feedback = '';
-
+  
   void nextStep() {
     setState(() {
       step++;

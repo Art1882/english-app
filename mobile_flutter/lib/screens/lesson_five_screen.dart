@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class UnitOneLessonScreen extends StatefulWidget {
-  const UnitOneLessonScreen({super.key});
+class LessonFiveScreen extends StatefulWidget {
+  const LessonFiveScreen({super.key});
 
   @override
-  State<UnitOneLessonScreen> createState() => _UnitOneLessonScreenState();
+  State<LessonFiveScreen> createState() => _LessonFiveScreenState();
 }
 
-class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
+class _LessonFiveScreenState extends State<LessonFiveScreen> {
   int step = 0;
   String? selectedAnswer;
   String feedback = '';
-
+  
   void nextStep() {
     setState(() {
       step++;
@@ -42,13 +42,13 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          'Why do people learn languages?',
+          'Feelings, Ideas and Identity',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
         const Text(
-          'Think about it: Why do YOU learn English?',
+          'How do people express feelings and ideas?',
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 30),
@@ -70,7 +70,7 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
         ),
         const SizedBox(height: 20),
         const Text(
-          'People learn languages for many reasons. Some people learn English for work, while others learn it to travel or communicate with friends online.',
+          'People often talk about feelings and ideas. Happiness, communication, and identity are important in daily life. Sharing ideas helps people understand each other better.',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18),
         ),
@@ -93,7 +93,7 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
         ),
         const SizedBox(height: 20),
         RadioListTile<String>(
-          title: const Text('Why people learn languages'),
+          title: const Text('Feelings and ideas'),
           value: 'correct',
           groupValue: selectedAnswer,
           onChanged: (value) {
@@ -104,7 +104,7 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
           },
         ),
         RadioListTile<String>(
-          title: const Text('How to write emails'),
+          title: const Text('Fixing computers'),
           value: 'wrong',
           groupValue: selectedAnswer,
           onChanged: (value) {
@@ -139,104 +139,86 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
     );
   }
 
-  Widget buildVocabularyStep() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Useful word',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-        const Text(
-          'What does “communicate” mean?',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18),
-        ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              feedback = 'To communicate means to share information with others.';
-            });
-          },
-          child: const Text('Show meaning'),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          feedback,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: nextStep,
-          child: const Text('Next'),
-        ),
-      ],
-    );
-  }
-
-  Widget buildPracticeStep() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Complete the question',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-        const Text(
-          '_____ do people learn English?',
-          style: TextStyle(fontSize: 20),
-        ),
-        const SizedBox(height: 20),
-        RadioListTile<String>(
-          title: const Text('Why'),
-          value: 'Why',
-          groupValue: selectedAnswer,
-          onChanged: (value) {
-            setState(() {
-              selectedAnswer = value;
-              feedback = '';
-            });
-          },
-        ),
-        RadioListTile<String>(
-          title: const Text('Where'),
-          value: 'Where',
-          groupValue: selectedAnswer,
-          onChanged: (value) {
-            setState(() {
-              selectedAnswer = value;
-              feedback = '';
-            });
-          },
-        ),
-        const SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              feedback = selectedAnswer == 'Why'
-                  ? 'Correct!'
-                  : 'Try again. We use “Why” to ask about reasons.';
-            });
-          },
-          child: const Text('Check'),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          feedback,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: nextStep,
-          child: const Text('Finish Lesson'),
-        ),
-      ],
-    );
-  }
-
+Widget buildVocabularyStep() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Text(
+        'Useful words',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 20),
+      const Text(
+        'happiness = a feeling of being happy\nidentity = who a person is',
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(height: 30),
+      ElevatedButton(
+        onPressed: nextStep,
+        child: const Text('Next'),
+      ),
+    ],
+  );
+}
+Widget buildPracticeStep() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Text(
+        'Complete the sentence',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 20),
+      const Text(
+        '_____ is important when talking to others.',
+        style: TextStyle(fontSize: 20),
+      ),
+      const SizedBox(height: 20),
+      RadioListTile<String>(
+        title: const Text('Communication'),
+        value: 'Communication',
+        groupValue: selectedAnswer,
+        onChanged: (value) {
+          setState(() {
+            selectedAnswer = value;
+            feedback = '';
+          });
+        },
+      ),
+      RadioListTile<String>(
+        title: const Text('Communicate'),
+        value: 'Communicate',
+        groupValue: selectedAnswer,
+        onChanged: (value) {
+          setState(() {
+            selectedAnswer = value;
+            feedback = '';
+          });
+        },
+      ),
+      const SizedBox(height: 10),
+      ElevatedButton(
+        onPressed: () {
+          setState(() {
+            feedback = selectedAnswer == 'Communication'
+            ? 'Correct!'
+            : 'Try again. We use nouns like “communication” to talk about ideas.';
+            }),
+        child: const Text('Check'),
+      ),
+      const SizedBox(height: 12),
+      Text(
+        feedback,
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(height: 24),
+      ElevatedButton(
+        onPressed: nextStep,
+        child: const Text('Finish Lesson'),
+      ),
+    ],
+  );
+}
   Widget buildCompleteStep() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -247,7 +229,7 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
         ),
         const SizedBox(height: 20),
         const Text(
-          'You practised reading for gist, useful vocabulary, and asking about reasons.',
+          'You practised reading for gist, useful vocabulary, and talking about ideas using nouns.',
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 30),
@@ -265,7 +247,7 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lesson 1: Why Do People Learn Languages?'),
+        title: const Text('Lesson 5: Feelings, Ideas and Identity'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
