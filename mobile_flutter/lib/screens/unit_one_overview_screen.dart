@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../courses/year8/unit1/lesson_1_screen.dart';
-import '../courses/year8/unit1/lesson_2_screen.dart';
-import '../courses/year8/unit1/lesson_3_screen.dart';
-import '../courses/year8/unit1/lesson_4_screen.dart';
-import '../courses/year8/unit1/lesson_5_screen.dart';
+import 'package:flutter/material.dart';
+
+import '../courses/year8/unit1/lesson_template_screen.dart';
+import '../courses/year8/unit1/lesson_1_data.dart';
+import '../courses/year8/unit1/lesson_2_data.dart';
 
 class UnitOneOverviewScreen extends StatelessWidget {
   const UnitOneOverviewScreen({super.key});
@@ -27,31 +27,31 @@ class UnitOneOverviewScreen extends StatelessWidget {
             buildLessonButton(
               context,
               'Lesson 1: Why Do People Learn Languages?',
-              const UnitOneLessonScreen(),
+              LessonTemplateScreen(data: lesson1),
             ),
 
             buildLessonButton(
               context,
               'Lesson 2: Different Ways to Say the Same Thing',
-              const UnitOneLessonScreen(),
+              LessonTemplateScreen(data: lesson2),
             ),
 
             buildLessonButton(
               context,
               'Lesson 3: Communicating Without Words',
-              const LessonThreeScreen(),
+              null,
             ),
 
             buildLessonButton(
               context,
               'Lesson 4: What Are People Doing Online?',
-              const LessonFourScreen(),
+              null,
             ),
 
             buildLessonButton(
               context,
               'Lesson 5: Feelings, Ideas and Identity',
-              const LessonFourScreen(),
+              null,
             ),
 
             const SizedBox(height: 20),
