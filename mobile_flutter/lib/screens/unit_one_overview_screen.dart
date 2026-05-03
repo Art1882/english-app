@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'unit_one_lesson_screen.dart';
-import 'lesson_two_screen.dart';
-import 'lesson_three_screen.dart';
-import 'lesson_four_screen.dart';
-import 'lesson_four_screen.dart';
+import '../courses/year8/unit1/lesson_1_screen.dart';
+import '../courses/year8/unit1/lesson_2_screen.dart';
+import '../courses/year8/unit1/lesson_3_screen.dart';
+import '../courses/year8/unit1/lesson_4_screen.dart';
+import '../courses/year8/unit1/lesson_5_screen.dart';
 
 class UnitOneOverviewScreen extends StatelessWidget {
   const UnitOneOverviewScreen({super.key});

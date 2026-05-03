@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'lesson_1_data.dart';
 
 class UnitOneLessonScreen extends StatefulWidget {
   const UnitOneLessonScreen({super.key});
@@ -41,14 +42,14 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Why do people learn languages?',
+        Text(
+          lesson1['title'] as String,
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
-        const Text(
-          'Think about it: Why do YOU learn English?',
+        Text(
+          (lesson1['schema'] as List)[0],
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 30),
@@ -69,8 +70,8 @@ class _UnitOneLessonScreenState extends State<UnitOneLessonScreen> {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 20),
-        const Text(
-          'People learn languages for many reasons. Some people learn English for work, while others learn it to travel or communicate with friends online.',
+        Text(
+          lesson1['reading'] as String,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18),
         ),

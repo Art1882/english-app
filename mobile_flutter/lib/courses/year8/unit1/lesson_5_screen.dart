@@ -203,7 +203,8 @@ Widget buildPracticeStep() {
             feedback = selectedAnswer == 'Communication'
             ? 'Correct!'
             : 'Try again. We use nouns like “communication” to talk about ideas.';
-            }),
+            });
+        },
         child: const Text('Check'),
       ),
       const SizedBox(height: 12),
