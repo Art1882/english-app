@@ -33,7 +33,7 @@ class UnitOneOverviewScreen extends StatelessWidget {
             buildLessonButton(
               context,
               'Lesson 2: Different Ways to Say the Same Thing',
-              const LessonTwoScreen(),
+              const UnitOneLessonScreen(),
             ),
 
             buildLessonButton(

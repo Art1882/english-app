@@ -1,8 +1,7 @@
-// =======================
-// LESSON 1 CONTENT
-// =======================
-
 final lesson1 = {
+
+  'appBarTitle': 'Lesson 1: Why Do People Learn Languages?',
+'backButtonText': 'Back to Unit 1',
   'title': 'Why Do People Learn Languages?',
 
   'schema': [
@@ -29,7 +28,9 @@ final lesson1 = {
   ],
 
   'grammarQuestion': '_____ do people learn English?',
+
   'grammarOptions': ['Why', 'Where'],
+
   'grammarAnswer': 'Why',
 
   'completionText':
