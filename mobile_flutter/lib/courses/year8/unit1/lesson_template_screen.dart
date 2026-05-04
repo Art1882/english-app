@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../screens/writing_template_screen.dart';
+import '../../../screens/subscription_screen.dart';
 
 class LessonTemplateScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -15,22 +17,42 @@ class LessonTemplateScreen extends StatefulWidget {
 class _LessonTemplateScreenState extends State<LessonTemplateScreen> {
   late final Map<String, dynamic> data;
 
-    int step = 0;
-    String? selectedAnswer;
-    String feedback = '';
+  int step = 0;
+  String? selectedAnswer;
+  String feedback = '';
 
-    void nextStep() {
-    setState(() {
-        step++;
-        selectedAnswer = null;
-        feedback = '';
-    });
-    }
-
-    @override
-    void initState() {
+  @override
+  void initState() {
     super.initState();
     data = widget.data;
+  }
+
+  void nextStep() {
+    setState(() {
+      step++;
+      selectedAnswer = null;
+      feedback = '';
+    });
+  }
+
+  void handleWritingAccess(BuildContext context) {
+    bool isSubscribed = false; // temporary
+
+    if (isSubscribed) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const WritingTemplateScreen(),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SubscriptionScreen(),
+        ),
+      );
+    }
   }
 
   Widget getStep() {
@@ -235,29 +257,36 @@ Widget buildPracticeStep() {
   );
 }
 
-  Widget buildCompleteStep() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Lesson complete!',
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          data['completionText'] as String,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 30),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text(data['backButtonText'] as String),
-        ),
-      ],
-    );
-  }
+Widget buildCompleteStep() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Text(
+        'Lesson complete!',
+        style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 20),
+      Text(
+        data['completionText'] as String,
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(height: 30),
+      ElevatedButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text(data['backButtonText'] as String),
+      ),
+      const SizedBox(height: 12),
+      ElevatedButton(
+        onPressed: () {
+          handleWritingAccess(context);
+        },
+        child: const Text('Improve your writing (AI)'),
+      ),
+    ],
+  );
+}
 
   @override
   Widget build(BuildContext context) {
