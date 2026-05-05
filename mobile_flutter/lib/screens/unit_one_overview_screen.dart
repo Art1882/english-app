@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 
-import '../courses/year8/unit1/lesson_template_screen.dart';
+import '../courses/year8/unit1/input_lesson_screen.dart';
 import '../courses/year8/unit1/lesson_1_data.dart';
 import '../courses/year8/unit1/lesson_2_data.dart';
 
@@ -27,13 +27,13 @@ class UnitOneOverviewScreen extends StatelessWidget {
             buildLessonButton(
               context,
               'Lesson 1: Why Do People Learn Languages?',
-              LessonTemplateScreen(data: lesson1),
+              InputLessonScreen(data: lesson1),
             ),
 
             buildLessonButton(
               context,
               'Lesson 2: Different Ways to Say the Same Thing',
-              LessonTemplateScreen(data: lesson2),
+              InputLessonScreen(data: lesson2),
             ),
 
             buildLessonButton(
