@@ -29,6 +29,14 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   bool vocabularySubmitted = false;
   int vocabularyScore = 0;
 
+  Map<int, String?> grammarAnswers = {};
+  bool grammarSubmitted = false;
+  int grammarScore = 0;
+
+  Map<int, String?> comprehensionAnswers = {};
+  bool comprehensionSubmitted = false;
+  int comprehensionScore = 0;
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +56,90 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     vocabularyAnswers = {};
     vocabularySubmitted = false;
     vocabularyScore = 0;
+
+    grammarAnswers = {};
+    grammarSubmitted = false;
+    grammarScore = 0;
+
+    comprehensionAnswers = {};
+    comprehensionSubmitted = false;
+    comprehensionScore = 0;
+  });
+}
+
+  void submitInputAnswers() {
+    final questions = data['inputQuestions'] as List;
+
+    int score = 0;
+
+    for (int i = 0; i < questions.length; i++) {
+      final question = questions[i];
+
+      if (inputAnswers[i] == question['answer']) {
+        score++;
+      }
+    }
+
+    setState(() {
+      inputScore = score;
+      inputSubmitted = true;
+    });
+  }
+
+  void submitVocabularyAnswers() {
+    final questions = data['vocabularyQuestions'] as List;
+
+    int score = 0;
+
+    for (int i = 0; i < questions.length; i++) {
+      final correctAnswer =
+          (questions[i]['answer'] as String).trim().toLowerCase();
+      final learnerAnswer =
+          (vocabularyAnswers[i] ?? '').trim().toLowerCase();
+
+      if (learnerAnswer == correctAnswer) {
+        score++;
+      }
+    }
+
+    setState(() {
+      vocabularyScore = score;
+      vocabularySubmitted = true;
+    });
+  }
+
+  void submitGrammarAnswers() {
+  final grammar = data['grammar'] as Map;
+  final practice = grammar['practice'] as List;
+
+  int score = 0;
+
+  for (int i = 0; i < practice.length; i++) {
+    if (grammarAnswers[i] == practice[i]['answer']) {
+      score++;
+    }
+  }
+
+  setState(() {
+    grammarScore = score;
+    grammarSubmitted = true;
+  });
+}
+
+void submitComprehensionAnswers() {
+  final questions = data['comprehension'] as List;
+
+  int score = 0;
+
+  for (int i = 0; i < questions.length; i++) {
+    if (comprehensionAnswers[i] == questions[i]['answer']) {
+      score++;
+    }
+  }
+
+  setState(() {
+    comprehensionScore = score;
+    comprehensionSubmitted = true;
   });
 }
 
@@ -90,24 +182,6 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 Widget buildInputStep() {
   final inputType = data['inputType'] as String;
   final questions = data['inputQuestions'] as List;
-
-  void submitInputAnswers() {
-    int score = 0;
-
-    for (int i = 0; i < questions.length; i++) {
-      final question = questions[i];
-      final correctAnswer = question['answer'];
-
-      if (inputAnswers[i] == correctAnswer) {
-        score++;
-      }
-    }
-
-    setState(() {
-      inputScore = score;
-      inputSubmitted = true;
-    });
-  }
 
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -184,9 +258,7 @@ Widget buildInputStep() {
 
       if (!inputSubmitted)
         ElevatedButton(
-          onPressed: inputAnswers.length == questions.length
-              ? submitInputAnswers
-              : null,
+          onPressed: submitInputAnswers,
           child: const Text('Submit answers'),
         )
       else ...[
@@ -218,25 +290,6 @@ Widget buildVocabularyStep() {
     }
   }
 
-  void submitVocabularyAnswers() {
-    int score = 0;
-
-    for (int i = 0; i < questions.length; i++) {
-      final correctAnswer =
-          (questions[i]['answer'] as String).trim().toLowerCase();
-      final learnerAnswer =
-          (vocabularyAnswers[i] ?? '').trim().toLowerCase();
-
-      if (learnerAnswer == correctAnswer) {
-        score++;
-      }
-    }
-
-    setState(() {
-      vocabularyScore = score;
-      vocabularySubmitted = true;
-    });
-  }
 
   return SingleChildScrollView(
     child: Column(
@@ -315,85 +368,196 @@ Widget buildVocabularyStep() {
 }
 
 Widget buildGrammarStep() {
-  final grammarOptions = data['grammarOptions'] as List;
+  final grammar = data['grammar'] as Map;
+  final examples = grammar['examples'] as List;
+  final practice = grammar['practice'] as List;
 
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Text(
-        'Complete the question',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 20),
-      Text(
-        data['grammarQuestion'] as String,
-        style: const TextStyle(fontSize: 20),
-      ),
-      const SizedBox(height: 20),
-      RadioListTile<String>(
-        title: Text(grammarOptions[0]),
-        value: grammarOptions[0],
-        groupValue: selectedAnswer,
-        onChanged: (value) {
-          setState(() {
-            selectedAnswer = value;
-            feedback = '';
-          });
-        },
-      ),
-      RadioListTile<String>(
-        title: Text(grammarOptions[1]),
-        value: grammarOptions[1],
-        groupValue: selectedAnswer,
-        onChanged: (value) {
-          setState(() {
-            selectedAnswer = value;
-            feedback = '';
-          });
-        },
-      ),
-      const SizedBox(height: 10),
-      ElevatedButton(
-        onPressed: () {
-          setState(() {
-            feedback = selectedAnswer == data['grammarAnswer']
-                ? 'Correct!'
-                : 'Try again';
-          });
-        },
-        child: const Text('Check'),
-      ),
-      const SizedBox(height: 12),
-      Text(feedback, textAlign: TextAlign.center),
-      const SizedBox(height: 24),
-      ElevatedButton(
-        onPressed: nextStep,
-        child: const Text('Finish Lesson'),
-      ),
-    ],
+  return SingleChildScrollView(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          grammar['title'] as String,
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 20),
+
+        const Text(
+          'Use',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Text(grammar['use'] as String),
+
+        const SizedBox(height: 16),
+
+        const Text(
+          'Form',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Text(grammar['form'] as String),
+
+        const SizedBox(height: 16),
+
+        const Text(
+          'Examples from the text',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+
+        ...examples.map((example) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Text('• $example'),
+          );
+        }),
+
+        const SizedBox(height: 24),
+
+        const Text(
+          'Practice',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+
+        const SizedBox(height: 12),
+
+        ...List.generate(practice.length, (index) {
+          final question = practice[index];
+          final options = question['options'] as List;
+
+          return Card(
+            margin: const EdgeInsets.only(bottom: 14),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    question['sentence'] as String,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+
+                  ...options.map((option) {
+                    return RadioListTile<String>(
+                      title: Text(option),
+                      value: option,
+                      groupValue: grammarAnswers[index],
+                      onChanged: grammarSubmitted
+                          ? null
+                          : (value) {
+                              setState(() {
+                                grammarAnswers[index] = value;
+                              });
+                            },
+                    );
+                  }),
+                ],
+              ),
+            ),
+          );
+        }),
+
+        const SizedBox(height: 12),
+
+        if (!grammarSubmitted) ...[
+          ElevatedButton(
+            onPressed: submitGrammarAnswers,
+            child: const Text('Submit grammar answers'),
+          ),
+        ] else ...[
+          Text(
+            'You got $grammarScore / ${practice.length} correct.',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: nextStep,
+            child: const Text('Continue'),
+          ),
+        ],
+      ],
+    ),
   );
 }
+
 Widget buildComprehensionStep() {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Text(
-        'Check Understanding',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 20),
-      const Text(
-        'Comprehension questions will go here next.',
-        textAlign: TextAlign.center,
-      ),
-      const SizedBox(height: 30),
-      ElevatedButton(
-        onPressed: nextStep,
-        child: const Text('Continue'),
-      ),
-    ],
+  final questions = data['comprehension'] as List;
+
+  return SingleChildScrollView(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Comprehension',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        const Text(
+          'Now answer some questions about the text.',
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 20),
+
+        ...List.generate(questions.length, (index) {
+          final question = questions[index];
+          final options = question['options'] as List;
+
+          return Card(
+            margin: const EdgeInsets.only(bottom: 14),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    question['question'] as String,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+
+                  ...options.map((option) {
+                    return RadioListTile<String>(
+                      title: Text(option),
+                      value: option,
+                      groupValue: comprehensionAnswers[index],
+                      onChanged: comprehensionSubmitted
+                          ? null
+                          : (value) {
+                              setState(() {
+                                comprehensionAnswers[index] = value;
+                              });
+                            },
+                    );
+                  }),
+                ],
+              ),
+            ),
+          );
+        }),
+
+        const SizedBox(height: 12),
+
+        if (!comprehensionSubmitted) ...[
+          ElevatedButton(
+            onPressed: submitComprehensionAnswers,
+            child: const Text('Submit comprehension answers'),
+          ),
+        ] else ...[
+          Text(
+            'You got $comprehensionScore / ${questions.length} correct.',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: nextStep,
+            child: const Text('Continue'),
+          ),
+        ],
+      ],
+    ),
   );
 }
+
 Widget buildCompleteStep() {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -413,13 +577,6 @@ Widget buildCompleteStep() {
           Navigator.pop(context);
         },
         child: Text(data['backButtonText'] as String),
-      ),
-      const SizedBox(height: 12),
-      ElevatedButton(
-        onPressed: () {
-          handleWritingAccess(context);
-        },
-        child: const Text('Improve your writing (AI)'),
       ),
     ],
   );

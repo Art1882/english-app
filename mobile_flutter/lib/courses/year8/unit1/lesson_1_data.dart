@@ -84,13 +84,51 @@ final lesson1 = {
   },
 ],
 
-//Grammar
-  'grammarQuestion': '_____ do people learn English?',
+'grammar': {
+  'title': 'Question words',
+  'use': 'We use question words to ask for different kinds of information.',
+  'form': 'Question word + do/does + subject + verb',
+  'examples': [
+    'Why do people learn languages?',
+    'Where do people use English?',
+    'What languages do people speak?',
+  ],
+  'practice': [
+    {
+      'sentence': '_____ do people learn English?',
+      'options': ['Why', 'Where'],
+      'answer': 'Why',
+    },
+    {
+      'sentence': '_____ languages do you speak?',
+      'options': ['What', 'When'],
+      'answer': 'What',
+    },
+    {
+      'sentence': '_____ do people use English?',
+      'options': ['Where', 'Who'],
+      'answer': 'Where',
+    },
+  ],
+},
 
-  'grammarOptions': ['Why', 'Where'],
+'comprehension': [
+  {
+    'question': 'Why do some people learn English?',
+    'options': ['For work', 'To sleep'],
+    'answer': 'For work',
+  },
+  {
+    'question': 'What else do people learn English for?',
+    'options': ['To travel', 'To cook rice'],
+    'answer': 'To travel',
+  },
+  {
+    'question': 'How do some people communicate with friends?',
+    'options': ['Online', 'By fixing cars'],
+    'answer': 'Online',
+  },
+],
 
-  'grammarAnswer': 'Why',
-
-  'completionText':
-      'You practised reading for gist, useful vocabulary, and asking about reasons.'
+'completionText': 'You have completed this lesson.',
 };
