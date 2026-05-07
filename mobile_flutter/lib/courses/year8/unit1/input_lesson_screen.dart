@@ -508,6 +508,7 @@ Widget buildGrammarStep() {
 
 Widget buildComprehensionStep() {
   final questions = data['comprehension'] as List;
+  final inputType = data['inputType'] as String;
 
   return SingleChildScrollView(
     child: Column(
@@ -518,10 +519,28 @@ Widget buildComprehensionStep() {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        const Text(
-          'Now answer some questions about the text.',
-          style: TextStyle(fontSize: 16),
-        ),
+       if (inputType == 'listening') ...[
+          const Text(
+            'Listen to the audio again before answering the questions.',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+
+          const SizedBox(height: 16),
+
+          ElevatedButton(
+            onPressed: toggleAudio,
+            child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
+          ),
+        ] else ...[
+          const Text(
+            'Now answer some questions about the text.',
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
         const SizedBox(height: 20),
 
         ...List.generate(questions.length, (index) {
