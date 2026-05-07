@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../../screens/writing_template_screen.dart';
 import '../../../screens/subscription_screen.dart';
 
@@ -20,6 +21,9 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   int step = 0;
   String? selectedAnswer;
   String feedback = '';
+
+  final AudioPlayer audioPlayer = AudioPlayer();
+  bool isPlaying = false;
 
   Map<int, String> inputAnswers = {};
   bool inputSubmitted = false;
@@ -67,6 +71,19 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   });
 }
 
+Future<void> toggleAudio() async {
+  final audioPath = data['audioPath'] as String;
+
+  if (isPlaying) {
+    await audioPlayer.pause();
+  } else {
+    await audioPlayer.play(AssetSource(audioPath));
+  }
+
+  setState(() {
+    isPlaying = !isPlaying;
+  });
+}
   void submitInputAnswers() {
     final questions = data['inputQuestions'] as List;
 
@@ -200,9 +217,18 @@ Widget buildInputStep() {
           style: const TextStyle(fontSize: 18),
         )
       else
-        const Text(
-          'Audio player will go here.',
-          textAlign: TextAlign.center,
+        Column(
+          children: [
+            const Text(
+              'Listen to the audio.',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: toggleAudio,
+              child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
+            ),
+          ],
         ),
 
       const SizedBox(height: 30),
