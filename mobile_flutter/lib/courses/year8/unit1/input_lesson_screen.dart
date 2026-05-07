@@ -535,12 +535,24 @@ Widget buildComprehensionStep() {
             onPressed: toggleAudio,
             child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
           ),
-        ] else ...[
-          const Text(
-            'Now answer some questions about the text.',
-            style: TextStyle(fontSize: 16),
+       ] else ...[
+        const Text(
+          'Read the text again before answering the questions.',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+          textAlign: TextAlign.center,
+        ),
+
+        const SizedBox(height: 16),
+
+        Text(
+          data['input'] as String,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
         const SizedBox(height: 20),
 
         ...List.generate(questions.length, (index) {
