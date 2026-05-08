@@ -45,15 +45,18 @@ final lesson2 = {
 ],
 'vocabularyQuestions': [
   {
-    'sentence': 'People use language to ______ ideas and information.',
+    'sentence':
+        'Students can use English to ______ with people from other countries.',
     'answer': 'communicate',
   },
   {
-    'sentence': 'It is ______ to say “please” and “thank you”.',
+    'sentence':
+        'It is ______ to say “thank you” when somebody helps you.',
     'answer': 'polite',
   },
   {
-    'sentence': 'Food, greetings and traditions are part of a country’s ______.',
+    'sentence':
+        'Music, food, and traditions are part of a country’s ______.',
     'answer': 'culture',
   },
 ],
@@ -73,28 +76,27 @@ final lesson2 = {
       'Although the words are different, they describe the same food.',
       'People bow in Korea, whereas many English speakers shake hands.',
     ],
-
-    'practice': [
-      {
-        'sentence':
-            'People say “chips” in Britain, _____ Americans say “fries.”',
-        'options': ['whereas', 'because'],
-        'answer': 'whereas',
-      },
-      {
-        'sentence':
-            '_____ the words are different, they describe the same food.',
-        'options': ['Although', 'Before'],
-        'answer': 'Although',
-      },
-      {
-        'sentence':
-            'People bow slightly _____ greeting someone in Korea.',
-        'options': ['while', 'under'],
-        'answer': 'while',
-      },
-    ],
-  },
+  'practice': [
+    {
+      'sentence':
+          'People in different countries eat similar food, _____ the names are different.',
+      'options': ['although', 'because'],
+      'answer': 'although',
+    },
+    {
+      'sentence':
+          'Some people bow when greeting others, _____ many Europeans shake hands.',
+      'options': ['whereas', 'under'],
+      'answer': 'whereas',
+    },
+    {
+      'sentence':
+          'Students often listen carefully _____ the teacher is speaking.',
+      'options': ['while', 'after'],
+      'answer': 'while',
+    },
+  ],
+},
 
   // Comprehension
   'comprehension': [
