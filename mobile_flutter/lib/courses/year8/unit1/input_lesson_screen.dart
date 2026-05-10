@@ -33,13 +33,17 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   bool vocabularySubmitted = false;
   int vocabularyScore = 0;
 
-  Map<int, String?> grammarAnswers = {};
+  Map<int, String> grammarAnswers = {};
   bool grammarSubmitted = false;
   int grammarScore = 0;
 
   Map<int, String?> comprehensionAnswers = {};
   bool comprehensionSubmitted = false;
   int comprehensionScore = 0;
+
+  Map<int, String> shortAnswers = {};
+  bool shortAnswersSubmitted = false;
+  int shortAnswerScore = 0;
 
   @override
   void initState() {
@@ -68,6 +72,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     comprehensionAnswers = {};
     comprehensionSubmitted = false;
     comprehensionScore = 0;
+
+    shortAnswers = {};
+    shortAnswersSubmitted = false;
+    shortAnswerScore = 0;
   });
 }
 
@@ -125,14 +133,20 @@ Future<void> toggleAudio() async {
     });
   }
 
-  void submitGrammarAnswers() {
+void submitGrammarAnswers() {
   final grammar = data['grammar'] as Map;
   final practice = grammar['practice'] as List;
 
   int score = 0;
 
   for (int i = 0; i < practice.length; i++) {
-    if (grammarAnswers[i] == practice[i]['answer']) {
+    final correctAnswer =
+        (practice[i]['answer'] as String).trim().toLowerCase();
+
+    final learnerAnswer =
+        (grammarAnswers[i] ?? '').trim().toLowerCase();
+
+    if (learnerAnswer == correctAnswer) {
       score++;
     }
   }
@@ -157,6 +171,29 @@ void submitComprehensionAnswers() {
   setState(() {
     comprehensionScore = score;
     comprehensionSubmitted = true;
+  });
+}
+
+void submitShortAnswers() {
+  final questions = data['shortAnswerQuestions'] as List;
+
+  int score = 0;
+
+  for (int i = 0; i < questions.length; i++) {
+    final correctAnswer =
+        (questions[i]['answer'] as String).trim().toLowerCase();
+
+    final learnerAnswer =
+        (shortAnswers[i] ?? '').trim().toLowerCase();
+
+    if (learnerAnswer == correctAnswer) {
+      score++;
+    }
+  }
+
+  setState(() {
+    shortAnswerScore = score;
+    shortAnswersSubmitted = true;
   });
 }
 
@@ -396,6 +433,7 @@ Widget buildVocabularyStep() {
 Widget buildGrammarStep() {
   final grammar = data['grammar'] as Map;
   final examples = grammar['examples'] as List;
+  final textExamples = grammar['textExamples'] as List? ?? [];
   final practice = grammar['practice'] as List;
 
   return SingleChildScrollView(
@@ -437,7 +475,25 @@ Widget buildGrammarStep() {
           );
         }),
 
-        const SizedBox(height: 24),
+
+        const SizedBox(height: 20),
+
+        if (textExamples.isNotEmpty) ...[
+          const Text(
+            'Examples from the text',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+
+          ...textExamples.map((example) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Text('• $example'),
+            );
+          }),
+
+          const SizedBox(height: 20),
+        ],
 
         const Text(
           'Practice',
@@ -448,7 +504,6 @@ Widget buildGrammarStep() {
 
         ...List.generate(practice.length, (index) {
           final question = practice[index];
-          final options = question['options'] as List;
 
           return Card(
             margin: const EdgeInsets.only(bottom: 14),
@@ -463,20 +518,16 @@ Widget buildGrammarStep() {
                   ),
                   const SizedBox(height: 8),
 
-                  ...options.map((option) {
-                    return RadioListTile<String>(
-                      title: Text(option),
-                      value: option,
-                      groupValue: grammarAnswers[index],
-                      onChanged: grammarSubmitted
-                          ? null
-                          : (value) {
-                              setState(() {
-                                grammarAnswers[index] = value;
-                              });
-                            },
-                    );
-                  }),
+                TextField(
+                  enabled: !grammarSubmitted,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Write your answer',
+                  ),
+                  onChanged: (value) {
+                    grammarAnswers[index] = value;
+                  },
+                ),
                 ],
               ),
             ),
@@ -505,9 +556,9 @@ Widget buildGrammarStep() {
     ),
   );
 }
-
 Widget buildComprehensionStep() {
   final questions = data['comprehension'] as List;
+  final shortQuestions = data['shortAnswerQuestions'] as List? ?? [];
   final inputType = data['inputType'] as String;
 
   return SingleChildScrollView(
@@ -519,41 +570,39 @@ Widget buildComprehensionStep() {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-       if (inputType == 'listening') ...[
+
+        if (inputType == 'listening') ...[
           const Text(
             'Listen to the audio again before answering the questions.',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-
           const SizedBox(height: 16),
-
           ElevatedButton(
             onPressed: toggleAudio,
             child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
           ),
-       ] else ...[
-        const Text(
-          'Read the text again before answering the questions.',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+        ] else ...[
+          const Text(
+            'Read the text again before answering the questions.',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
+          const SizedBox(height: 16),
+          Text(
+            data['input'] as String,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
 
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
 
-        Text(
-          data['input'] as String,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16),
+        const Text(
+          'Multiple Choice',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-      ],
-        const SizedBox(height: 20),
+        const SizedBox(height: 12),
 
         ...List.generate(questions.length, (index) {
           final question = questions[index];
@@ -567,11 +616,10 @@ Widget buildComprehensionStep() {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    question['question'] as String,
+                    '${index + 1}. ${question['question']}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 8),
-
                   ...options.map((option) {
                     return RadioListTile<String>(
                       title: Text(option),
@@ -592,18 +640,75 @@ Widget buildComprehensionStep() {
           );
         }),
 
-        const SizedBox(height: 12),
-
         if (!comprehensionSubmitted) ...[
           ElevatedButton(
             onPressed: submitComprehensionAnswers,
-            child: const Text('Submit comprehension answers'),
+            child: const Text('Submit multiple choice answers'),
           ),
         ] else ...[
           Text(
-            'You got $comprehensionScore / ${questions.length} correct.',
+            'You got $comprehensionScore / ${questions.length} multiple choice questions correct.',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+        ],
+
+        const SizedBox(height: 30),
+
+        if (shortQuestions.isNotEmpty) ...[
+          const Text(
+            'Short Answer Questions',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+
+          ...List.generate(shortQuestions.length, (index) {
+            final question = shortQuestions[index];
+
+            return Card(
+              margin: const EdgeInsets.only(bottom: 14),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${index + 1}. ${question['question']}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      enabled: !shortAnswersSubmitted,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Write your answer',
+                      ),
+                      onChanged: (value) {
+                        shortAnswers[index] = value;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+
+          if (!shortAnswersSubmitted) ...[
+            ElevatedButton(
+              onPressed: submitShortAnswers,
+              child: const Text('Submit short answers'),
+            ),
+          ] else ...[
+            Text(
+              'You got $shortAnswerScore / ${shortQuestions.length} short answer questions correct.',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: nextStep,
+              child: const Text('Continue'),
+            ),
+          ],
+        ] else ...[
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: nextStep,
@@ -650,7 +755,9 @@ Widget buildCompleteStep() {
         child: Center(
           child: SizedBox(
             width: 540,
-            child: getStep(),
+            child: SingleChildScrollView(
+              child: getStep(),
+            ),
           ),
         ),
       ),

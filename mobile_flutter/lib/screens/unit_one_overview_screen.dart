@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../courses/year8/unit1/input_lesson_screen.dart';
 import '../courses/year8/unit1/lesson_1_data.dart';
 import '../courses/year8/unit1/lesson_2_data.dart';
+import '../courses/year8/unit1/lesson_3_data.dart';
 
 class UnitOneOverviewScreen extends StatelessWidget {
   const UnitOneOverviewScreen({super.key});
@@ -39,7 +40,7 @@ class UnitOneOverviewScreen extends StatelessWidget {
             buildLessonButton(
               context,
               'Lesson 3: Communicating Without Words',
-              null,
+              InputLessonScreen(data: lesson3),
             ),
 
             buildLessonButton(
