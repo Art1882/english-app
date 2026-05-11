@@ -5,6 +5,8 @@ import '../courses/year8/unit1/input_lesson_screen.dart';
 import '../courses/year8/unit1/lesson_1_data.dart';
 import '../courses/year8/unit1/lesson_2_data.dart';
 import '../courses/year8/unit1/lesson_3_data.dart';
+import '../courses/year8/unit1/lesson_4_data.dart';
+import '../courses/year8/unit1/lesson_5_data.dart';
 
 class UnitOneOverviewScreen extends StatelessWidget {
   const UnitOneOverviewScreen({super.key});
@@ -46,13 +48,13 @@ class UnitOneOverviewScreen extends StatelessWidget {
             buildLessonButton(
               context,
               'Lesson 4: What Are People Doing Online?',
-              null,
+              InputLessonScreen(data: lesson4),
             ),
 
             buildLessonButton(
               context,
               'Lesson 5: Feelings, Ideas and Identity',
-              null,
+              InputLessonScreen(data: lesson5),
             ),
 
             const SizedBox(height: 20),
