@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'learner_dashboard.dart';
+import 'learner_setup_screen.dart';
 import 'teacher_dashboard.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (role == 'Learner') {
-      return const LearnerDashboard();
+      return const LearnerSetupScreen();
     } else if (role == 'Teacher') {
       return const TeacherDashboard();
     }

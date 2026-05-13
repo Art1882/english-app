@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../../config.dart';
+
 import '../../../screens/writing_template_screen.dart';
 import '../../../screens/subscription_screen.dart';
 
@@ -224,6 +229,28 @@ void submitShortAnswers() {
 
   final lessonId = data['lessonId'] as String;
   await prefs.setBool('${lessonId}_complete', true);
+}
+
+Future<void> saveTeacherSubmission() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  final studentName =
+      prefs.getString('studentName') ?? 'Beta Student';
+
+  final studentClass =
+      prefs.getString('studentClass') ?? '8EAL';
+
+  await http.post(
+    Uri.parse('$baseUrl/check'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      "student": studentName,
+      "class": studentClass,
+      "lesson": data['appBarTitle'] ?? 'Unknown lesson',
+      "activity": "Lesson completed",
+      "answer": "Completed lesson activities",
+    }),
+  );
 }
 
  Widget getStep() {
@@ -745,9 +772,12 @@ Widget buildCompleteStep() {
       const SizedBox(height: 30),
       ElevatedButton(
         onPressed: () async {
-        await saveLessonComplete();
-        Navigator.pop(context);
-      },
+          await saveLessonComplete();
+          await saveTeacherSubmission();
+
+          if (!context.mounted) return;
+          Navigator.pop(context);
+        },
         child: Text(data['backButtonText'] as String),
       ),
     ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../courses/year8/input_lesson_screen.dart';
@@ -109,7 +108,7 @@ class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
 
             buildLessonButton(
               context,
-                lesson4Complete
+                lesson5Complete
                   ? '✔ Lesson 5: Feelings, Ideas and Identity'
                   : 'Lesson 5: Feelings, Ideas and Identity',
               InputLessonScreen(data: lesson5),

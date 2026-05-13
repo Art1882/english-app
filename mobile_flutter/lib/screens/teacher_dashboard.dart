@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../config.dart';
+import 'class_overview_screen.dart';
 
 class TeacherDashboard extends StatefulWidget {
   const TeacherDashboard({super.key});
@@ -11,26 +12,26 @@ class TeacherDashboard extends StatefulWidget {
 }
 
 class _TeacherDashboardState extends State<TeacherDashboard> {
-  List submissions = [];
+  List<String> classes = [];
   bool loading = true;
-  String teacherClass = '';
 
   @override
   void initState() {
     super.initState();
-    fetchSubmissions();
+    fetchClasses();
   }
 
-  Future<void> fetchSubmissions() async {
+  Future<void> fetchClasses() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/submissions'),
+        Uri.parse('$baseUrl/teacher/classes'),
       );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+
         setState(() {
-          submissions = data['submissions'];
+          classes = List<String>.from(data['classes']);
           loading = false;
         });
       } else {
@@ -47,70 +48,47 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final filtered = teacherClass.isEmpty
-        ? []
-        : submissions.where((s) => s['class'] == teacherClass).toList();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teacher Dashboard'),
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Enter your class (e.g. 10A)',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        teacherClass = value;
-                      });
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: filtered.isEmpty
-                      ? const Center(child: Text('No submissions yet'))
-                      : ListView.builder(
-                          itemCount: filtered.length,
-                          itemBuilder: (context, index) {
-                            final item = filtered[index];
+          : classes.isEmpty
+              ? const Center(
+                  child: Text('No classes found yet.'),
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: classes.length,
+                  itemBuilder: (context, index) {
+                    final className = classes[index];
 
-                            return Card(
-                              margin: const EdgeInsets.all(10),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${item['class']} - ${item['student']}: ${item['sentence']}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      item['feedback'],
-                                      style: const TextStyle(
-                                          color: Colors.blue),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+                    return Card(
+                      child: ListTile(
+                        title: Text(
+                          className,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                        subtitle: const Text('View class progress'),
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ClassOverviewScreen(
+                                className: className,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
     );
   }
 }
