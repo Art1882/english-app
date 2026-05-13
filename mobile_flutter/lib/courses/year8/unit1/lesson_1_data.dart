@@ -4,6 +4,9 @@ final lesson1 = {
   'backButtonText': 'Back to Unit 1',
   'title': 'Why Do People Learn Languages?',
 
+  //Beta save
+  'lessonId': 'unit1_lesson1',
+
   // Completion
   'completionText':
       'You practised reading for gist, vocabulary, grammar and comprehension.',

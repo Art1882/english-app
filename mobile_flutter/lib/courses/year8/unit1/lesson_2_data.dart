@@ -4,6 +4,9 @@ final lesson2 = {
   'backButtonText': 'Back to Unit 1',
   'title': 'Different Ways to Say the Same Thing',
 
+    //Beta save
+  'lessonId': 'unit1_lesson2',
+
   // Completion
   'completionText':
       'You practised listening for gist, useful vocabulary, conjunctions, and comprehension.',

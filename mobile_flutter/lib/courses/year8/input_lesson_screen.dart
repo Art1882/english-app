@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../screens/writing_template_screen.dart';
 import '../../../screens/subscription_screen.dart';
 
@@ -216,6 +217,14 @@ void submitShortAnswers() {
       );
     }
   }
+
+  //Beta save
+  Future<void> saveLessonComplete() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  final lessonId = data['lessonId'] as String;
+  await prefs.setBool('${lessonId}_complete', true);
+}
 
  Widget getStep() {
   switch (step) {
@@ -735,9 +744,10 @@ Widget buildCompleteStep() {
       ),
       const SizedBox(height: 30),
       ElevatedButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        onPressed: () async {
+        await saveLessonComplete();
+        Navigator.pop(context);
+      },
         child: Text(data['backButtonText'] as String),
       ),
     ],

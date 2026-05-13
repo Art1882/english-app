@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../courses/year8/input_lesson_screen.dart';
 import '../courses/year8/unit1/lesson_1_data.dart';
@@ -8,10 +9,55 @@ import '../courses/year8/unit1/lesson_3_data.dart';
 import '../courses/year8/unit1/lesson_4_data.dart';
 import '../courses/year8/unit1/lesson_5_data.dart';
 import '../courses/year8/unit_test_screen.dart';
-import '../courses/year8/unit1/unit1_test_data.dart';
+import '../courses/year8/unit1/unit_1_test_data.dart';
 
-class UnitOneOverviewScreen extends StatelessWidget {
+class UnitOneOverviewScreen extends StatefulWidget {
   const UnitOneOverviewScreen({super.key});
+
+  @override
+  State<UnitOneOverviewScreen> createState() => _UnitOneOverviewScreenState();
+}
+
+class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
+//Savebeta
+
+  bool lesson1Complete = false;
+  bool lesson2Complete = false;
+  bool lesson3Complete = false;
+  bool lesson4Complete = false;
+  bool lesson5Complete = false;
+  bool unitTestComplete = false;
+
+  @override
+    void initState() {
+      super.initState();
+      loadProgress();
+    }
+
+  Future<void> loadProgress() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  setState(() {
+    lesson1Complete =
+        prefs.getBool('unit1_lesson1_complete') ?? false;
+
+    lesson2Complete =
+        prefs.getBool('unit1_lesson2_complete') ?? false;
+
+    lesson3Complete =
+        prefs.getBool('unit1_lesson3_complete') ?? false;
+
+    lesson4Complete =
+        prefs.getBool('unit1_lesson4_complete') ?? false;
+
+    lesson5Complete =
+        prefs.getBool('unit1_lesson5_complete') ?? false;
+
+    unitTestComplete =
+        prefs.getBool('unit1_test_complete') ?? false;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,31 +77,41 @@ class UnitOneOverviewScreen extends StatelessWidget {
 
             buildLessonButton(
               context,
-              'Lesson 1: Why Do People Learn Languages?',
+                lesson1Complete
+                  ? '✔ Lesson 1: Why Do People Learn Languages?'
+                  : 'Lesson 1: Why Do People Learn Languages?',
               InputLessonScreen(data: lesson1),
             ),
 
             buildLessonButton(
               context,
-              'Lesson 2: Different Ways to Say the Same Thing',
+                lesson2Complete
+                  ? '✔ Lesson 2: Different Ways to Say the Same Thing'
+                  : 'Lesson 2: Different Ways to Say the Same Thing',
               InputLessonScreen(data: lesson2),
             ),
 
             buildLessonButton(
               context,
-              'Lesson 3: Communicating Without Words',
+                lesson3Complete
+                  ? '✔ Lesson 3: Communicating Without Words'
+                  : 'Lesson 3: Communicating Without Words',
               InputLessonScreen(data: lesson3),
             ),
 
             buildLessonButton(
               context,
-              'Lesson 4: What Are People Doing Online?',
+                lesson4Complete
+                  ? '✔ Lesson 4: What Are People Doing Online?'
+                  : 'Lesson 4: What Are People Doing Online?',
               InputLessonScreen(data: lesson4),
             ),
 
             buildLessonButton(
               context,
-              'Lesson 5: Feelings, Ideas and Identity',
+                lesson4Complete
+                  ? '✔ Lesson 5: Feelings, Ideas and Identity'
+                  : 'Lesson 5: Feelings, Ideas and Identity',
               InputLessonScreen(data: lesson5),
             ),
 
@@ -63,7 +119,9 @@ class UnitOneOverviewScreen extends StatelessWidget {
 
             buildLessonButton(
               context,
-              'Unit 1 Test',
+                unitTestComplete
+                  ? '✔ Unit 1 Review Test'
+                  : 'Unit 1 Review Test',
               UnitTestScreen(data: unit1Test),
             ),
           ],
@@ -73,23 +131,30 @@ class UnitOneOverviewScreen extends StatelessWidget {
   }
 
   Widget buildLessonButton(
-      BuildContext context, String title, Widget? screen) {
+      BuildContext context,
+      String title,
+      Widget? screen,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 50),
         ),
+
         onPressed: screen == null
             ? null
-            : () {
-                Navigator.push(
+            : () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => screen,
                   ),
                 );
+
+                loadProgress();
               },
+
         child: Text(title),
       ),
     );

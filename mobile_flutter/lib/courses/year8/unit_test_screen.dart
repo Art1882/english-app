@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UnitTestScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -93,6 +94,13 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
         return buildResultsScreen();
     }
   }
+
+  Future<void> saveTestComplete() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  final testId = data['testId'] as String;
+  await prefs.setBool('${testId}_complete', true);
+}
 
   Widget buildVocabularyTest() {
     final questions = data['vocabularyQuestions'] as List;
@@ -259,7 +267,8 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
         ),
         const SizedBox(height: 30),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            await saveTestComplete();
             Navigator.pop(context);
           },
           child: const Text('Back to Unit'),
