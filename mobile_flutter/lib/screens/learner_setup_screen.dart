@@ -44,7 +44,10 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => const LearnerDashboard(),
+        builder: (_) => LearnerDashboard(
+          studentName: selectedLearner!,
+          studentClass: selectedClass!,
+        ),
       ),
     );
   }
@@ -108,11 +111,13 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => const LearnerDashboard(),
+        builder: (_) => LearnerDashboard(
+          studentName: selectedLearner!,
+          studentClass: selectedClass!,
+        ),
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
