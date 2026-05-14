@@ -66,6 +66,7 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
           itemBuilder: (context, index) {
             final item = submissions[index];
             final answer = item['answer'];
+            final responses = item['responses'];
 
             final totalScore =
                 (answer is Map)
@@ -118,6 +119,25 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                     Text('Comprehension: ${answer['comprehensionScore'] ?? 0} / 10'),
                   ] else ...[
                     Text('Answer: ${answer ?? ''}'),
+                  ],
+                  if (responses is Map) ...[
+                    const SizedBox(height: 16),
+
+                    const Text(
+                      'Learner responses',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text('Input: ${responses['inputAnswers'] ?? {}}'),
+                    Text('Vocabulary: ${responses['vocabularyAnswers'] ?? {}}'),
+                    Text('Grammar: ${responses['grammarAnswers'] ?? {}}'),
+                    Text('Comprehension: ${responses['comprehensionAnswers'] ?? {}}'),
+                    Text('Short answers: ${responses['shortAnswers'] ?? {}}'),
                   ],
 
                   const SizedBox(height: 8),

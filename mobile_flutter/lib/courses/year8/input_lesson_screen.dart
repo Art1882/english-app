@@ -56,30 +56,11 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     data = widget.data;
   }
 
- void nextStep() {
+void nextStep() {
   setState(() {
     step++;
     selectedAnswer = null;
     feedback = '';
-
-    inputAnswers = {};
-    inputSubmitted = false;
-    inputScore = 0;
-
-    vocabularyAnswers = {};
-    vocabularySubmitted = false;
-    vocabularyScore = 0;
-
-    grammarAnswers = {};
-    grammarSubmitted = false;
-    grammarScore = 0;
-
-    comprehensionAnswers = {};
-    comprehensionSubmitted = false;
-    comprehensionScore = 0;
-
-    shortAnswers = {};
-    shortAnswersSubmitted = false;
   });
 }
 
@@ -245,11 +226,30 @@ Future<void> saveTeacherSubmission() async {
       "class": studentClass,
       "lesson": data['appBarTitle'] ?? 'Unknown lesson',
       "activity": "Lesson completed",
+
       "answer": {
         "inputScore": inputScore,
         "vocabularyScore": vocabularyScore,
         "grammarScore": grammarScore,
         "comprehensionScore": comprehensionScore,
+      },
+
+      "responses": {
+        "inputAnswers": inputAnswers.map(
+          (key, value) => MapEntry(key.toString(), value),
+        ),
+        "vocabularyAnswers": vocabularyAnswers.map(
+          (key, value) => MapEntry(key.toString(), value),
+        ),
+        "grammarAnswers": grammarAnswers.map(
+          (key, value) => MapEntry(key.toString(), value),
+        ),
+        "comprehensionAnswers": comprehensionAnswers.map(
+          (key, value) => MapEntry(key.toString(), value),
+        ),
+        "shortAnswers": shortAnswers.map(
+          (key, value) => MapEntry(key.toString(), value),
+        ),
       },
     }),
   );
@@ -757,12 +757,42 @@ Widget buildCompleteStep() {
       grammarScore +
       comprehensionScore;
 
+  final percentage =
+      ((totalScore / 28) * 100).round();
+
+  String message = '';
+
+  if (totalScore >= 24) {
+    message = 'Excellent work!';
+  } else if (totalScore >= 18) {
+    message = 'Good job!';
+  } else if (totalScore >= 12) {
+    message = 'Nice effort!';
+  } else {
+    message = 'Keep practising!';
+  }
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       const Text(
         'Lesson complete!',
-        style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+
+      const SizedBox(height: 20),
+
+      Text(
+        message,
+        style: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue,
+        ),
+        textAlign: TextAlign.center,
       ),
 
       const SizedBox(height: 20),
@@ -772,15 +802,30 @@ Widget buildCompleteStep() {
         textAlign: TextAlign.center,
       ),
 
-      const SizedBox(height: 20),
+      const SizedBox(height: 30),
 
       Text(
-        'Total Lesson Score: $totalScore',
+        'Lesson Score: $percentage%',
         style: const TextStyle(
-          fontSize: 22,
+          fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
-        textAlign: TextAlign.center,
+      ),
+
+      const SizedBox(height: 20),
+
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text('Input: $inputScore / 3'),
+              Text('Vocabulary: $vocabularyScore / 5'),
+              Text('Grammar: $grammarScore / 5'),
+              Text('Comprehension: $comprehensionScore / 10'),
+            ],
+          ),
+        ),
       ),
 
       const SizedBox(height: 30),
@@ -788,7 +833,12 @@ Widget buildCompleteStep() {
       ElevatedButton(
         onPressed: () async {
           await saveLessonComplete();
-          await saveTeacherSubmission();
+
+          try {
+            await saveTeacherSubmission();
+          } catch (e) {
+            print('Teacher submission failed: $e');
+          }
 
           if (!context.mounted) return;
           Navigator.pop(context);
@@ -798,7 +848,6 @@ Widget buildCompleteStep() {
     ],
   );
 }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

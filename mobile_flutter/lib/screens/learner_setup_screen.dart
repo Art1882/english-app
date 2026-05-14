@@ -1,41 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+import '../config.dart';
 import 'learner_dashboard.dart';
 
 class LearnerSetupScreen extends StatefulWidget {
   const LearnerSetupScreen({super.key});
 
   @override
-  State<LearnerSetupScreen> createState() =>
-      _LearnerSetupScreenState();
+  State<LearnerSetupScreen> createState() => _LearnerSetupScreenState();
 }
 
-class _LearnerSetupScreenState
-    extends State<LearnerSetupScreen> {
-  final TextEditingController nameController =
-      TextEditingController();
+class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
+  List<String> classes = [];
+  String? selectedClass;
+  bool loadingClasses = true;
 
-  final TextEditingController classController =
-      TextEditingController();
+  List<String> learners = [];
+  String? selectedLearner;
+  bool loadingLearners = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchClasses();
+  }
+
+  Future<void> fetchClasses() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/classes'),
+    );
+
+    final data = jsonDecode(response.body);
+
+    setState(() {
+      classes = List<String>.from(data['classes']);
+      loadingClasses = false;
+    });
+  }
+
+  Future<void> fetchLearners(String className) async {
+    setState(() {
+      loadingLearners = true;
+      learners = [];
+      selectedLearner = null;
+    });
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/learners/$className'),
+    );
+
+    final data = jsonDecode(response.body);
+
+    setState(() {
+      learners = List<String>.from(data['learners']);
+      loadingLearners = false;
+    });
+  }
 
   Future<void> saveLearnerDetails() async {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.setString(
       'studentName',
-      nameController.text.trim(),
+      selectedLearner ?? '',
     );
 
     await prefs.setString(
       'studentClass',
-      classController.text.trim(),
+      selectedClass ?? '',
     );
   }
 
   void continueToDashboard() async {
-    if (nameController.text.trim().isEmpty ||
-        classController.text.trim().isEmpty) {
+    if (selectedClass == null || selectedLearner == null) {
       return;
     }
 
@@ -75,30 +115,61 @@ class _LearnerSetupScreenState
 
                 const SizedBox(height: 30),
 
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Your name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+                loadingClasses
+                    ? const CircularProgressIndicator()
+                    : DropdownButtonFormField<String>(
+                        value: selectedClass,
+                        decoration: const InputDecoration(
+                          labelText: 'Select your class',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: classes.map((className) {
+                          return DropdownMenuItem<String>(
+                            value: className,
+                            child: Text(className),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedClass = value;
+                          });
+
+                          if (value != null) {
+                            fetchLearners(value);
+                          }
+                        },
+                      ),
 
                 const SizedBox(height: 20),
 
-                TextField(
-                  controller: classController,
-                  decoration: const InputDecoration(
-                    labelText: 'Your class',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+                loadingLearners
+                    ? const CircularProgressIndicator()
+                    : DropdownButtonFormField<String>(
+                        value: selectedLearner,
+                        decoration: const InputDecoration(
+                          labelText: 'Select your name',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: learners.map((learnerName) {
+                          return DropdownMenuItem<String>(
+                            value: learnerName,
+                            child: Text(learnerName),
+                          );
+                        }).toList(),
+                        onChanged: learners.isEmpty
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  selectedLearner = value;
+                                });
+                              },
+                      ),
 
                 const SizedBox(height: 30),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        const Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                   ),
                   onPressed: continueToDashboard,
                   child: const Text(

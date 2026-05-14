@@ -14,6 +14,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
 # 🔥 in-memory storage
 SUBMISSIONS_FILE = "submissions.json"
 
@@ -43,16 +45,18 @@ def submit_activity(data: dict):
     lesson = data.get("lesson", "Unknown lesson")
     activity = data.get("activity", "Unknown activity")
     answer = data.get("answer", "")
+    responses = data.get("responses", {})
 
     result = {
-        "student": student,
-        "class": class_name,
-        "lesson": lesson,
-        "activity": activity,
-        "answer": answer,
-        "feedback": "Saved for teacher review.",
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
-    }
+    "student": student,
+    "class": class_name,
+    "lesson": lesson,
+    "activity": activity,
+    "answer": answer,
+    "responses": responses,
+    "feedback": "Saved for teacher review.",
+    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
+}
 
     submissions.append(result)
     save_submissions()
@@ -67,14 +71,37 @@ def get_submissions():
 
 # 🔥 teacher classes
 @app.get("/teacher/classes")
-def get_classes():
+def get_teacher_classes():
 
     classes = list(set(
         submission["class"] for submission in submissions
     ))
 
     return {"classes": classes}
+classes = [
+    "Y7",
+    "Y8",
+    "Y9",
+    "Y10",
+]
+#classes
+@app.get("/classes")
+def get_all_classes():
+    return {"classes": classes}
 
+learners = {
+    "Y7": ["Arthur", "Candy", "Gabriel", "Mugeon", "Jack", "Peter"],
+    "Y8": ["Jiwon", "Jerry", "Coco", "Yulhui"],
+    "Y9": ["Paul"],
+    "Y10": ["Tine"]
+}
+
+
+@app.get("/learners/{class_name}")
+def get_learners(class_name: str):
+    return {
+        "learners": learners.get(class_name, [])
+    }
 
 # 🔥 teacher class overview
 @app.get("/teacher/class/{class_name}")

@@ -50,5 +50,116 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-14 08:21"
+    },
+    {
+        "student": "Mike",
+        "class": "Y8",
+        "lesson": "Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-14 11:23"
+    },
+    {
+        "student": "Mike",
+        "class": "Y8",
+        "lesson": "Lesson 2: Different Ways to Say the Same Thing",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-14 11:25"
+    },
+    {
+        "student": "Art",
+        "class": "Y8",
+        "lesson": "Lesson 5: Sharing Feelings and Ideas Online",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 2,
+            "vocabularyScore": 1,
+            "grammarScore": 1,
+            "comprehensionScore": 1
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "How teenagers communicate and express themselves online",
+                "1": "It only creates problems",
+                "2": "Understanding, kindness, and honesty"
+            },
+            "vocabularyAnswers": {
+                "0": "creativity",
+                "1": "dsfdfs"
+            },
+            "grammarAnswers": {
+                "0": "kindness",
+                "1": "dfsfsdfds"
+            },
+            "comprehensionAnswers": {
+                "0": "new ways to express themselves",
+                "1": "avoid communication"
+            },
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-14 11:36"
+    },
+    {
+        "student": "Sarah",
+        "class": "Y7",
+        "lesson": "Lesson 3: Different Ways to Say the Same Thing",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 2,
+            "vocabularyScore": 1,
+            "grammarScore": 1,
+            "comprehensionScore": 2
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Different train stations around the world",
+                "1": "A busy train station",
+                "2": "Technology is helping people share feelings online"
+            },
+            "vocabularyAnswers": {
+                "0": "nervous",
+                "1": "sdsd"
+            },
+            "grammarAnswers": {
+                "0": "Why",
+                "1": "Where"
+            },
+            "comprehensionAnswers": {
+                "0": "non-verbal",
+                "1": "They are feeling nervous or impatient",
+                "2": "To show anger"
+            },
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-14 11:53"
     }
 ]

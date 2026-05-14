@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/role_selection_screen.dart';
+import 'screens/learner_setup_screen.dart';
 
 void main() {
   runApp(const EnglishApp());
@@ -16,7 +17,7 @@ class EnglishApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const RoleSelectionScreen(),
+      home: const LearnerSetupScreen(),
     );
   }
 }
