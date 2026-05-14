@@ -22,11 +22,33 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
   String? selectedLearner;
   bool loadingLearners = false;
 
-  @override
+ @override
   void initState() {
     super.initState();
+    checkExistingLearner();
     fetchClasses();
   }
+
+  Future<void> checkExistingLearner() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  final savedName = prefs.getString('studentName');
+  final savedClass = prefs.getString('studentClass');
+
+  if (savedName != null &&
+      savedName.isNotEmpty &&
+      savedClass != null &&
+      savedClass.isNotEmpty) {
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LearnerDashboard(),
+      ),
+    );
+  }
+}
 
   Future<void> fetchClasses() async {
     final response = await http.get(

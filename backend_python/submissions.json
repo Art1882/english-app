@@ -161,5 +161,53 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-14 11:53"
+    },
+    {
+        "student": "Jerry",
+        "class": "Y8",
+        "lesson": "Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 2,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Why learning languages is useful",
+                "1": "English",
+                "2": "It is becoming less important"
+            },
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-14 12:44"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 4: How People Spend Their Time Online",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 1,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "How people use technology and communicate online"
+            },
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-14 12:49"
     }
 ]
