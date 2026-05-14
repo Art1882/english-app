@@ -84,7 +84,9 @@ class _ClassOverviewScreenState
                           ),
                         ),
                         subtitle: Text(
-                          'Lessons completed: ${student['lessons_completed']}',
+                          'Lessons completed: ${student['lessons_completed']}\n'
+                          'Average score: ${student['average_score'] ?? 0}\n'
+                          'Last active: ${student['last_active'] ?? 'No activity yet'}',
                         ),
                         trailing: const Icon(
                           Icons.arrow_forward_ios,

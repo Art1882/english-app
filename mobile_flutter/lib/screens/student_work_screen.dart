@@ -57,59 +57,81 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
         title: Text(widget.studentName),
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : submissions.isEmpty
-              ? const Center(child: Text('No work found'))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: submissions.length,
-                  itemBuilder: (context, index) {
-                    final item = submissions[index];
+        ? const Center(child: CircularProgressIndicator())
+        : submissions.isEmpty
+        ? const Center(child: Text('No work found'))
+        : ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: submissions.length,
+          itemBuilder: (context, index) {
+            final item = submissions[index];
+            final answer = item['answer'];
 
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                            item['lesson'] ?? 'Unknown lesson',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                            item['timestamp'] ?? 'No timestamp',
-                            style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey,
-                            ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text('Activity: ${item['activity'] ?? 'Unknown activity'}'),
+            final totalScore =
+                (answer is Map)
+                    ? (answer['inputScore'] ?? 0) +
+                        (answer['vocabularyScore'] ?? 0) +
+                        (answer['grammarScore'] ?? 0) +
+                        (answer['comprehensionScore'] ?? 0)
+                    : 0;
 
-                            const SizedBox(height: 8),
-                            Text(
-                            'Answer: ${item['answer'] ?? ''}',
-                            style: const TextStyle(
-                                fontSize: 16,
-                            ),
-                            ),
+            return Card(
+            margin: const EdgeInsets.only(bottom: 12),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item['lesson'] ?? 'Unknown lesson',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
 
-                            const SizedBox(height: 8),
-                            Text(
-                            item['feedback'] ?? '',
-                            style: const TextStyle(color: Colors.blue),
-                            ),
-                          ],
-                        ),
+                  const SizedBox(height: 6),
+
+                  Text(
+                    item['timestamp'] ?? 'No timestamp',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  if (answer is Map) ...[
+                    Text(
+                      'Total Score: $totalScore',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  },
+                    ),
+
+                    const SizedBox(height: 10),
+                    Text('Input: ${answer['inputScore'] ?? 0}'),
+                    Text('Vocabulary: ${answer['vocabularyScore'] ?? 0}'),
+                    Text('Grammar: ${answer['grammarScore'] ?? 0}'),
+                    Text('Comprehension: ${answer['comprehensionScore'] ?? 0} / 10'),
+                  ] else ...[
+                    Text('Answer: ${answer ?? ''}'),
+                  ],
+
+                  const SizedBox(height: 8),
+
+                  Text(
+                    item['feedback'] ?? '',
+                    style: const TextStyle(color: Colors.blue),
+                  ),
+                  ],
+                  ),
                 ),
-    );
-  }
+              );
+            },
+          ),
+      );
+    }
 }

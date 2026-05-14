@@ -49,7 +49,6 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
   Map<int, String> shortAnswers = {};
   bool shortAnswersSubmitted = false;
-  int shortAnswerScore = 0;
 
   @override
   void initState() {
@@ -81,7 +80,6 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
     shortAnswers = {};
     shortAnswersSubmitted = false;
-    shortAnswerScore = 0;
   });
 }
 
@@ -164,33 +162,31 @@ void submitGrammarAnswers() {
 }
 
 void submitComprehensionAnswers() {
-  final questions = data['comprehension'] as List;
+  final mcQuestions = data['comprehension'] as List;
+  final shortQuestions =
+      data['shortAnswerQuestions'] as List? ?? [];
 
   int score = 0;
 
-  for (int i = 0; i < questions.length; i++) {
-    if (comprehensionAnswers[i] == questions[i]['answer']) {
+  // Multiple choice
+  for (int i = 0; i < mcQuestions.length; i++) {
+    if (comprehensionAnswers[i] ==
+        mcQuestions[i]['answer']) {
       score++;
     }
   }
 
-  setState(() {
-    comprehensionScore = score;
-    comprehensionSubmitted = true;
-  });
-}
-
-void submitShortAnswers() {
-  final questions = data['shortAnswerQuestions'] as List;
-
-  int score = 0;
-
-  for (int i = 0; i < questions.length; i++) {
+  // Short answers
+  for (int i = 0; i < shortQuestions.length; i++) {
     final correctAnswer =
-        (questions[i]['answer'] as String).trim().toLowerCase();
+        (shortQuestions[i]['answer'] as String)
+            .trim()
+            .toLowerCase();
 
     final learnerAnswer =
-        (shortAnswers[i] ?? '').trim().toLowerCase();
+        (shortAnswers[i] ?? '')
+            .trim()
+            .toLowerCase();
 
     if (learnerAnswer == correctAnswer) {
       score++;
@@ -198,7 +194,8 @@ void submitShortAnswers() {
   }
 
   setState(() {
-    shortAnswerScore = score;
+    comprehensionScore = score;
+    comprehensionSubmitted = true;
     shortAnswersSubmitted = true;
   });
 }
@@ -241,14 +238,19 @@ Future<void> saveTeacherSubmission() async {
       prefs.getString('studentClass') ?? '8EAL';
 
   await http.post(
-    Uri.parse('$baseUrl/check'),
+    Uri.parse('$baseUrl/submit-activity'),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
       "student": studentName,
       "class": studentClass,
       "lesson": data['appBarTitle'] ?? 'Unknown lesson',
       "activity": "Lesson completed",
-      "answer": "Completed lesson activities",
+      "answer": {
+        "inputScore": inputScore,
+        "vocabularyScore": vocabularyScore,
+        "grammarScore": grammarScore,
+        "comprehensionScore": comprehensionScore,
+      },
     }),
   );
 }
@@ -676,19 +678,7 @@ Widget buildComprehensionStep() {
           );
         }),
 
-        if (!comprehensionSubmitted) ...[
-          ElevatedButton(
-            onPressed: submitComprehensionAnswers,
-            child: const Text('Submit multiple choice answers'),
-          ),
-        ] else ...[
-          Text(
-            'You got $comprehensionScore / ${questions.length} multiple choice questions correct.',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ],
-
-        const SizedBox(height: 30),
+         const SizedBox(height: 30),
 
         if (shortQuestions.isNotEmpty) ...[
           const Text(
@@ -728,22 +718,26 @@ Widget buildComprehensionStep() {
             );
           }),
 
-          if (!shortAnswersSubmitted) ...[
-            ElevatedButton(
-              onPressed: submitShortAnswers,
-              child: const Text('Submit short answers'),
+        if (!comprehensionSubmitted) ...[
+          ElevatedButton(
+            onPressed: submitComprehensionAnswers,
+            child: const Text('Submit comprehension answers'),
+          ),
+        ] else ...[
+          const SizedBox(height: 20),
+          Text(
+            'You got $comprehensionScore / 10 correct.',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-          ] else ...[
-            Text(
-              'You got $shortAnswerScore / ${shortQuestions.length} short answer questions correct.',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: nextStep,
-              child: const Text('Continue'),
-            ),
-          ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: nextStep,
+            child: const Text('Continue'),
+          ),
+        ],
         ] else ...[
           const SizedBox(height: 20),
           ElevatedButton(
@@ -757,6 +751,12 @@ Widget buildComprehensionStep() {
 }
 
 Widget buildCompleteStep() {
+  final totalScore =
+      inputScore +
+      vocabularyScore +
+      grammarScore +
+      comprehensionScore;
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -764,12 +764,27 @@ Widget buildCompleteStep() {
         'Lesson complete!',
         style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
       ),
+
       const SizedBox(height: 20),
+
       Text(
         data['completionText'] as String,
         textAlign: TextAlign.center,
       ),
+
+      const SizedBox(height: 20),
+
+      Text(
+        'Total Lesson Score: $totalScore',
+        style: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+
       const SizedBox(height: 30),
+
       ElevatedButton(
         onPressed: () async {
           await saveLessonComplete();
