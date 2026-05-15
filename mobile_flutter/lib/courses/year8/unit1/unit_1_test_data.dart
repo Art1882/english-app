@@ -3,6 +3,7 @@ final unit1Test = {
 
   //Save beta
   'testId': 'unit1_test',
+  'imagePath': 'assets/images/unit1_review.png',
 
   'vocabularyQuestions': [
     {

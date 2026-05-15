@@ -209,5 +209,186 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-14 12:49"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 5: Sharing Feelings and Ideas Online",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:30"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 1 Review Test",
+        "activity": "Unit review test completed",
+        "answer": {
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "totalScore": 0
+        },
+        "responses": {
+            "vocabularyAnswers": {},
+            "grammarAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:42"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:46"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 2: Different Ways to Say the Same Thing",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:46"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 3: Different Ways to Say the Same Thing",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:46"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 4: How People Spend Their Time Online",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:47"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 5: Sharing Feelings and Ideas Online",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:47"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 1 Review Test",
+        "activity": "Unit review test completed",
+        "answer": {
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "totalScore": 0
+        },
+        "responses": {
+            "vocabularyAnswers": {},
+            "grammarAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:47"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-15 13:55"
     }
 ]

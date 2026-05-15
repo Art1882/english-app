@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/role_selection_screen.dart';
 import 'screens/learner_setup_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(const EnglishApp());
@@ -13,10 +14,7 @@ class EnglishApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'English Learning App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
       home: const LearnerSetupScreen(),
     );
   }

@@ -14,6 +14,7 @@ final lesson3 = {
  
   // Input
   'inputType': 'reading',
+  'imagePath': 'assets/images/unit1_lesson3.png',
 
   'input':
       'Have you ever noticed that people are communicating even when they are not speaking? Around the world, people use body language, facial expressions, and gestures every day. In fact, experts say that a large part of communication is non-verbal.\n\n'

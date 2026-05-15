@@ -28,6 +28,8 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   String? selectedAnswer;
   String feedback = '';
 
+  final ScrollController scrollController = ScrollController();
+
   final AudioPlayer audioPlayer = AudioPlayer();
   bool isPlaying = false;
 
@@ -61,6 +63,12 @@ void nextStep() {
     step++;
     selectedAnswer = null;
     feedback = '';
+  });
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (scrollController.hasClients) {
+      scrollController.jumpTo(0);
+    }
   });
 }
 
@@ -284,6 +292,19 @@ Widget buildInputStep() {
       ),
 
       const SizedBox(height: 20),
+
+      if (data['imagePath'] != null) ...[
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.asset(
+            data['imagePath'] as String,
+            height: 220,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
 
       if (inputType == 'reading')
         Text(
@@ -609,7 +630,20 @@ Widget buildComprehensionStep() {
         ),
         const SizedBox(height: 12),
 
-        if (inputType == 'listening') ...[
+          if (data['imagePath'] != null) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                data['imagePath'] as String,
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+
+          if (inputType == 'listening') ...[
           const Text(
             'Listen to the audio again before answering the questions.',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -848,6 +882,12 @@ Widget buildCompleteStep() {
     ],
   );
 }
+@override
+void dispose() {
+  scrollController.dispose();
+  audioPlayer.dispose();
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -860,6 +900,7 @@ Widget buildCompleteStep() {
           child: SizedBox(
             width: 540,
             child: SingleChildScrollView(
+              controller: scrollController,
               child: getStep(),
             ),
           ),

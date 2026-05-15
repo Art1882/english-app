@@ -15,6 +15,7 @@ final lesson5 = {
 
   // Input
   'inputType': 'reading',
+  'imagePath': 'assets/images/unit1_lesson5.png',
 
   'input':
       'For teenagers today, communication is about much more than simply sending messages. Social media, videos, and online communities are giving young people new ways to express their thoughts, creativity, and identity.\n\n'

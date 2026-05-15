@@ -14,6 +14,7 @@ final lesson2 = {
   // Input
   'inputType': 'listening',
   'audioPath': 'audio/lesson_2_audio.mp3',
+  'imagePath': 'assets/images/unit1_lesson2.png',
 
   'input':
       'Welcome to today’s language programme. We are talking about how people around the world say the same thing in different ways.\n\n'

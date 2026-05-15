@@ -18,8 +18,6 @@ class UnitOneOverviewScreen extends StatefulWidget {
 }
 
 class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
-//Savebeta
-
   bool lesson1Complete = false;
   bool lesson2Complete = false;
   bool lesson3Complete = false;
@@ -28,100 +26,86 @@ class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
   bool unitTestComplete = false;
 
   @override
-    void initState() {
-      super.initState();
-      loadProgress();
-    }
+  void initState() {
+    super.initState();
+    loadProgress();
+  }
 
   Future<void> loadProgress() async {
-  final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
 
-  setState(() {
-    lesson1Complete =
-        prefs.getBool('unit1_lesson1_complete') ?? false;
-
-    lesson2Complete =
-        prefs.getBool('unit1_lesson2_complete') ?? false;
-
-    lesson3Complete =
-        prefs.getBool('unit1_lesson3_complete') ?? false;
-
-    lesson4Complete =
-        prefs.getBool('unit1_lesson4_complete') ?? false;
-
-    lesson5Complete =
-        prefs.getBool('unit1_lesson5_complete') ?? false;
-
-    unitTestComplete =
-        prefs.getBool('unit1_test_complete') ?? false;
-  });
-}
-
+    setState(() {
+      lesson1Complete = prefs.getBool('unit1_lesson1_complete') ?? false;
+      lesson2Complete = prefs.getBool('unit1_lesson2_complete') ?? false;
+      lesson3Complete = prefs.getBool('unit1_lesson3_complete') ?? false;
+      lesson4Complete = prefs.getBool('unit1_lesson4_complete') ?? false;
+      lesson5Complete = prefs.getBool('unit1_lesson5_complete') ?? false;
+      unitTestComplete = prefs.getBool('unit1_test_complete') ?? false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Unit 1: How People Communicate'),
+        title: const Text('Unit 1'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
             const Text(
-              'Choose a lesson',
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              'Unit 1',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
-
-            buildLessonButton(
-              context,
-                lesson1Complete
-                  ? '✔ Lesson 1: Why Do People Learn Languages?'
-                  : 'Lesson 1: Why Do People Learn Languages?',
-              InputLessonScreen(data: lesson1),
+            const SizedBox(height: 6),
+            const Text(
+              'How people communicate',
+              style: TextStyle(fontSize: 18),
             ),
+            const SizedBox(height: 24),
 
-            buildLessonButton(
-              context,
-                lesson2Complete
-                  ? '✔ Lesson 2: Different Ways to Say the Same Thing'
-                  : 'Lesson 2: Different Ways to Say the Same Thing',
-              InputLessonScreen(data: lesson2),
+            buildLessonCard(
+              title: 'Lesson 1',
+              subtitle: 'Why Do People Learn Languages?',
+              complete: lesson1Complete,
+              screen: InputLessonScreen(data: lesson1),
             ),
 
-            buildLessonButton(
-              context,
-                lesson3Complete
-                  ? '✔ Lesson 3: Communicating Without Words'
-                  : 'Lesson 3: Communicating Without Words',
-              InputLessonScreen(data: lesson3),
+            buildLessonCard(
+              title: 'Lesson 2',
+              subtitle: 'Different Ways to Say the Same Thing',
+              complete: lesson2Complete,
+              screen: InputLessonScreen(data: lesson2),
             ),
 
-            buildLessonButton(
-              context,
-                lesson4Complete
-                  ? '✔ Lesson 4: What Are People Doing Online?'
-                  : 'Lesson 4: What Are People Doing Online?',
-              InputLessonScreen(data: lesson4),
+            buildLessonCard(
+              title: 'Lesson 3',
+              subtitle: 'Communicating Without Words',
+              complete: lesson3Complete,
+              screen: InputLessonScreen(data: lesson3),
             ),
 
-            buildLessonButton(
-              context,
-                lesson5Complete
-                  ? '✔ Lesson 5: Feelings, Ideas and Identity'
-                  : 'Lesson 5: Feelings, Ideas and Identity',
-              InputLessonScreen(data: lesson5),
+            buildLessonCard(
+              title: 'Lesson 4',
+              subtitle: 'What Are People Doing Online?',
+              complete: lesson4Complete,
+              screen: InputLessonScreen(data: lesson4),
             ),
 
-            const SizedBox(height: 20),
+            buildLessonCard(
+              title: 'Lesson 5',
+              subtitle: 'Feelings, Ideas and Identity',
+              complete: lesson5Complete,
+              screen: InputLessonScreen(data: lesson5),
+            ),
 
-            buildLessonButton(
-              context,
-                unitTestComplete
-                  ? '✔ Unit 1 Review Test'
-                  : 'Unit 1 Review Test',
-              UnitTestScreen(data: unit1Test),
+            buildLessonCard(
+              title: 'Unit Review',
+              subtitle: 'Review test',
+              complete: unitTestComplete,
+              screen: UnitTestScreen(data: unit1Test),
+              isTest: true,
             ),
           ],
         ),
@@ -129,32 +113,95 @@ class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
     );
   }
 
-  Widget buildLessonButton(
-      BuildContext context,
-      String title,
-      Widget? screen,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 50),
+  Widget buildLessonCard({
+    required String title,
+    required String subtitle,
+    required bool complete,
+    required Widget screen,
+    bool isTest = false,
+  }) {
+    return Card(
+      color: isTest
+          ? Colors.purple.shade50
+          : complete
+              ? Colors.green.shade100
+              : Colors.blue.shade50,
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => screen,
+            ),
+          );
+
+          loadProgress();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Row(
+            children: [
+              Icon(
+                complete
+                    ? Icons.check_circle_outline
+                    : isTest
+                        ? Icons.star_outline
+                        : Icons.play_circle_outline,
+                size: 36,
+              ),
+              const SizedBox(width: 16),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      complete ? '✔ $title' : title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    Text(
+                      subtitle,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      complete
+                          ? 'Completed'
+                          : isTest
+                              ? 'Test'
+                              : 'Available',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: complete
+                            ? Colors.green
+                            : isTest
+                                ? Colors.purple
+                                : Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const Icon(Icons.chevron_right),
+            ],
+          ),
         ),
-
-        onPressed: screen == null
-            ? null
-            : () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => screen,
-                  ),
-                );
-
-                loadProgress();
-              },
-
-        child: Text(title),
       ),
     );
   }

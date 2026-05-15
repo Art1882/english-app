@@ -14,6 +14,7 @@ final lesson1 = {
 
   // Input
   'inputType': 'reading',
+  'imagePath': 'assets/images/unit1_lesson1.png',
 
   'input':
       'People learn languages for many different reasons. Some people learn English because they need it for work, while others learn it to travel or study in another country. Today, English is used in many international companies, airports, hotels, and universities around the world. Because of this, many people believe that learning English can create new opportunities in life.\n\n'
