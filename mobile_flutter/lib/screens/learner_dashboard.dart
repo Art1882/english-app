@@ -67,8 +67,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             const Text(
               'Learner Dashboard',

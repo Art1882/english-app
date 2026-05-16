@@ -30,28 +30,28 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
   }
 
   Future<void> checkExistingLearner() async {
-  final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
 
-  final savedName = prefs.getString('studentName');
-  final savedClass = prefs.getString('studentClass');
+    final savedName = prefs.getString('studentName');
+    final savedClass = prefs.getString('studentClass');
 
-  if (savedName != null &&
-      savedName.isNotEmpty &&
-      savedClass != null &&
-      savedClass.isNotEmpty) {
-    if (!mounted) return;
+    if (savedName != null &&
+        savedName.isNotEmpty &&
+        savedClass != null &&
+        savedClass.isNotEmpty) {
+      if (!mounted) return;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => LearnerDashboard(
-          studentName: selectedLearner!,
-          studentClass: selectedClass!,
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => LearnerDashboard(
+            studentName: savedName,
+            studentClass: savedClass,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
 
   Future<void> fetchClasses() async {
     final response = await http.get(
@@ -65,7 +65,6 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
       loadingClasses = false;
     });
   }
-
   Future<void> fetchLearners(String className) async {
     setState(() {
       loadingLearners = true;

@@ -278,6 +278,64 @@ Future<void> saveTeacherSubmission() async {
   }
 }
 
+Widget buildLessonSectionHeader({
+  required int stepNumber,
+  required int totalSteps,
+  required String title,
+}) {
+  return Card(
+    color: Colors.blue.shade50,
+    elevation: 3,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(18),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(18),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            child: Text(
+              '$stepNumber',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
+          const SizedBox(width: 16),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Step $stepNumber of $totalSteps',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+
+                const SizedBox(height: 4),
+
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 Widget buildInputStep() {
   final inputType = data['inputType'] as String;
@@ -286,6 +344,11 @@ Widget buildInputStep() {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
+      buildLessonSectionHeader(
+      stepNumber: 1,
+      totalSteps: 4,
+      title: inputType == 'reading' ? 'Read' : 'Listen',
+    ),
       Text(
         inputType == 'reading' ? 'Read' : 'Listen',
         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -417,6 +480,11 @@ Widget buildVocabularyStep() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+          buildLessonSectionHeader(
+          stepNumber: 2,
+          totalSteps: 4,
+          title: 'Vocabulary',
+        ),
         const Text(
           'Learn Words',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -499,6 +567,12 @@ Widget buildGrammarStep() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+          buildLessonSectionHeader(
+          stepNumber: 3,
+          totalSteps: 4,
+          title: 'Grammar',
+        ),
+        const SizedBox(height: 20),
         Text(
           grammar['title'] as String,
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -624,6 +698,11 @@ Widget buildComprehensionStep() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+          buildLessonSectionHeader(
+            stepNumber: 4,
+            totalSteps: 4,
+            title: 'Comprehension',
+          ),
         const Text(
           'Comprehension',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
