@@ -72,6 +72,30 @@ void nextStep() {
   });
 }
 
+InputDecoration buildAnswerInputDecoration(String label) {
+  return InputDecoration(
+    labelText: label,
+    filled: true,
+    fillColor: Colors.white,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(
+        color: Colors.blue.shade100,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(
+        color: Colors.blue,
+        width: 2,
+      ),
+    ),
+  );
+}
+
 Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
 
@@ -283,6 +307,8 @@ Widget buildLessonSectionHeader({
   required int totalSteps,
   required String title,
 }) {
+  final double progressValue = stepNumber / totalSteps;
+
   return Card(
     color: Colors.blue.shade50,
     elevation: 3,
@@ -291,45 +317,58 @@ Widget buildLessonSectionHeader({
     ),
     child: Padding(
       padding: const EdgeInsets.all(18),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 24,
-            child: Text(
-              '$stepNumber',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                child: Text(
+                  '$stepNumber',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
+
+              const SizedBox(width: 16),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Step $stepNumber of $totalSteps',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(height: 16),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Step $stepNumber of $totalSteps',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-
-                const SizedBox(height: 4),
-
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+          LinearProgressIndicator(
+            value: progressValue,
+            minHeight: 8,
+            borderRadius: BorderRadius.circular(20),
           ),
         ],
       ),
@@ -372,8 +411,11 @@ Widget buildInputStep() {
       if (inputType == 'reading')
         Text(
           data['input'] as String,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 18),
+          textAlign: TextAlign.left,
+          style: const TextStyle(
+            fontSize: 17,
+            height: 1.6,
+          ),
         )
       else
         Column(
@@ -403,39 +445,58 @@ Widget buildInputStep() {
         final question = questions[index];
         final options = question['options'] as List;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${index + 1}. ${question['question']}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        return Card(
+          margin: const EdgeInsets.only(bottom: 16),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${index + 1}. ${question['question']}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                ...options.map((option) {
+                  return RadioListTile<String>(
+                    title: Text(option),
+                    value: option,
+                    groupValue: inputAnswers[index],
+                    onChanged: inputSubmitted
+                        ? null
+                        : (value) {
+                            setState(() {
+                              inputAnswers[index] = value ?? '';
+                            });
+                          },
+                  );
+                }),
+
+                if (inputSubmitted)
+                  Text(
+                    inputAnswers[index] == question['answer']
+                        ? 'Correct'
+                        : 'Not quite',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: inputAnswers[index] == question['answer']
+                          ? Colors.green
+                          : Colors.orange,
+                    ),
+                  ),
+              ],
             ),
-
-            ...options.map((option) {
-              return RadioListTile<String>(
-                title: Text(option),
-                value: option,
-                groupValue: inputAnswers[index],
-                onChanged: inputSubmitted
-                    ? null
-                    : (value) {
-                        setState(() {
-                          inputAnswers[index] = value ?? '';
-                        });
-                      },
-              );
-            }),
-
-            if (inputSubmitted)
-              Text(
-                inputAnswers[index] == question['answer']
-                    ? 'Correct'
-                    : 'Not quite',
-                style: const TextStyle(fontSize: 14),
-              ),
-
-            const SizedBox(height: 16),
-          ],
+          ),
         );
       }),
 
@@ -495,12 +556,50 @@ Widget buildVocabularyStep() {
 
         ...vocab.map((item) {
           return Card(
-            child: ListTile(
-              title: Text(
-                item['word'] as String,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+            color: Colors.amber.shade50,
+            elevation: 2,
+            margin: const EdgeInsets.only(bottom: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CircleAvatar(
+                    radius: 22,
+                    child: Icon(Icons.menu_book),
+                  ),
+
+                  const SizedBox(width: 14),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['word'] as String,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 6),
+
+                        Text(
+                          item['meaning'] as String,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              subtitle: Text(item['meaning'] as String),
             ),
           );
         }),
@@ -518,21 +617,40 @@ Widget buildVocabularyStep() {
         ...List.generate(questions.length, (index) {
           final question = questions[index];
 
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: TextField(
-              enabled: !vocabularySubmitted,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: '${index + 1}. ${question['sentence']}',
+       return Card(
+        margin: const EdgeInsets.only(bottom: 16),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${index + 1}. ${question['sentence']}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              onChanged: (value) {
-                vocabularyAnswers[index] = value;
-              },
-            ),
-          );
-        }),
 
+              const SizedBox(height: 12),
+
+              TextField(
+                enabled: !vocabularySubmitted,
+                decoration:
+                    buildAnswerInputDecoration('Write your answer'),
+                onChanged: (value) {
+                  vocabularyAnswers[index] = value;
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }),
         const SizedBox(height: 12),
 
        if (!vocabularySubmitted) ...[
@@ -579,32 +697,71 @@ Widget buildGrammarStep() {
         ),
         const SizedBox(height: 20),
 
-        const Text(
-          'Use',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        Text(grammar['use'] as String),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.blue.shade50,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Use',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
 
+              const SizedBox(height: 8),
+
+              Text(
+                grammar['use'] as String,
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.5,
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 16),
-
-        const Text(
-          'Form',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        Text(grammar['form'] as String),
-
-        const SizedBox(height: 16),
-
-        const Text(
-          'Examples from the text',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-
         ...examples.map((example) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Text('• $example'),
+          return Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.blue.shade100,
+              ),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.chat_bubble_outline,
+                  color: Colors.blue.shade400,
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: Text(
+                    example as String,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         }),
 
@@ -618,10 +775,39 @@ Widget buildGrammarStep() {
           ),
           const SizedBox(height: 8),
 
-          ...textExamples.map((example) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Text('• $example'),
+         ...textExamples.map((example) {
+            return Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                border: Border.all(
+                  color: Colors.orange.shade100,
+                ),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.article_outlined,
+                    color: Colors.orange.shade400,
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: Text(
+                      example as String,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           }),
 
@@ -742,8 +928,11 @@ Widget buildComprehensionStep() {
           const SizedBox(height: 16),
           Text(
             data['input'] as String,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: 17,
+              height: 1.6,
+            ),
           ),
         ],
 

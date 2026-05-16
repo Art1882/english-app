@@ -432,5 +432,43 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-16 10:11"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 0
+        },
+        "responses": {
+            "inputAnswers": {},
+            "vocabularyAnswers": {},
+            "grammarAnswers": {},
+            "comprehensionAnswers": {},
+            "shortAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-16 13:08"
+    },
+    {
+        "student": "Jerry",
+        "class": "Y8",
+        "lesson": "Unit 1 Review Test",
+        "activity": "Unit review test completed",
+        "answer": {
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "totalScore": 0
+        },
+        "responses": {
+            "vocabularyAnswers": {},
+            "grammarAnswers": {}
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-16 13:34"
     }
 ]

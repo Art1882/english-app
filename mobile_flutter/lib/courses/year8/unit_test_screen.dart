@@ -108,6 +108,29 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
     }
   }
 
+  InputDecoration buildAnswerInputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: Colors.purple.shade100,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(
+          color: Colors.purple,
+          width: 2,
+        ),
+      ),
+    );
+  }
   Future<void> saveTestComplete() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -149,6 +172,51 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
     );
   }
 
+Widget buildTestSectionHeader({
+  required int stepNumber,
+  required int totalSteps,
+  required String title,
+}) {
+  final double progressValue = stepNumber / totalSteps;
+
+  return Card(
+    color: Colors.purple.shade50,
+    elevation: 3,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(18),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Step $stepNumber of $totalSteps',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.purple,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          LinearProgressIndicator(
+            value: progressValue,
+            minHeight: 8,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ],
+      ),
+    ),
+  );
+}
   Widget buildVocabularyTest() {
     final questions = data['vocabularyQuestions'] as List;
 
@@ -156,12 +224,10 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Vocabulary Test',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+          buildTestSectionHeader(
+            stepNumber: 1,
+            totalSteps: 2,
+            title: 'Vocabulary Test',
           ),
 
           const SizedBox(height: 20),
@@ -183,7 +249,11 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
             final question = questions[index];
 
             return Card(
-              margin: const EdgeInsets.only(bottom: 14),
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -191,17 +261,18 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
                   children: [
                     Text(
                       '${index + 1}. ${question['sentence']}',
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     TextField(
                       enabled: !vocabularySubmitted,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Write your answer',
-                      ),
+                      decoration:
+                        buildAnswerInputDecoration('Write your answer'),
                       onChanged: (value) {
                         vocabularyAnswers[index] = value;
                       },
@@ -247,13 +318,11 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Grammar Test',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+         buildTestSectionHeader(
+              stepNumber: 2,
+              totalSteps: 2,
+              title: 'Grammar Test',
             ),
-          ),
 
           const SizedBox(height: 20),
 
@@ -274,7 +343,11 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
             final question = questions[index];
 
             return Card(
-              margin: const EdgeInsets.only(bottom: 14),
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -282,17 +355,18 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
                   children: [
                     Text(
                       '${index + 1}. ${question['sentence']}',
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     TextField(
                       enabled: !grammarSubmitted,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Write your answer',
-                      ),
+                      decoration:
+                       buildAnswerInputDecoration('Write your answer'),
                       onChanged: (value) {
                         grammarAnswers[index] = value;
                       },
