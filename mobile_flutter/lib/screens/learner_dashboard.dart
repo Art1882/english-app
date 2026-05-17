@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'unit_one_overview_screen.dart';
+import 'unit_two_overview_screen.dart';
 
 class LearnerDashboard extends StatefulWidget {
   final String studentName;
@@ -19,6 +20,7 @@ class LearnerDashboard extends StatefulWidget {
 
 class _LearnerDashboardState extends State<LearnerDashboard> {
   int unit1CompletedItems = 0;
+  int unit2CompletedItems = 0;
 
   @override
   void initState() {
@@ -29,7 +31,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
   Future<void> loadUnitProgress() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final completed = [
+    final unit1Completed = [
       prefs.getBool('unit1_lesson1_complete') ?? false,
       prefs.getBool('unit1_lesson2_complete') ?? false,
       prefs.getBool('unit1_lesson3_complete') ?? false,
@@ -38,29 +40,42 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
       prefs.getBool('unit1_test_complete') ?? false,
     ].where((item) => item).length;
 
+    final unit2Completed = [
+      prefs.getBool('unit2_lesson1_complete') ?? false,
+      prefs.getBool('unit2_lesson2_complete') ?? false,
+      prefs.getBool('unit2_lesson3_complete') ?? false,
+      prefs.getBool('unit2_lesson4_complete') ?? false,
+      prefs.getBool('unit2_lesson5_complete') ?? false,
+      prefs.getBool('unit2_test_complete') ?? false,
+    ].where((item) => item).length;
+
     setState(() {
-      unit1CompletedItems = completed;
+      unit1CompletedItems = unit1Completed;
+      unit2CompletedItems = unit2Completed;
     });
   }
 
-  String get unit1Status {
-    if (unit1CompletedItems == 6) {
+  String getUnitStatus(int completedItems) {
+    if (completedItems == 6) {
       return 'Unit completed';
     }
 
-    if (unit1CompletedItems > 0) {
+    if (completedItems > 0) {
       return 'In progress';
     }
 
     return 'Start learning';
   }
 
-  double get unit1ProgressValue {
-    return unit1CompletedItems / 6;
+  double getUnitProgressValue(int completedItems) {
+    return completedItems / 6;
   }
 
   @override
   Widget build(BuildContext context) {
+    final unit1Status = getUnitStatus(unit1CompletedItems);
+    final unit2Status = getUnitStatus(unit2CompletedItems);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Learner Dashboard'),
@@ -95,7 +110,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
               title: '🗣 Unit 1',
               subtitle: 'How people communicate',
               status: unit1Status,
-              progressValue: unit1ProgressValue,
+              progressValue: getUnitProgressValue(unit1CompletedItems),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -110,18 +125,20 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
             ),
 
             LearnerUnitCard(
-              title: 'Unit 2',
-              subtitle: 'This unit will be added soon',
-              status: 'Coming soon',
-              progressValue: 0.0,
-              onTap: () {
-                Navigator.push(
+              title: '📘 Unit 2',
+              subtitle: 'Placeholder unit title',
+              status: unit2Status,
+              progressValue: getUnitProgressValue(unit2CompletedItems),
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        const ComingSoonScreen(unitTitle: 'Unit 2'),
+                        const UnitTwoOverviewScreen(),
                   ),
                 );
+
+                loadUnitProgress();
               },
             ),
 

@@ -69,16 +69,84 @@ class _ClassOverviewScreenState
     return '${index + 1}th';
   }
 
+  int getStudentScore(dynamic student) {
+    return (student['average_percentage'] ??
+            student['average_score'] ??
+            0)
+        .round();
+  }
+
+  int getClassAverage() {
+    if (students.isEmpty) return 0;
+
+    final total = students.fold<int>(
+      0,
+      (sum, student) => sum + getStudentScore(student),
+    );
+
+    return (total / students.length).round();
+  }
+
+  Widget _analyticsCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 30,
+            color: Colors.blue.shade700,
+          ),
+          const SizedBox(width: 14),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final int classAverage = getClassAverage();
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-
       appBar: AppBar(
         title: Text('${widget.className} Leaderboard'),
         centerTitle: true,
       ),
-
       body: loading
           ? const Center(
               child: CircularProgressIndicator(),
@@ -102,7 +170,7 @@ class _ClassOverviewScreenState
                             CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Class leaderboard',
+                            'Class analytics',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -112,7 +180,7 @@ class _ClassOverviewScreenState
                           const SizedBox(height: 8),
 
                           Text(
-                            'Average scores are shown as percentages.',
+                            'View class progress, rankings, and average scores.',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey.shade700,
@@ -121,15 +189,42 @@ class _ClassOverviewScreenState
 
                           const SizedBox(height: 30),
 
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _analyticsCard(
+                                  title: 'Students',
+                                  value: students.length.toString(),
+                                  icon: Icons.people,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _analyticsCard(
+                                  title: 'Class average',
+                                  value: '$classAverage%',
+                                  icon: Icons.trending_up,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          const Text(
+                            'Leaderboard',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 18),
+
                           ...List.generate(students.length, (index) {
                             final student = students[index];
-
                             final int score =
-                                (student['average_percentage'] ??
-                                        student['average_score'] ??
-                                        0)
-                                    .round();
-
+                                getStudentScore(student);
                             final Color scoreColor =
                                 getScoreColor(score);
 
@@ -173,9 +268,8 @@ class _ClassOverviewScreenState
                                     children: [
                                       CircleAvatar(
                                         radius: 28,
-                                        backgroundColor:
-                                            scoreColor
-                                                .withOpacity(0.15),
+                                        backgroundColor: scoreColor
+                                            .withOpacity(0.15),
                                         child: Text(
                                           getRankLabel(index),
                                           style: TextStyle(
@@ -238,7 +332,7 @@ class _ClassOverviewScreenState
                                                 height: 10),
 
                                             Text(
-                                              'Lessons completed: ${student['lessons_completed']}',
+                                              'Lessons completed: ${student['lessons_completed'] ?? 0}',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors
@@ -283,4 +377,3 @@ class _ClassOverviewScreenState
     );
   }
 }
-

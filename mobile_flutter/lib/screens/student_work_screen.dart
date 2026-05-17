@@ -70,16 +70,205 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
     return 26;
   }
 
+  int getPercentage(Map answer) {
+    final score = getScore(answer);
+    final possible = getPossibleScore(answer);
+
+    if (possible == 0) return 0;
+
+    return ((score / possible) * 100).round();
+  }
+
+  int getAveragePercentage() {
+    final scoredSubmissions =
+        submissions.where((item) => item['answer'] is Map).toList();
+
+    if (scoredSubmissions.isEmpty) return 0;
+
+    final total = scoredSubmissions.fold<int>(
+      0,
+      (sum, item) => sum + getPercentage(item['answer']),
+    );
+
+    return (total / scoredSubmissions.length).round();
+  }
+
+  Color getScoreColor(int percentage) {
+    if (percentage >= 80) return Colors.green;
+    if (percentage >= 60) return Colors.orange;
+    return Colors.red;
+  }
+
+  Widget _summaryCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 30,
+            color: Colors.blue.shade700,
+          ),
+          const SizedBox(width: 14),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _scoreRow(String label, dynamic score, String possible) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Text(
+            '$score / $possible',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+ Widget _responseBox(Map responses) {
+  Widget answerSection({
+    required String title,
+    required Map answers,
+  }) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          ...answers.entries.map((entry) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${entry.key}: ',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Expanded(
+                    child: SelectableText(
+                      entry.value.toString(),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Map getMap(String key) {
+    final value = responses[key];
+    if (value is Map) return value;
+    return {};
+  }
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      if (getMap('inputAnswers').isNotEmpty)
+        answerSection(
+          title: 'Input answers',
+          answers: getMap('inputAnswers'),
+        ),
+
+      if (getMap('vocabularyAnswers').isNotEmpty)
+        answerSection(
+          title: 'Vocabulary answers',
+          answers: getMap('vocabularyAnswers'),
+        ),
+
+      if (getMap('grammarAnswers').isNotEmpty)
+        answerSection(
+          title: 'Grammar answers',
+          answers: getMap('grammarAnswers'),
+        ),
+
+      if (getMap('comprehensionAnswers').isNotEmpty)
+        answerSection(
+          title: 'Comprehension answers',
+          answers: getMap('comprehensionAnswers'),
+        ),
+
+      if (getMap('shortAnswers').isNotEmpty)
+        answerSection(
+          title: 'Short answers',
+          answers: getMap('shortAnswers'),
+        ),
+    ],
+  );
+}
   @override
   Widget build(BuildContext context) {
+    final averagePercentage = getAveragePercentage();
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-
       appBar: AppBar(
         title: Text(widget.studentName),
         centerTitle: true,
       ),
-
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : submissions.isEmpty
@@ -108,7 +297,7 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                           const SizedBox(height: 8),
 
                           Text(
-                            'Review saved lesson scores and learner responses.',
+                            'Review saved lesson scores, progress, and learner responses.',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey.shade700,
@@ -116,6 +305,38 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                           ),
 
                           const SizedBox(height: 30),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _summaryCard(
+                                  title: 'Lessons saved',
+                                  value: submissions.length.toString(),
+                                  icon: Icons.menu_book_outlined,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _summaryCard(
+                                  title: 'Average score',
+                                  value: '$averagePercentage%',
+                                  icon: Icons.trending_up,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 30),
+
+                          const Text(
+                            'Lesson breakdown',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 18),
 
                           ...submissions.map((item) {
                             final answer = item['answer'];
@@ -128,10 +349,10 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                             if (answer is Map) {
                               score = getScore(answer);
                               possible = getPossibleScore(answer);
-                              percentage = possible > 0
-                                  ? ((score / possible) * 100).round()
-                                  : 0;
+                              percentage = getPercentage(answer);
                             }
+
+                            final scoreColor = getScoreColor(percentage);
 
                             return Container(
                               width: double.infinity,
@@ -151,12 +372,29 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    item['lesson'] ?? 'Unknown lesson',
-                                    style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          item['lesson'] ?? 'Unknown lesson',
+                                          style: const TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      if (answer is Map)
+                                        Text(
+                                          '$percentage%',
+                                          style: TextStyle(
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.bold,
+                                            color: scoreColor,
+                                          ),
+                                        ),
+                                    ],
                                   ),
 
                                   const SizedBox(height: 6),
@@ -172,51 +410,46 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                                   const SizedBox(height: 16),
 
                                   if (answer is Map) ...[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Score',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          '$percentage%',
-                                          style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-
-                                    const SizedBox(height: 10),
-
                                     LinearProgressIndicator(
                                       value: percentage / 100,
-                                      minHeight: 8,
+                                      minHeight: 9,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
 
                                     const SizedBox(height: 14),
 
-                                    Text('Total: $score / $possible'),
+                                    _scoreRow(
+                                      'Total',
+                                      score,
+                                      possible.toString(),
+                                    ),
 
                                     if (answer.containsKey('inputScore'))
-                                      Text('Input: ${answer['inputScore'] ?? 0} / 3'),
+                                      _scoreRow(
+                                        'Input',
+                                        answer['inputScore'] ?? 0,
+                                        '3',
+                                      ),
 
                                     if (answer.containsKey('vocabularyScore'))
-                                      Text('Vocabulary: ${answer['vocabularyScore'] ?? 0}'),
+                                      _scoreRow(
+                                        'Vocabulary',
+                                        answer['vocabularyScore'] ?? 0,
+                                        '8',
+                                      ),
 
                                     if (answer.containsKey('grammarScore'))
-                                      Text('Grammar: ${answer['grammarScore'] ?? 0}'),
+                                      _scoreRow(
+                                        'Grammar',
+                                        answer['grammarScore'] ?? 0,
+                                        '5',
+                                      ),
 
                                     if (answer.containsKey('comprehensionScore'))
-                                      Text(
-                                        'Comprehension: ${answer['comprehensionScore'] ?? 0} / 10',
+                                      _scoreRow(
+                                        'Comprehension',
+                                        answer['comprehensionScore'] ?? 0,
+                                        '10',
                                       ),
                                   ] else ...[
                                     Text('Answer: ${answer ?? ''}'),
@@ -235,22 +468,21 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
 
                                     const SizedBox(height: 10),
 
-                                    SelectableText(
-                                      const JsonEncoder.withIndent('  ')
-                                          .convert(responses),
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        height: 1.4,
+                                    _responseBox(responses),
+                                  ],
+
+                                  if ((item['feedback'] ?? '')
+                                      .toString()
+                                      .isNotEmpty) ...[
+                                    const SizedBox(height: 14),
+                                    Text(
+                                      item['feedback'],
+                                      style: TextStyle(
+                                        color: Colors.blue.shade700,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ],
-
-                                  const SizedBox(height: 12),
-
-                                  Text(
-                                    item['feedback'] ?? '',
-                                    style: const TextStyle(color: Colors.blue),
-                                  ),
                                 ],
                               ),
                             );
@@ -263,3 +495,4 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
     );
   }
 }
+
