@@ -55,152 +55,207 @@ final lesson4 = {
           'People should think carefully about how they use technology',
     },
   ],
-
-  // Vocabulary
-  'vocabulary': [
-    {
-      'word': 'habits',
-      'meaning': 'things that people do regularly',
-    },
-    {
-      'word': 'notifications',
-      'meaning':
-          'messages or alerts that appear on a phone or computer',
-    },
-    {
-      'word': 'scrolling',
-      'meaning':
-          'moving up or down on a screen to look at information',
-    },
-    {
-      'word': 'virtual',
-      'meaning':
-          'happening online instead of in a real place',
-    },
-    {
-      'word': 'discussions',
-      'meaning':
-          'conversations where people share ideas',
-    },
-    {
-      'word': 'advantages',
-      'meaning':
-          'good points or benefits of something',
-    },
-    {
-      'word': 'balancing',
-      'meaning':
-          'keeping different things at a healthy or equal level',
-    },
-    {
-      'word': 'lifestyle',
-      'meaning':
-          'the way a person lives',
-    },
-  ],
-
-  // Vocabulary Practice
-  'vocabularyQuestions': [
-    {
-      'sentence':
-          'Eating healthy food and exercising are important parts of a good ______.',
-      'answer': 'lifestyle',
-    },
-    {
-      'sentence':
-          'Many students now attend ______ lessons from home using their computers.',
-      'answer': 'virtual',
-    },
-    {
-      'sentence':
-          'Sofia turned off her phone ______ so she could focus on her homework.',
-      'answer': 'notifications',
-    },
-    {
-      'sentence':
-          'Reading before bed instead of ______ through social media can help people sleep better.',
-      'answer': 'scrolling',
-    },
-    {
-      'sentence':
-          'Teachers often organise class ______ so students can share their opinions.',
-      'answer': 'discussions',
-    },
-    {
-      'sentence':
-          'Good study ______ can help students improve their grades.',
-      'answer': 'habits',
-    },
-    {
-      'sentence':
-          'There are many ______ to learning another language, including travel and work opportunities.',
-      'answer': 'advantages',
-    },
-    {
-      'sentence':
-          '______ schoolwork, hobbies, and rest is important for teenagers.',
-      'answer': 'Balancing',
-    },
-  ],
-
-  // Grammar
-  'grammar': {
-    'title': '-ing Forms as Subjects and Objects',
-
-    'use':
-        'We use -ing forms as subjects of a sentence and as objects after certain verbs.',
-
-    'form':
-        'Verb + ing + verb / Verb + -ing form',
-
-    'examples': [
-      'Watching videos is popular.',
-      'Listening to podcasts helps students learn.',
-      'Students enjoy using the internet.',
-    ],
-
-    'textExamples': [
-      'Watching videos, sharing photos, and chatting with friends are some of the most common online habits.',
-      'Sending messages is faster and easier than making phone calls.',
-      'Spending too much time online can also create problems.',
-      'Listening to podcasts, joining virtual classes, and researching information are helping students learn in new ways.',
-      'Spending time outdoors, exercising regularly, and meeting people face-to-face are still necessary for a healthy lifestyle.',
-      'Many teenagers enjoy using the internet.',
-      'Some students dislike studying.',
-      'Others find it difficult to stop scrolling.',
-      'Schools are even encouraging students to practise speaking skills by recording videos.',
-      'Or participating in online discussions.',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            '______ (play) online games is a popular activity for teenagers.',
-        'answer': 'Playing',
-      },
-      {
-        'sentence':
-            'Many students enjoy ______ (watch) videos in English.',
-        'answer': 'watching',
-      },
-      {
-        'sentence':
-            'Some people dislike ______ (use) social media late at night.',
-        'answer': 'using',
-      },
-      {
-        'sentence':
-            '______ (learn) new languages online can help students communicate with others.',
-        'answer': 'Learning',
-      },
-      {
-        'sentence':
-            'My friend stopped ______ (send) messages because he needed to study.',
-        'answer': 'sending',
-      },
-    ],
+// Vocabulary
+'vocabulary': [
+  {
+    'word': 'habits',
+    'partOfSpeech': 'n',
+    'meaning': 'things that people do regularly',
   },
+  {
+    'word': 'notifications',
+    'partOfSpeech': 'n',
+    'meaning':
+        'messages or alerts that appear on a phone or computer',
+  },
+  {
+    'word': 'scrolling',
+    'partOfSpeech': 'v',
+    'meaning':
+        'moving up or down on a screen to look at information',
+  },
+  {
+    'word': 'virtual',
+    'partOfSpeech': 'adj',
+    'meaning':
+        'happening online instead of in a real place',
+  },
+  {
+    'word': 'discussions',
+    'partOfSpeech': 'n',
+    'meaning':
+        'conversations where people share ideas',
+  },
+  {
+    'word': 'advantages',
+    'partOfSpeech': 'n',
+    'meaning':
+        'good points or benefits of something',
+  },
+  {
+    'word': 'balancing',
+    'partOfSpeech': 'v',
+    'meaning':
+        'keeping different things at a healthy or equal level',
+  },
+  {
+    'word': 'lifestyle',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the way a person lives',
+  },
+],
+// Vocabulary Practice
+'vocabularyQuestions': [
+  {
+    'sentence':
+        'Eating healthy food and exercising are important parts of a good ______.',
+    'options': [
+      'habits',
+      'advantages',
+      'lifestyle',
+      'virtual',
+    ],
+    'answer': 'lifestyle',
+  },
+  {
+    'sentence':
+        'Many students now attend ______ lessons from home using their computers.',
+    'options': [
+      'scrolling',
+      'notifications',
+      'virtual',
+      'discussions',
+    ],
+    'answer': 'virtual',
+  },
+  {
+    'sentence':
+        'Sofia turned off her phone ______ so she could focus on her homework.',
+    'options': [
+      'habits',
+      'advantages',
+      'lifestyle',
+      'notifications',
+    ],
+    'answer': 'notifications',
+  },
+  {
+    'sentence':
+        'Reading before bed instead of ______ through social media can help people sleep better.',
+    'options': [
+      'balancing',
+      'virtual',
+      'scrolling',
+      'discussions',
+    ],
+    'answer': 'scrolling',
+  },
+  {
+    'sentence':
+        'Teachers often organise class ______ so students can share their opinions.',
+    'options': [
+      'notifications',
+      'advantages',
+      'discussions',
+      'habits',
+    ],
+    'answer': 'discussions',
+  },
+  {
+    'sentence':
+        'Good study ______ can help students improve their grades.',
+    'options': [
+      'lifestyle',
+      'virtual',
+      'scrolling',
+      'habits',
+    ],
+    'answer': 'habits',
+  },
+  {
+    'sentence':
+        'There are many ______ to learning another language, including travel and work opportunities.',
+    'options': [
+      'notifications',
+      'balancing',
+      'advantages',
+      'discussions',
+    ],
+    'answer': 'advantages',
+  },
+  {
+    'sentence':
+        '______ schoolwork, hobbies, and rest is important for teenagers.',
+    'options': [
+      'Scrolling',
+      'Virtual',
+      'Balancing',
+      'Notifications',
+    ],
+    'answer': 'Balancing',
+  },
+],
+// Grammar
+'grammar': {
+  'title': '-ing Forms as Subjects and Objects',
 
+  'instruction':
+      'Use the correct -ing form of the verb to complete each sentence.',
+
+  'use':
+      'We use -ing forms as subjects of a sentence and as objects after certain verbs.',
+
+  'form':
+      'Verb + ing + verb / Verb + -ing form',
+
+  'examples': [
+    'Watching videos is popular.',
+    'Listening to podcasts helps students learn.',
+    'Students enjoy using the internet.',
+  ],
+
+  'textExamples': [
+    'Watching videos, sharing photos, and chatting with friends are some of the most common online habits.',
+    'Sending messages is faster and easier than making phone calls.',
+    'Spending too much time online can also create problems.',
+    'Listening to podcasts, joining virtual classes, and researching information are helping students learn in new ways.',
+    'Spending time outdoors, exercising regularly, and meeting people face-to-face are still necessary for a healthy lifestyle.',
+    'Many teenagers enjoy using the internet.',
+    'Some students dislike studying.',
+    'Others find it difficult to stop scrolling.',
+    'Schools are even encouraging students to practise speaking skills by recording videos.',
+    'Or participating in online discussions.',
+  ],
+
+  'practice': [
+    {
+      'sentence':
+          '______ (play) online games is a popular activity for teenagers.',
+      'answer': 'Playing',
+    },
+    {
+      'sentence':
+          'Many students enjoy ______ (watch) videos in English.',
+      'answer': 'watching',
+    },
+    {
+      'sentence':
+          'Some people dislike ______ (use) social media late at night.',
+      'answer': 'using',
+    },
+    {
+      'sentence':
+          '______ (learn) new languages online can help students communicate with others.',
+      'answer': 'Learning',
+    },
+    {
+      'sentence':
+          'My friend stopped ______ (send) messages because he needed to study.',
+      'answer': 'sending',
+    },
+  ],
+},
   // Comprehension
   'comprehension': [
     {

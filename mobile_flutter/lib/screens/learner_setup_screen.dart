@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'teacher_pin_screen.dart';
 import '../config.dart';
 import 'learner_dashboard.dart';
 
@@ -202,6 +202,21 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
                     'Continue',
                     style: TextStyle(fontSize: 18),
                   ),
+                ),
+
+                const SizedBox(height: 60),
+
+                TextButton.icon(
+                  icon: const Icon(Icons.admin_panel_settings_outlined),
+                  label: const Text('Teacher access'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const TeacherPinScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

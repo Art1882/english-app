@@ -56,152 +56,210 @@ final lesson5 = {
     },
   ],
 
-  // Vocabulary
-  'vocabulary': [
-    {
-      'word': 'creativity',
-      'meaning':
-          'the ability to produce new and original ideas',
-    },
-    {
-      'word': 'identity',
-      'meaning':
-          'who a person is and how they see themselves',
-    },
-    {
-      'word': 'confidence',
-      'meaning':
-          'the feeling of believing in yourself',
-    },
-    {
-      'word': 'independence',
-      'meaning':
-          'the ability to do things by yourself',
-    },
-    {
-      'word': 'responsibility',
-      'meaning':
-          'the duty to behave in a sensible way',
-    },
-    {
-      'word': 'embarrassment',
-      'meaning':
-          'the feeling of being ashamed or uncomfortable',
-    },
-    {
-      'word': 'inspiration',
-      'meaning':
-          'a feeling that gives people new ideas or motivation',
-    },
-    {
-      'word': 'insecurity',
-      'meaning':
-          'a lack of confidence or feeling unsure about yourself',
-    },
+// Vocabulary
+'vocabulary': [
+  {
+    'word': 'creativity',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the ability to produce new and original ideas',
+  },
+  {
+    'word': 'identity',
+    'partOfSpeech': 'n',
+    'meaning':
+        'who a person is and how they see themselves',
+  },
+  {
+    'word': 'confidence',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the feeling of believing in yourself',
+  },
+  {
+    'word': 'independence',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the ability to do things by yourself',
+  },
+  {
+    'word': 'responsibility',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the duty to behave in a sensible way',
+  },
+  {
+    'word': 'embarrassment',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the feeling of being ashamed or uncomfortable',
+  },
+  {
+    'word': 'inspiration',
+    'partOfSpeech': 'n',
+    'meaning':
+        'a feeling that gives people new ideas or motivation',
+  },
+  {
+    'word': 'insecurity',
+    'partOfSpeech': 'n',
+    'meaning':
+        'a lack of confidence or feeling unsure about yourself',
+  },
+],
+
+// Vocabulary Practice
+'vocabularyQuestions': [
+  {
+    'sentence':
+        'Drawing, writing stories, and making music can help students develop their ______.',
+    'options': [
+      'confidence',
+      'identity',
+      'creativity',
+      'responsibility',
+    ],
+    'answer': 'creativity',
+  },
+  {
+    'sentence':
+        'Learning to manage homework alone teaches teenagers ______.',
+    'options': [
+      'insecurity',
+      'embarrassment',
+      'inspiration',
+      'independence',
+    ],
+    'answer': 'independence',
+  },
+  {
+    'sentence':
+        'Public speaking can improve students’ ______ over time.',
+    'options': [
+      'identity',
+      'responsibility',
+      'confidence',
+      'insecurity',
+    ],
+    'answer': 'confidence',
+  },
+  {
+    'sentence':
+        'Many young people explore their ______ through fashion, hobbies, and music.',
+    'options': [
+      'creativity',
+      'embarrassment',
+      'identity',
+      'inspiration',
+    ],
+    'answer': 'identity',
+  },
+  {
+    'sentence':
+        'Forgetting your lines during a performance may cause ______.',
+    'options': [
+      'confidence',
+      'independence',
+      'responsibility',
+      'embarrassment',
+    ],
+    'answer': 'embarrassment',
+  },
+  {
+    'sentence':
+        'Teachers want students to show ______ by completing work on time.',
+    'options': [
+      'insecurity',
+      'identity',
+      'creativity',
+      'responsibility',
+    ],
+    'answer': 'responsibility',
+  },
+  {
+    'sentence':
+        'Famous athletes often give young people ______ to work hard and follow their dreams.',
+    'options': [
+      'confidence',
+      'embarrassment',
+      'inspiration',
+      'independence',
+    ],
+    'answer': 'inspiration',
+  },
+  {
+    'sentence':
+        'Comparing yourself to others online can sometimes create feelings of ______.',
+    'options': [
+      'identity',
+      'responsibility',
+      'insecurity',
+      'creativity',
+    ],
+    'answer': 'insecurity',
+  },
+],
+
+// Grammar
+'grammar': {
+  'title': 'Abstract nouns',
+
+  'instruction':
+      'Use the correct abstract noun to complete each sentence.',
+
+  'use':
+      'Abstract nouns describe feelings, ideas, qualities, and experiences.',
+
+  'form':
+      'Abstract nouns are often formed from adjectives or verbs using endings such as -ness, -tion, -ity, and -ence.',
+
+  'examples': [
+    'Kind → kindness',
+    'Creative → creativity',
+    'Inspire → inspiration',
+    'Confident → confidence',
   ],
 
-  // Vocabulary Practice
-  'vocabularyQuestions': [
+  'textExamples': [
+    'Communication is about much more than simply sending messages.',
+    'Express their thoughts, creativity, and identity.',
+    'Many teenagers enjoy the freedom of sharing opinions.',
+    'Online communication provides confidence and independence.',
+    'The importance of responsibility and respect online.',
+    'Cause misunderstanding, embarrassment, or conflict.',
+    'Positive online experiences can create happiness, inspiration, and motivation.',
+    'May lead to stress or insecurity.',
+    'Understanding, kindness, and honesty remain important.',
+  ],
+
+  'practice': [
     {
       'sentence':
-          'Drawing, writing stories, and making music can help students develop their ______.',
-      'answer': 'creativity',
+          'Good communication and ______ are important in friendships. (kind)',
+      'answer': 'kindness',
     },
     {
       'sentence':
-          'Learning to manage homework alone teaches teenagers ______.',
-      'answer': 'independence',
-    },
-    {
-      'sentence':
-          'Public speaking can improve students’ ______ over time.',
+          'Many students feel ______ when they speak English successfully. (confident)',
       'answer': 'confidence',
     },
     {
       'sentence':
-          'Many young people explore their ______ through fashion, hobbies, and music.',
-      'answer': 'identity',
+          'Social media can sometimes create stress and ______. (insecure)',
+      'answer': 'insecurity',
     },
     {
       'sentence':
-          'Forgetting your lines during a performance may cause ______.',
-      'answer': 'embarrassment',
-    },
-    {
-      'sentence':
-          'Teachers want students to show ______ by completing work on time.',
-      'answer': 'responsibility',
-    },
-    {
-      'sentence':
-          'Famous athletes often give young people ______ to work hard and follow their dreams.',
+          'Learning new skills can give teenagers motivation and ______. (inspire)',
       'answer': 'inspiration',
     },
     {
       'sentence':
-          'Comparing yourself to others online can sometimes create feelings of ______.',
-      'answer': 'insecurity',
+          'Teachers encourage students to show ______ and responsibility online. (honest)',
+      'answer': 'honesty',
     },
   ],
-
-  // Grammar
-  'grammar': {
-    'title': 'Abstract nouns',
-
-    'use':
-        'Abstract nouns describe feelings, ideas, qualities, and experiences.',
-
-    'form':
-        'Abstract nouns are often formed from adjectives or verbs using endings such as -ness, -tion, -ity, and -ence.',
-
-    'examples': [
-      'Kind → kindness',
-      'Creative → creativity',
-      'Inspire → inspiration',
-      'Confident → confidence',
-    ],
-
-    'textExamples': [
-      'Communication is about much more than simply sending messages.',
-      'Express their thoughts, creativity, and identity.',
-      'Many teenagers enjoy the freedom of sharing opinions.',
-      'Online communication provides confidence and independence.',
-      'The importance of responsibility and respect online.',
-      'Cause misunderstanding, embarrassment, or conflict.',
-      'Positive online experiences can create happiness, inspiration, and motivation.',
-      'May lead to stress or insecurity.',
-      'Understanding, kindness, and honesty remain important.',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            'Good communication and ______ are important in friendships. (kind)',
-        'answer': 'kindness',
-      },
-      {
-        'sentence':
-            'Many students feel ______ when they speak English successfully. (confident)',
-        'answer': 'confidence',
-      },
-      {
-        'sentence':
-            'Social media can sometimes create stress and ______. (insecure)',
-        'answer': 'insecurity',
-      },
-      {
-        'sentence':
-            'Learning new skills can give teenagers motivation and ______. (inspire)',
-        'answer': 'inspiration',
-      },
-      {
-        'sentence':
-            'Teachers encourage students to show ______ and responsibility online. (honest)',
-        'answer': 'honesty',
-      },
-    ],
-  },
-
+},
   // Comprehension
   'comprehension': [
     {

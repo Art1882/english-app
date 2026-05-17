@@ -103,7 +103,6 @@ def get_learners(class_name: str):
         "learners": learners.get(class_name, [])
     }
 
-# 🔥 teacher class overview
 @app.get("/teacher/class/{class_name}")
 def get_class_overview(class_name: str):
 
@@ -118,42 +117,61 @@ def get_class_overview(class_name: str):
         student_name = submission["student"]
         answer = submission.get("answer", {})
 
-        total_score = 0
+        score = 0
+        possible = 0
 
         if isinstance(answer, dict):
-            total_score = (
-                answer.get("inputScore", 0)
-                + answer.get("vocabularyScore", 0)
-                + answer.get("grammarScore", 0)
-                + answer.get("comprehensionScore", 0)
-            )
+            # Normal lesson: 3 + 8 + 5 + 10 = 26
+            if "inputScore" in answer:
+                score = (
+                    answer.get("inputScore", 0)
+                    + answer.get("vocabularyScore", 0)
+                    + answer.get("grammarScore", 0)
+                    + answer.get("comprehensionScore", 0)
+                )
+                possible = 26
+
+            # Unit review: vocabulary 10 + grammar 10 = 20
+            elif "totalScore" in answer:
+                score = answer.get("totalScore", 0)
+                possible = 20
 
         if student_name not in students:
             students[student_name] = {
                 "name": student_name,
                 "lessons_completed": 0,
                 "last_active": submission.get("timestamp", ""),
-                "total_score": 0
+                "total_score": 0,
+                "total_possible": 0,
             }
 
         students[student_name]["lessons_completed"] += 1
-        students[student_name]["total_score"] += total_score
+        students[student_name]["total_score"] += score
+        students[student_name]["total_possible"] += possible
 
         if submission.get("timestamp", "") > students[student_name]["last_active"]:
             students[student_name]["last_active"] = submission.get("timestamp", "")
 
     for student in students.values():
-        if student["lessons_completed"] > 0:
-            student["average_score"] = round(
-                student["total_score"] / student["lessons_completed"],
-                1
+        if student["total_possible"] > 0:
+            student["average_percentage"] = round(
+                (student["total_score"] / student["total_possible"]) * 100
             )
         else:
-            student["average_score"] = 0
+            student["average_percentage"] = 0
+
+        # Keep old field name temporarily so Flutter does not break
+        student["average_score"] = student["average_percentage"]
+
+    ranked_students = sorted(
+        students.values(),
+        key=lambda x: x["average_percentage"],
+        reverse=True
+    )
 
     return {
         "class_name": class_name,
-        "students": list(students.values())
+        "students": ranked_students
     }
 # 🔥 teacher individual student
 @app.get("/teacher/student/{student_name}")

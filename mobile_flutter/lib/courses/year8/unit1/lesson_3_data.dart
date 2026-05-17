@@ -53,151 +53,210 @@ final lesson3 = {
     },
   ],
 
-  // Vocabulary
-  'vocabulary': [
-    {
-      'word': 'gesture',
-      'meaning':
-          'a movement of the hands or body used to communicate',
-    },
-    {
-      'word': 'nervous',
-      'meaning':
-          'worried or afraid about something',
-    },
-    {
-      'word': 'impatient',
-      'meaning':
-          'annoyed because something is taking too long',
-    },
-    {
-      'word': 'confidence',
-      'meaning':
-          'the feeling of believing in yourself',
-    },
-    {
-      'word': 'rude',
-      'meaning':
-          'not polite',
-    },
-    {
-      'word': 'express',
-      'meaning':
-          'to show feelings or ideas',
-    },
-    {
-      'word': 'misunderstandings',
-      'meaning':
-          'situations where people understand something wrongly',
-    },
-    {
-      'word': 'successfully',
-      'meaning':
-          'in a good or effective way',
-    },
-  ],
-
-  // Vocabulary Practice
-  'vocabularyQuestions': [
-    {
-      'sentence':
-          'Ali felt very ______ before speaking in front of the class.',
-      'answer': 'nervous',
-    },
-    {
-      'sentence':
-          'Smiling is a friendly ______ that people use in many countries.',
-      'answer': 'gesture',
-    },
-    {
-      'sentence':
-          'Some students become ______ when the teacher takes a long time to start the lesson.',
-      'answer': 'impatient',
-    },
-    {
-      'sentence':
-          'Speaking clearly can help you communicate more ______ with others.',
-      'answer': 'successfully',
-    },
-    {
-      'sentence':
-          'Looking at your phone while someone is talking can seem ______.',
-      'answer': 'rude',
-    },
-    {
-      'sentence':
-          'People use music, art, and writing to ______ their feelings.',
-      'answer': 'express',
-    },
-    {
-      'sentence':
-          'Team activities can help students build ______ when speaking English.',
-      'answer': 'confidence',
-    },
-    {
-      'sentence':
-          'Different cultures can sometimes cause ______ between people.',
-      'answer': 'misunderstandings',
-    },
-  ],
-
-  // Grammar
-  'grammar': {
-    'title': 'Question words',
-
-    'use':
-        'We use question words to ask for specific information.',
-
-    'form':
-        'Question word + auxiliary verb + subject + main verb',
-
-    'examples': [
-      'Why do students learn English?',
-      'Where is English used?',
-      'How can languages help people?',
-    ],
-
-    'textExamples': [
-      'People learn languages for many different reasons.',
-      'Why do people learn languages?',
-      'English is used in many international companies, airports, hotels, and universities around the world.',
-      'Where is English used?',
-      'Some teenagers learn languages so they can speak to online friends from different countries.',
-      'Who do some teenagers want to speak to?',
-      'Teachers believe that language learning also improves memory, confidence, and problem-solving skills.',
-      'What does language learning improve?',
-      'Speaking more than one language is becoming increasingly useful.',
-      'What is becoming increasingly useful?',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            '______ do many people learn English for work and travel?',
-        'answer': 'Why',
-      },
-      {
-        'sentence':
-            '______ can students understand when they learn another language?',
-        'answer': 'What',
-      },
-      {
-        'sentence':
-            '______ is English used around the world?',
-        'answer': 'Where',
-      },
-      {
-        'sentence':
-            '______ do teenagers speak to online in different countries?',
-        'answer': 'Who',
-      },
-      {
-        'sentence':
-            '______ is learning a language becoming more useful today?',
-        'answer': 'Why',
-      },
-    ],
+// Vocabulary
+'vocabulary': [
+  {
+    'word': 'gesture',
+    'partOfSpeech': 'n',
+    'meaning':
+        'a movement of the hands or body used to communicate',
   },
+  {
+    'word': 'nervous',
+    'partOfSpeech': 'adj',
+    'meaning':
+        'worried or afraid about something',
+  },
+  {
+    'word': 'impatient',
+    'partOfSpeech': 'adj',
+    'meaning':
+        'annoyed because something is taking too long',
+  },
+  {
+    'word': 'confidence',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the feeling of believing in yourself',
+  },
+  {
+    'word': 'rude',
+    'partOfSpeech': 'adj',
+    'meaning':
+        'not polite',
+  },
+  {
+    'word': 'express',
+    'partOfSpeech': 'v',
+    'meaning':
+        'to show feelings or ideas',
+  },
+  {
+    'word': 'misunderstandings',
+    'partOfSpeech': 'n',
+    'meaning':
+        'situations where people understand something wrongly',
+  },
+  {
+    'word': 'successfully',
+    'partOfSpeech': 'adv',
+    'meaning':
+        'in a good or effective way',
+  },
+],
+
+// Vocabulary Practice
+'vocabularyQuestions': [
+  {
+    'sentence':
+        'Ali felt very ______ before speaking in front of the class.',
+    'options': [
+      'gesture',
+      'confidence',
+      'nervous',
+      'successfully',
+    ],
+    'answer': 'nervous',
+  },
+  {
+    'sentence':
+        'Smiling is a friendly ______ that people use in many countries.',
+    'options': [
+      'rude',
+      'gesture',
+      'express',
+      'impatient',
+    ],
+    'answer': 'gesture',
+  },
+  {
+    'sentence':
+        'Some students become ______ when the teacher takes a long time to start the lesson.',
+    'options': [
+      'nervous',
+      'successfully',
+      'impatient',
+      'confidence',
+    ],
+    'answer': 'impatient',
+  },
+  {
+    'sentence':
+        'Speaking clearly can help you communicate more ______ with others.',
+    'options': [
+      'gesture',
+      'rude',
+      'misunderstandings',
+      'successfully',
+    ],
+    'answer': 'successfully',
+  },
+  {
+    'sentence':
+        'Looking at your phone while someone is talking can seem ______.',
+    'options': [
+      'nervous',
+      'express',
+      'rude',
+      'confidence',
+    ],
+    'answer': 'rude',
+  },
+  {
+    'sentence':
+        'People use music, art, and writing to ______ their feelings.',
+    'options': [
+      'gesture',
+      'impatient',
+      'successfully',
+      'express',
+    ],
+    'answer': 'express',
+  },
+  {
+    'sentence':
+        'Team activities can help students build ______ when speaking English.',
+    'options': [
+      'misunderstandings',
+      'rude',
+      'confidence',
+      'gesture',
+    ],
+    'answer': 'confidence',
+  },
+  {
+    'sentence':
+        'Different cultures can sometimes cause ______ between people.',
+    'options': [
+      'successfully',
+      'express',
+      'nervous',
+      'misunderstandings',
+    ],
+    'answer': 'misunderstandings',
+  },
+],
+
+// Grammar
+'grammar': {
+  'title': 'Question words',
+
+  'instruction':
+      'Use the correct question word to complete each question.',
+
+  'use':
+      'We use question words to ask for specific information.',
+
+  'form':
+      'Question word + auxiliary verb + subject + main verb',
+
+  'examples': [
+    'Why do students learn English?',
+    'Where is English used?',
+    'How can languages help people?',
+  ],
+
+  'textExamples': [
+    'People learn languages for many different reasons.',
+    'Why do people learn languages?',
+    'English is used in many international companies, airports, hotels, and universities around the world.',
+    'Where is English used?',
+    'Some teenagers learn languages so they can speak to online friends from different countries.',
+    'Who do some teenagers want to speak to?',
+    'Teachers believe that language learning also improves memory, confidence, and problem-solving skills.',
+    'What does language learning improve?',
+    'Speaking more than one language is becoming increasingly useful.',
+    'What is becoming increasingly useful?',
+  ],
+
+  'practice': [
+    {
+      'sentence':
+          '______ do many people learn English for work and travel?',
+      'answer': 'Why',
+    },
+    {
+      'sentence':
+          '______ can students understand when they learn another language?',
+      'answer': 'What',
+    },
+    {
+      'sentence':
+          '______ is English used around the world?',
+      'answer': 'Where',
+    },
+    {
+      'sentence':
+          '______ do teenagers speak to online in different countries?',
+      'answer': 'Who',
+    },
+    {
+      'sentence':
+          '______ is learning a language becoming more useful today?',
+      'answer': 'Why',
+    },
+  ],
+},
   // Comprehension
   'comprehension': [
     {

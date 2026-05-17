@@ -218,192 +218,259 @@ Widget buildTestSectionHeader({
   );
 }
   Widget buildVocabularyTest() {
-    final questions = data['vocabularyQuestions'] as List;
+  final questions = data['vocabularyQuestions'] as List;
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildTestSectionHeader(
-            stepNumber: 1,
-            totalSteps: 2,
-            title: 'Vocabulary Test',
+  return SingleChildScrollView(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildTestSectionHeader(
+          stepNumber: 1,
+          totalSteps: 2,
+          title: 'Vocabulary Test',
+        ),
+
+        const SizedBox(height: 20),
+
+        if (data['imagePath'] != null) ...[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              data['imagePath'] as String,
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 24),
+        ],
+
+        const Text(
+          'Choose the best word to complete each sentence.',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        ...List.generate(questions.length, (index) {
+          final question = questions[index];
+          final options = question['options'] as List;
+
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ${question['sentence']}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  ...options.map((option) {
+                    return RadioListTile<String>(
+                      title: Text(option),
+                      value: option,
+                      groupValue: vocabularyAnswers[index],
+                      onChanged: vocabularySubmitted
+                          ? null
+                          : (value) {
+                              setState(() {
+                                vocabularyAnswers[index] = value ?? '';
+                              });
+                            },
+                    );
+                  }),
+
+                  if (vocabularySubmitted)
+                    Text(
+                      vocabularyAnswers[index] == question['answer']
+                          ? 'Correct'
+                          : 'Incorrect. Correct answer: ${question['answer']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: vocabularyAnswers[index] == question['answer']
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        }),
+
+        const SizedBox(height: 12),
+
+        if (!vocabularySubmitted) ...[
+          ElevatedButton(
+            onPressed: submitVocabularyAnswers,
+            child: const Text('Submit vocabulary answers'),
+          ),
+        ] else ...[
+          Text(
+            'You got $vocabularyScore / ${questions.length} vocabulary questions correct.',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
 
           const SizedBox(height: 20),
 
-          if (data['imagePath'] != null) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                data['imagePath'] as String,
-                height: 220,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+          ElevatedButton(
+            onPressed: nextStep,
+            child: const Text('Continue to grammar test'),
+          ),
+        ],
+      ],
+    ),
+  );
+}
+Widget buildGrammarTest() {
+  final questions = data['grammarQuestions'] as List;
+
+  return SingleChildScrollView(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildTestSectionHeader(
+          stepNumber: 2,
+          totalSteps: 2,
+          title: 'Grammar Test',
+        ),
+
+        const SizedBox(height: 20),
+
+        if (data['imagePath'] != null) ...[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              data['imagePath'] as String,
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 24),
-          ],
+          ),
+          const SizedBox(height: 24),
+        ],
 
-          ...List.generate(questions.length, (index) {
-            final question = questions[index];
+        ...List.generate(questions.length, (index) {
+          final question = questions[index];
 
-            return Card(
-              margin: const EdgeInsets.only(bottom: 16),
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${index + 1}. ${question['sentence']}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+          final learnerAnswer =
+              (grammarAnswers[index] ?? '').trim().toLowerCase();
+
+          final correctAnswer =
+              question['answer'].toString().trim().toLowerCase();
+
+          final isCorrect = learnerAnswer == correctAnswer;
+
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ${question['instruction']}',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
                     ),
+                  ),
 
+                  const SizedBox(height: 12),
+
+                  Text(
+                    question['sentence'] as String,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TextField(
+                    enabled: !grammarSubmitted,
+                    decoration:
+                      buildAnswerInputDecoration('Missing word(s) only'),
+                    onChanged: (value) {
+                      grammarAnswers[index] = value;
+                    },
+                  ),
+
+                  if (grammarSubmitted) ...[
                     const SizedBox(height: 12),
 
-                    TextField(
-                      enabled: !vocabularySubmitted,
-                      decoration:
-                        buildAnswerInputDecoration('Write your answer'),
-                      onChanged: (value) {
-                        vocabularyAnswers[index] = value;
-                      },
+                    Text(
+                      isCorrect
+                          ? 'Correct'
+                          : 'Incorrect. Correct answer: ${question['answer']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isCorrect
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
                     ),
                   ],
-                ),
-              ),
-            );
-          }),
-
-          const SizedBox(height: 12),
-
-          if (!vocabularySubmitted) ...[
-            ElevatedButton(
-              onPressed: submitVocabularyAnswers,
-              child: const Text('Submit vocabulary answers'),
-            ),
-          ] else ...[
-            Text(
-              'You got $vocabularyScore / ${questions.length} vocabulary questions correct.',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                ],
               ),
             ),
+          );
+        }),
 
-            const SizedBox(height: 20),
+        const SizedBox(height: 12),
 
-            ElevatedButton(
-              onPressed: nextStep,
-              child: const Text('Continue to grammar test'),
+        if (!grammarSubmitted) ...[
+          ElevatedButton(
+            onPressed: submitGrammarAnswers,
+            child: const Text('Submit grammar answers'),
+          ),
+        ] else ...[
+          Text(
+            'You got $grammarScore / ${questions.length} grammar questions correct.',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget buildGrammarTest() {
-    final questions = data['grammarQuestions'] as List;
-
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-         buildTestSectionHeader(
-              stepNumber: 2,
-              totalSteps: 2,
-              title: 'Grammar Test',
-            ),
+          ),
 
           const SizedBox(height: 20),
 
-          if (data['imagePath'] != null) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                data['imagePath'] as String,
-                height: 220,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 24),
-          ],
-
-          ...List.generate(questions.length, (index) {
-            final question = questions[index];
-
-            return Card(
-              margin: const EdgeInsets.only(bottom: 16),
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${index + 1}. ${question['sentence']}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    TextField(
-                      enabled: !grammarSubmitted,
-                      decoration:
-                       buildAnswerInputDecoration('Write your answer'),
-                      onChanged: (value) {
-                        grammarAnswers[index] = value;
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
-
-          const SizedBox(height: 12),
-
-          if (!grammarSubmitted) ...[
-            ElevatedButton(
-              onPressed: submitGrammarAnswers,
-              child: const Text('Submit grammar answers'),
-            ),
-          ] else ...[
-            Text(
-              'You got $grammarScore / ${questions.length} grammar questions correct.',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              onPressed: nextStep,
-              child: const Text('See results'),
-            ),
-          ],
+          ElevatedButton(
+            onPressed: nextStep,
+            child: const Text('See results'),
+          ),
         ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
 
   Widget buildResultsScreen() {
     final vocabQuestions = data['vocabularyQuestions'] as List;

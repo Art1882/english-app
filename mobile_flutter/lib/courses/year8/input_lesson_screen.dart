@@ -527,28 +527,22 @@ Widget buildVocabularyStep() {
   final vocab = data['vocabulary'] as List;
   final questions = data['vocabularyQuestions'] as List;
 
-  bool allAnswered = true;
-
-  for (int i = 0; i < questions.length; i++) {
-    if ((vocabularyAnswers[i] ?? '').trim().isEmpty) {
-      allAnswered = false;
-      break;
-    }
-  }
-
-
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-          buildLessonSectionHeader(
+        buildLessonSectionHeader(
           stepNumber: 2,
           totalSteps: 4,
           title: 'Vocabulary',
         ),
+
         const Text(
           'Learn Words',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
           textAlign: TextAlign.center,
         ),
 
@@ -579,7 +573,7 @@ Widget buildVocabularyStep() {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          item['word'] as String,
+                          '${item['word']} (${item['partOfSpeech'] ?? ''})',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -607,53 +601,78 @@ Widget buildVocabularyStep() {
         const SizedBox(height: 24),
 
         const Text(
-          'Complete the sentences',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
+          'Choose the best word to complete each sentence',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.left,
         ),
 
         const SizedBox(height: 12),
 
         ...List.generate(questions.length, (index) {
           final question = questions[index];
+          final options = question['options'] as List;
 
-       return Card(
-        margin: const EdgeInsets.only(bottom: 16),
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${index + 1}. ${question['sentence']}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ${question['sentence']}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  ...options.map((option) {
+                    return RadioListTile<String>(
+                      title: Text(option),
+                      value: option,
+                      groupValue: vocabularyAnswers[index],
+                      onChanged: vocabularySubmitted
+                          ? null
+                          : (value) {
+                              setState(() {
+                                vocabularyAnswers[index] = value ?? '';
+                              });
+                            },
+                    );
+                  }),
+
+                  if (vocabularySubmitted)
+                    Text(
+                      vocabularyAnswers[index] == question['answer']
+                          ? 'Correct'
+                          : 'Incorrect. Correct answer: ${question['answer']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: vocabularyAnswers[index] == question['answer']
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
+                    ),
+                ],
               ),
+            ),
+          );
+        }),
 
-              const SizedBox(height: 12),
-
-              TextField(
-                enabled: !vocabularySubmitted,
-                decoration:
-                    buildAnswerInputDecoration('Write your answer'),
-                onChanged: (value) {
-                  vocabularyAnswers[index] = value;
-                },
-              ),
-            ],
-          ),
-        ),
-      );
-    }),
         const SizedBox(height: 12),
 
-       if (!vocabularySubmitted) ...[
+        if (!vocabularySubmitted) ...[
           ElevatedButton(
             onPressed: submitVocabularyAnswers,
             child: const Text('Submit answers'),
@@ -661,10 +680,15 @@ Widget buildVocabularyStep() {
         ] else ...[
           Text(
             'You got $vocabularyScore / ${questions.length} correct.',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
+
           const SizedBox(height: 20),
+
           ElevatedButton(
             onPressed: nextStep,
             child: const Text('Continue'),
@@ -674,7 +698,6 @@ Widget buildVocabularyStep() {
     ),
   );
 }
-
 Widget buildGrammarStep() {
   final grammar = data['grammar'] as Map;
   final examples = grammar['examples'] as List;
@@ -685,16 +708,22 @@ Widget buildGrammarStep() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          buildLessonSectionHeader(
+        buildLessonSectionHeader(
           stepNumber: 3,
           totalSteps: 4,
           title: 'Grammar',
         ),
+
         const SizedBox(height: 20),
+
         Text(
           grammar['title'] as String,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+
         const SizedBox(height: 20),
 
         Container(
@@ -703,6 +732,7 @@ Widget buildGrammarStep() {
           decoration: BoxDecoration(
             color: Colors.blue.shade50,
             borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.blue.shade100),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,9 +745,7 @@ Widget buildGrammarStep() {
                   color: Colors.blue,
                 ),
               ),
-
               const SizedBox(height: 8),
-
               Text(
                 grammar['use'] as String,
                 style: const TextStyle(
@@ -728,7 +756,52 @@ Widget buildGrammarStep() {
             ],
           ),
         ),
+
         const SizedBox(height: 16),
+
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.green.shade50,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.green.shade100),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Form',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                grammar['form'] as String,
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.5,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        const Text(
+          'Examples',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
         ...examples.map((example) {
           return Container(
             width: double.infinity,
@@ -736,9 +809,7 @@ Widget buildGrammarStep() {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(
-                color: Colors.blue.shade100,
-              ),
+              border: Border.all(color: Colors.blue.shade100),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
@@ -748,9 +819,7 @@ Widget buildGrammarStep() {
                   Icons.chat_bubble_outline,
                   color: Colors.blue.shade400,
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   child: Text(
                     example as String,
@@ -765,26 +834,24 @@ Widget buildGrammarStep() {
           );
         }),
 
-
-        const SizedBox(height: 20),
-
         if (textExamples.isNotEmpty) ...[
+          const SizedBox(height: 20),
           const Text(
             'Examples from the text',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 8),
-
-         ...textExamples.map((example) {
+          const SizedBox(height: 12),
+          ...textExamples.map((example) {
             return Container(
               width: double.infinity,
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: Colors.orange.shade50,
-                border: Border.all(
-                  color: Colors.orange.shade100,
-                ),
+                border: Border.all(color: Colors.orange.shade100),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Row(
@@ -794,9 +861,7 @@ Widget buildGrammarStep() {
                     Icons.article_outlined,
                     color: Colors.orange.shade400,
                   ),
-
                   const SizedBox(width: 12),
-
                   Expanded(
                     child: Text(
                       example as String,
@@ -810,13 +875,27 @@ Widget buildGrammarStep() {
               ),
             );
           }),
-
-          const SizedBox(height: 20),
         ],
+
+        const SizedBox(height: 24),
 
         const Text(
           'Practice',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        Text(
+          grammar['instruction'] as String? ??
+              'Use the correct word to complete each sentence.',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
 
         const SizedBox(height: 12),
@@ -824,29 +903,60 @@ Widget buildGrammarStep() {
         ...List.generate(practice.length, (index) {
           final question = practice[index];
 
+          final learnerAnswer =
+              (grammarAnswers[index] ?? '').trim().toLowerCase();
+
+          final correctAnswer =
+              question['answer'].toString().trim().toLowerCase();
+
+          final isCorrect = learnerAnswer == correctAnswer;
+
           return Card(
-            margin: const EdgeInsets.only(bottom: 14),
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    question['sentence'] as String,
-                    style: const TextStyle(fontSize: 16),
+                    '${index + 1}. ${question['sentence']}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                    ),
                   ),
-                  const SizedBox(height: 8),
 
-                TextField(
-                  enabled: !grammarSubmitted,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Write your answer',
+                  const SizedBox(height: 12),
+
+                  TextField(
+                    enabled: !grammarSubmitted,
+                    decoration:
+                      buildAnswerInputDecoration('Missing word(s) only'),
+                    onChanged: (value) {
+                      grammarAnswers[index] = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    grammarAnswers[index] = value;
-                  },
-                ),
+
+                  if (grammarSubmitted) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      isCorrect
+                          ? 'Correct'
+                          : 'Incorrect. Correct answer: ${question['answer']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isCorrect
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -863,7 +973,10 @@ Widget buildGrammarStep() {
         ] else ...[
           Text(
             'You got $grammarScore / ${practice.length} correct.',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(

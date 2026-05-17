@@ -49,145 +49,203 @@ final lesson1 = {
     },
   ],
 
-  // Vocabulary
-  'vocabulary': [
-    {
-      'word': 'opportunities',
-      'meaning': 'chances to do something good or successful',
-    },
-    {
-      'word': 'communicate',
-      'meaning': 'to share information, thoughts, or feelings with others',
-    },
-    {
-      'word': 'traditions',
-      'meaning':
-          'beliefs or ways of doing things that are passed from one generation to another',
-    },
-    {
-      'word': 'rewarding',
-      'meaning':
-          'making you feel happy or satisfied because something is worthwhile',
-    },
-    {
-      'word': 'successfully',
-      'meaning': 'in a good or effective way',
-    },
-    {
-      'word': 'confidence',
-      'meaning': 'the feeling of believing in yourself',
-    },
-    {
-      'word': 'increasingly',
-      'meaning': 'more and more over time',
-    },
-    {
-      'word': 'connect',
-      'meaning': 'to join or communicate with people',
-    },
-  ],
-
-  // Vocabulary Practice
-  'vocabularyQuestions': [
-    {
-      'sentence':
-          'Speaking clearly can help students ______ with people from other countries.',
-      'answer': 'communicate',
-    },
-    {
-      'sentence':
-          'Many schools are using technology ______ more in the classroom.',
-      'answer': 'increasingly',
-    },
-    {
-      'sentence':
-          'Learning a new skill can be difficult, but it is often very ______.',
-      'answer': 'rewarding',
-    },
-    {
-      'sentence':
-          'Students feel more ______ when they practise speaking English every day.',
-      'answer': 'confidence',
-    },
-    {
-      'sentence':
-          'Festivals are important ______ in many cultures around the world.',
-      'answer': 'traditions',
-    },
-    {
-      'sentence':
-          'Good exam results can create new ______ for young people.',
-      'answer': 'opportunities',
-    },
-    {
-      'sentence':
-          'Mei answered all the questions ______ during the interview.',
-      'answer': 'successfully',
-    },
-    {
-      'sentence':
-          'Social media allows teenagers to ______ with friends around the world.',
-      'answer': 'connect',
-    },
-  ],
-
-  // Grammar
-  'grammar': {
-    'title': 'Question words',
-
-    'use':
-        'We use question words to ask for specific information.',
-
-    'form':
-        'Question word + auxiliary verb + subject + main verb',
-
-    'examples': [
-      'Why do students learn English?',
-      'Where is English used?',
-      'How can languages help people?',
-    ],
-
-        'textExamples': [
-      'People learn languages for many different reasons.',
-      'Why do people learn languages?',
-      'English is used in many international companies, airports, hotels, and universities around the world.',
-      'Where is English used?',
-      'Some teenagers learn languages so they can speak to online friends from different countries.',
-      'Who do some teenagers want to speak to?',
-      'Teachers believe that language learning also improves memory, confidence, and problem-solving skills.',
-      'What does language learning improve?',
-      'Speaking more than one language is becoming increasingly useful.',
-      'What is becoming increasingly useful?',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            '______ do many people learn English for work and travel?',
-        'answer': 'Why',
-      },
-      {
-        'sentence':
-            '______ can students understand when they learn another language?',
-        'answer': 'What',
-      },
-      {
-        'sentence':
-            '______ is English used around the world?',
-        'answer': 'Where',
-      },
-      {
-        'sentence':
-            '______ do teenagers speak to online in different countries?',
-        'answer': 'Who',
-      },
-      {
-        'sentence':
-            '______ is learning a language becoming more useful today?',
-        'answer': 'Why',
-      },
-    ],
+// Vocabulary
+'vocabulary': [
+  {
+    'word': 'opportunities',
+    'partOfSpeech': 'n',
+    'meaning': 'chances to do something good or successful',
   },
+  {
+    'word': 'communicate',
+    'partOfSpeech': 'v',
+    'meaning': 'to share information, thoughts, or feelings with others',
+  },
+  {
+    'word': 'traditions',
+    'partOfSpeech': 'n',
+    'meaning':
+        'beliefs or ways of doing things that are passed from one generation to another',
+  },
+  {
+    'word': 'rewarding',
+    'partOfSpeech': 'adj',
+    'meaning':
+        'making you feel happy or satisfied because something is worthwhile',
+  },
+  {
+    'word': 'successfully',
+    'partOfSpeech': 'adv',
+    'meaning': 'in a good or effective way',
+  },
+  {
+    'word': 'confidence',
+    'partOfSpeech': 'n',
+    'meaning': 'the feeling of believing in yourself',
+  },
+  {
+    'word': 'increasingly',
+    'partOfSpeech': 'adv',
+    'meaning': 'more and more over time',
+  },
+  {
+    'word': 'connect',
+    'partOfSpeech': 'v',
+    'meaning': 'to join or communicate with people',
+  },
+],
+
+// Vocabulary Practice
+'vocabularyQuestions': [
+  {
+    'sentence':
+        'Speaking clearly can help students ______ with people from other countries.',
+    'options': [
+      'traditions',
+      'confidence',
+      'communicate',
+      'rewarding',
+    ],
+    'answer': 'communicate',
+  },
+  {
+    'sentence':
+        'Many schools are using technology ______ more in the classroom.',
+    'options': [
+      'successfully',
+      'confidence',
+      'connect',
+      'increasingly',
+    ],
+    'answer': 'increasingly',
+  },
+  {
+    'sentence':
+        'Learning a new skill can be difficult, but it is often very ______.',
+    'options': [
+      'traditions',
+      'communicate',
+      'rewarding',
+      'opportunities',
+    ],
+    'answer': 'rewarding',
+  },
+  {
+    'sentence':
+        'Students feel more ______ when they practise speaking English every day.',
+    'options': [
+      'connect',
+      'successfully',
+      'confidence',
+      'traditions',
+    ],
+    'answer': 'confidence',
+  },
+  {
+    'sentence':
+        'Festivals are important ______ in many cultures around the world.',
+    'options': [
+      'opportunities',
+      'communicate',
+      'rewarding',
+      'traditions',
+    ],
+    'answer': 'traditions',
+  },
+  {
+    'sentence':
+        'Good exam results can create new ______ for young people.',
+    'options': [
+      'confidence',
+      'opportunities',
+      'successfully',
+      'connect',
+    ],
+    'answer': 'opportunities',
+  },
+  {
+    'sentence':
+        'Mei answered all the questions ______ during the interview.',
+    'options': [
+      'rewarding',
+      'traditions',
+      'communicate',
+      'successfully',
+    ],
+    'answer': 'successfully',
+  },
+  {
+    'sentence':
+        'Social media allows teenagers to ______ with friends around the world.',
+    'options': [
+      'confidence',
+      'connect',
+      'opportunities',
+      'increasingly',
+    ],
+    'answer': 'connect',
+  },
+],
+// Grammar
+'grammar': {
+  'title': 'Question words',
+
+  'instruction':
+      'Use the correct question word to complete each question.',
+
+  'use':
+      'We use question words to ask for specific information.',
+
+  'form':
+      'Question word + auxiliary verb + subject + main verb',
+
+  'examples': [
+    'Why do students learn English?',
+    'Where is English used?',
+    'How can languages help people?',
+  ],
+
+  'textExamples': [
+    'People learn languages for many different reasons.',
+    'Why do people learn languages?',
+    'English is used in many international companies, airports, hotels, and universities around the world.',
+    'Where is English used?',
+    'Some teenagers learn languages so they can speak to online friends from different countries.',
+    'Who do some teenagers want to speak to?',
+    'Teachers believe that language learning also improves memory, confidence, and problem-solving skills.',
+    'What does language learning improve?',
+    'Speaking more than one language is becoming increasingly useful.',
+    'What is becoming increasingly useful?',
+  ],
+
+  'practice': [
+    {
+      'sentence':
+          '______ do many people learn English for work and travel?',
+      'answer': 'Why',
+    },
+    {
+      'sentence':
+          '______ can students understand when they learn another language?',
+      'answer': 'What',
+    },
+    {
+      'sentence':
+          '______ is English used around the world?',
+      'answer': 'Where',
+    },
+    {
+      'sentence':
+          '______ do teenagers speak to online in different countries?',
+      'answer': 'Who',
+    },
+    {
+      'sentence':
+          '______ is learning a language becoming more useful today?',
+      'answer': 'Why',
+    },
+  ],
+},
 
   // Comprehension
   'comprehension': [

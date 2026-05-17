@@ -55,145 +55,202 @@ final lesson2 = {
     },
   ],
 
-  // Vocabulary
-  'vocabulary': [
-    {
-      'word': 'programme',
-      'meaning': 'a radio or television show',
-    },
-    {
-      'word': 'describe',
-      'meaning': 'to say what something is like',
-    },
-    {
-      'word': 'expressions',
-      'meaning':
-          'words or phrases people use to communicate ideas or feelings',
-    },
-    {
-      'word': 'politeness',
-      'meaning':
-          'behaviour that shows good manners and respect',
-    },
-    {
-      'word': 'greeting',
-      'meaning': 'saying hello to someone',
-    },
-    {
-      'word': 'culture',
-      'meaning':
-          'the ideas, customs, and way of life of a group of people',
-    },
-    {
-      'word': 'communicate',
-      'meaning':
-          'to share information or ideas with others',
-    },
-    {
-      'word': 'understand',
-      'meaning':
-          'to know the meaning of something',
-    },
-  ],
-
-  // Vocabulary Practice
-  'vocabularyQuestions': [
-    {
-      'sentence':
-          'Different countries have different ways of showing ______ to other people.',
-      'answer': 'politeness',
-    },
-    {
-      'sentence':
-          'Teachers use simple examples to help students ______ new ideas.',
-      'answer': 'understand',
-    },
-    {
-      'sentence':
-          'The television ______ talked about music from around the world.',
-      'answer': 'programme',
-    },
-    {
-      'sentence':
-          'Smiling and waving are common ways of ______ someone.',
-      'answer': 'greeting',
-    },
-    {
-      'sentence':
-          'People use facial ______ to show emotions such as happiness or surprise.',
-      'answer': 'expressions',
-    },
-    {
-      'sentence':
-          'Learning about another country’s ______ can help people respect each other.',
-      'answer': 'culture',
-    },
-    {
-      'sentence':
-          'Mobile phones make it easier for people to ______ with family and friends.',
-      'answer': 'communicate',
-    },
-    {
-      'sentence':
-          'Can you ______ what this word means in English?',
-      'answer': 'describe',
-    },
-  ],
-
-  // Grammar
-  'grammar': {
-    'title': 'Conjunctions: although, while, whereas',
-
-    'use':
-        'We use conjunctions to connect ideas and compare information.',
-
-    'form':
-        'Although + clause, + clause / Clause + while + clause / Clause + whereas + clause',
-
-    'examples': [
-      'Although the words are different, they describe the same food.',
-      'In France, people say “bonjour,” while in Japan they often say “konnichiwa.”',
-      'In Britain, people say “chips,” whereas Americans usually say “fries.”',
-    ],
-
-    'textExamples': [
-      'People say “hello,” although in Spanish people usually say “hola.”',
-      'In France, people say “bonjour,” while in Japan they often say “konnichiwa.”',
-      'In Britain, people say “chips,” whereas Americans usually say “fries.”',
-      'People often bow slightly while greeting someone.',
-      'Languages may sound very different, although they all help people communicate ideas, feelings, and culture.',
-      'In many English-speaking countries people usually shake hands, whereas in Korea people often bow slightly.',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            'In Malaysia, many people speak Malay, ______ others also speak English and Chinese.',
-        'answer': 'while',
-      },
-      {
-        'sentence':
-            'Some students enjoy reading books, ______ others prefer watching videos online.',
-        'answer': 'whereas',
-      },
-      {
-        'sentence':
-            '______ learning a language can be difficult, many students enjoy it.',
-        'answer': 'Although',
-      },
-      {
-        'sentence':
-            'In some countries people eat rice every day, ______ in others bread is more common.',
-        'answer': 'whereas',
-      },
-      {
-        'sentence':
-            'Teenagers often use emojis ______ chatting with friends online.',
-        'answer': 'while',
-      },
-    ],
+// Vocabulary
+'vocabulary': [
+  {
+    'word': 'programme',
+    'partOfSpeech': 'n',
+    'meaning': 'a radio or television show',
   },
+  {
+    'word': 'describe',
+    'partOfSpeech': 'v',
+    'meaning': 'to say what something is like',
+  },
+  {
+    'word': 'expressions',
+    'partOfSpeech': 'n',
+    'meaning':
+        'words or phrases people use to communicate ideas or feelings',
+  },
+  {
+    'word': 'politeness',
+    'partOfSpeech': 'n',
+    'meaning':
+        'behaviour that shows good manners and respect',
+  },
+  {
+    'word': 'greeting',
+    'partOfSpeech': 'n',
+    'meaning': 'saying hello to someone',
+  },
+  {
+    'word': 'culture',
+    'partOfSpeech': 'n',
+    'meaning':
+        'the ideas, customs, and way of life of a group of people',
+  },
+  {
+    'word': 'communicate',
+    'partOfSpeech': 'v',
+    'meaning':
+        'to share information or ideas with others',
+  },
+  {
+    'word': 'understand',
+    'partOfSpeech': 'v',
+    'meaning':
+        'to know the meaning of something',
+  },
+],
 
+// Vocabulary Practice
+'vocabularyQuestions': [
+  {
+    'sentence':
+        'Different countries have different ways of showing ______ to other people.',
+    'options': [
+      'programme',
+      'describe',
+      'politeness',
+      'understand',
+    ],
+    'answer': 'politeness',
+  },
+  {
+    'sentence':
+        'Teachers use simple examples to help students ______ new ideas.',
+    'options': [
+      'culture',
+      'greeting',
+      'understand',
+      'expressions',
+    ],
+    'answer': 'understand',
+  },
+  {
+    'sentence':
+        'The television ______ talked about music from around the world.',
+    'options': [
+      'communicate',
+      'describe',
+      'programme',
+      'politeness',
+    ],
+    'answer': 'programme',
+  },
+  {
+    'sentence':
+        'Smiling and waving are common ways of ______ someone.',
+    'options': [
+      'understand',
+      'culture',
+      'programme',
+      'greeting',
+    ],
+    'answer': 'greeting',
+  },
+  {
+    'sentence':
+        'People use facial ______ to show emotions such as happiness or surprise.',
+    'options': [
+      'communicate',
+      'expressions',
+      'describe',
+      'politeness',
+    ],
+    'answer': 'expressions',
+  },
+  {
+    'sentence':
+        'Learning about another country’s ______ can help people respect each other.',
+    'options': [
+      'programme',
+      'understand',
+      'culture',
+      'greeting',
+    ],
+    'answer': 'culture',
+  },
+  {
+    'sentence':
+        'Mobile phones make it easier for people to ______ with family and friends.',
+    'options': [
+      'expressions',
+      'describe',
+      'communicate',
+      'politeness',
+    ],
+    'answer': 'communicate',
+  },
+  {
+    'sentence':
+        'Can you ______ what this word means in English?',
+    'options': [
+      'culture',
+      'describe',
+      'greeting',
+      'programme',
+    ],
+    'answer': 'describe',
+  },
+],
+// Grammar
+'grammar': {
+  'title': 'Conjunctions: although, while, whereas',
+
+  'instruction':
+      'Use the correct conjunction to complete each sentence.',
+
+  'use':
+      'We use conjunctions to connect ideas and compare information.',
+
+  'form':
+      'Although + clause, + clause / Clause + while + clause / Clause + whereas + clause',
+
+  'examples': [
+    'Although the words are different, they describe the same food.',
+    'In France, people say “bonjour,” while in Japan they often say “konnichiwa.”',
+    'In Britain, people say “chips,” whereas Americans usually say “fries.”',
+  ],
+
+  'textExamples': [
+    'People say “hello,” although in Spanish people usually say “hola.”',
+    'In France, people say “bonjour,” while in Japan they often say “konnichiwa.”',
+    'In Britain, people say “chips,” whereas Americans usually say “fries.”',
+    'People often bow slightly while greeting someone.',
+    'Languages may sound very different, although they all help people communicate ideas, feelings, and culture.',
+    'In many English-speaking countries people usually shake hands, whereas in Korea people often bow slightly.',
+  ],
+
+  'practice': [
+    {
+      'sentence':
+          'In Malaysia, many people speak Malay, ______ others also speak English and Chinese.',
+      'answer': 'while',
+    },
+    {
+      'sentence':
+          'Some students enjoy reading books, ______ others prefer watching videos online.',
+      'answer': 'whereas',
+    },
+    {
+      'sentence':
+          '______ learning a language can be difficult, many students enjoy it.',
+      'answer': 'Although',
+    },
+    {
+      'sentence':
+          'In some countries people eat rice every day, ______ in others bread is more common.',
+      'answer': 'whereas',
+    },
+    {
+      'sentence':
+          'Teenagers often use emojis ______ chatting with friends online.',
+      'answer': 'while',
+    },
+  ],
+},
   // Comprehension
   'comprehension': [
     {
