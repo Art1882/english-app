@@ -257,57 +257,67 @@ final lesson3 = {
     },
   ],
 },
-  // Comprehension
-  'comprehension': [
-    {
-      'question':
-          'According to the text, experts say that a large part of communication is:',
-      'options': [
-        'non-verbal',
-        'spoken',
-      ],
-      'answer': 'non-verbal',
-    },
-    {
-      'question':
-          'Why are some passengers looking at their phones at the train station?',
-      'options': [
+// Comprehension
+'comprehension': [
+  {
+    'question':
+        'According to the text, experts say that a large part of communication is:',
+    'options': [
+      'spoken',
+      'written',
+      'non-verbal',
+      'formal',
+    ],
+    'answer': 'non-verbal',
+  },
+  {
+    'question':
+        'Why are some passengers looking at their phones at the train station?',
+    'options': [
+      'They are reading the news',
+      'They are studying for exams',
+      'They are buying food',
+      'They are feeling nervous or impatient',
+    ],
+    'answer':
         'They are feeling nervous or impatient',
-        'They are reading the news',
-      ],
-      'answer':
-          'They are feeling nervous or impatient',
-    },
-    {
-      'question':
-          'In many Western countries, why do people make eye contact?',
-      'options': [
+  },
+  {
+    'question':
+        'In many Western countries, why do people make eye contact?',
+    'options': [
+      'To show anger',
+      'To avoid speaking',
+      'To show confidence and interest',
+      'To ask for help',
+    ],
+    'answer':
         'To show confidence and interest',
-        'To show anger',
-      ],
-      'answer':
-          'To show confidence and interest',
-    },
-    {
-      'question':
-          'What are teenagers using to express emotions online?',
-      'options': [
+  },
+  {
+    'question':
+        'What are teenagers using to express emotions online?',
+    'options': [
+      'Books and letters',
+      'Emojis, photos, and videos',
+      'Maps and posters',
+      'Newspapers and magazines',
+    ],
+    'answer':
         'Emojis, photos, and videos',
-        'Books and letters',
-      ],
-      'answer':
-          'Emojis, photos, and videos',
-    },
-    {
-      'question':
-          'What can understanding non-verbal communication help people do?',
-      'options': [
-        'Avoid misunderstandings',
-        'Travel more easily',
-      ],
-      'answer': 'Avoid misunderstandings',
-    },
-  ],
+  },
+  {
+    'question':
+        'What can understanding non-verbal communication help people do?',
+    'options': [
+      'Travel more easily',
+      'Learn maths faster',
+      'Avoid misunderstandings',
+      'Become famous online',
+    ],
+    'answer': 'Avoid misunderstandings',
+  },
+],
 
   // Short Answer
   'shortAnswerQuestions': [

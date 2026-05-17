@@ -256,58 +256,67 @@ final lesson4 = {
     },
   ],
 },
-  // Comprehension
-  'comprehension': [
-    {
-      'question':
-          'Which activity is mentioned as a common online habit for teenagers?',
-      'options': [
-        'sharing photos',
-        'writing books',
-      ],
-      'answer': 'sharing photos',
-    },
-    {
-      'question':
-          'Why do many young people prefer sending messages?',
-      'options': [
+// Comprehension
+'comprehension': [
+  {
+    'question':
+        'Which activity is mentioned as a common online habit for teenagers?',
+    'options': [
+      'writing books',
+      'sharing photos',
+      'cooking meals',
+      'driving cars',
+    ],
+    'answer': 'sharing photos',
+  },
+  {
+    'question':
+        'Why do many young people prefer sending messages?',
+    'options': [
+      'It helps improve handwriting',
+      'It uses less electricity',
+      'It is faster and easier than making phone calls',
+      'It avoids using the internet',
+    ],
+    'answer':
         'It is faster and easier than making phone calls',
-        'It helps improve handwriting',
-      ],
-      'answer':
-          'It is faster and easier than making phone calls',
-    },
-    {
-      'question':
-          'What can make studying difficult for some students?',
-      'options': [
+  },
+  {
+    'question':
+        'What can make studying difficult for some students?',
+    'options': [
+      'watching films',
+      'reading books',
+      'playing sports',
+      'notifications appearing on their screens',
+    ],
+    'answer':
         'notifications appearing on their screens',
-        'watching films',
-      ],
-      'answer':
-          'notifications appearing on their screens',
-    },
-    {
-      'question':
-          'Which activity is helping students learn in new ways?',
-      'options': [
-        'researching information',
-        'shopping online',
-      ],
-      'answer': 'researching information',
-    },
-    {
-      'question':
-          'According to experts, what is important for a healthy lifestyle?',
-      'options': [
+  },
+  {
+    'question':
+        'Which activity is helping students learn in new ways?',
+    'options': [
+      'shopping online',
+      'watching advertisements',
+      'researching information',
+      'playing computer games all night',
+    ],
+    'answer': 'researching information',
+  },
+  {
+    'question':
+        'According to experts, what is important for a healthy lifestyle?',
+    'options': [
+      'avoiding technology completely',
+      'balancing online and offline activities',
+      'using social media all day',
+      'sleeping less often',
+    ],
+    'answer':
         'balancing online and offline activities',
-        'avoiding technology completely',
-      ],
-      'answer':
-          'balancing online and offline activities',
-    },
-  ],
-
+  },
+],
   // Short Answer
   'shortAnswerQuestions': [
     {

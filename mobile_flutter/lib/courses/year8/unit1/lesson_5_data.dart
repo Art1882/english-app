@@ -260,58 +260,67 @@ final lesson5 = {
     },
   ],
 },
-  // Comprehension
-  'comprehension': [
-    {
-      'question':
-          'What are social media and online communities giving young people?',
-      'options': [
+// Comprehension
+'comprehension': [
+  {
+    'question':
+        'What are social media and online communities giving young people?',
+    'options': [
+      'more homework',
+      'fewer friendships',
+      'new ways to express themselves',
+      'less technology',
+    ],
+    'answer':
         'new ways to express themselves',
-        'more homework',
-      ],
-      'answer':
-          'new ways to express themselves',
-    },
-    {
-      'question':
-          'What do blogs and video channels allow users to do?',
-      'options': [
-        'discuss important topics',
-        'avoid communication',
-      ],
-      'answer': 'discuss important topics',
-    },
-    {
-      'question':
-          'What may online communication provide for some students?',
-      'options': [
+  },
+  {
+    'question':
+        'What do blogs and video channels allow users to do?',
+    'options': [
+      'avoid communication',
+      'stop using social media',
+      'travel around the world',
+      'discuss important topics',
+    ],
+    'answer': 'discuss important topics',
+  },
+  {
+    'question':
+        'What may online communication provide for some students?',
+    'options': [
+      'money and success',
+      'confidence and independence',
+      'better eyesight',
+      'fewer responsibilities',
+    ],
+    'answer':
         'confidence and independence',
-        'money and success',
-      ],
-      'answer':
-          'confidence and independence',
-    },
-    {
-      'question':
-          'Why are schools encouraging students to think carefully before posting online?',
-      'options': [
+  },
+  {
+    'question':
+        'Why are schools encouraging students to think carefully before posting online?',
+    'options': [
+      'because technology is expensive',
+      'because students dislike computers',
+      'because comments can cause misunderstanding or conflict',
+      'because online videos are too long',
+    ],
+    'answer':
         'because comments can cause misunderstanding or conflict',
-        'because technology is expensive',
-      ],
-      'answer':
-          'because comments can cause misunderstanding or conflict',
-    },
-    {
-      'question':
-          'What may too much pressure from social media lead to?',
-      'options': [
-        'stress or insecurity',
-        'happiness and motivation',
-      ],
-      'answer': 'stress or insecurity',
-    },
-  ],
-
+  },
+  {
+    'question':
+        'What may too much pressure from social media lead to?',
+    'options': [
+      'happiness and motivation',
+      'better communication skills',
+      'stress or insecurity',
+      'stronger friendships',
+    ],
+    'answer': 'stress or insecurity',
+  },
+],
   // Short Answer
   'shortAnswerQuestions': [
     {

@@ -988,6 +988,7 @@ Widget buildGrammarStep() {
     ),
   );
 }
+
 Widget buildComprehensionStep() {
   final questions = data['comprehension'] as List;
   final shortQuestions = data['shortAnswerQuestions'] as List? ?? [];
@@ -997,35 +998,34 @@ Widget buildComprehensionStep() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          buildLessonSectionHeader(
-            stepNumber: 4,
-            totalSteps: 4,
-            title: 'Comprehension',
-          ),
-        const Text(
-          'Comprehension',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        buildLessonSectionHeader(
+          stepNumber: 4,
+          totalSteps: 4,
+          title: 'Comprehension',
         ),
-        const SizedBox(height: 12),
 
-          if (data['imagePath'] != null) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                data['imagePath'] as String,
-                height: 220,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+        const SizedBox(height: 20),
+
+        if (data['imagePath'] != null) ...[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              data['imagePath'] as String,
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 20),
-          ],
+          ),
+          const SizedBox(height: 20),
+        ],
 
-          if (inputType == 'listening') ...[
+        if (inputType == 'listening') ...[
           const Text(
             'Listen to the audio again before answering the questions.',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 16),
           ElevatedButton(
@@ -1035,8 +1035,10 @@ Widget buildComprehensionStep() {
         ] else ...[
           const Text(
             'Read the text again before answering the questions.',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 16),
           Text(
@@ -1053,26 +1055,43 @@ Widget buildComprehensionStep() {
 
         const Text(
           'Multiple Choice',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+
         const SizedBox(height: 12),
 
         ...List.generate(questions.length, (index) {
           final question = questions[index];
           final options = question['options'] as List;
 
+          final isCorrect =
+              comprehensionAnswers[index] == question['answer'];
+
           return Card(
-            margin: const EdgeInsets.only(bottom: 14),
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '${index + 1}. ${question['question']}',
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                    ),
                   ),
+
                   const SizedBox(height: 8),
+
                   ...options.map((option) {
                     return RadioListTile<String>(
                       title: Text(option),
@@ -1087,51 +1106,106 @@ Widget buildComprehensionStep() {
                             },
                     );
                   }),
+
+                  if (comprehensionSubmitted) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      isCorrect
+                          ? 'Correct'
+                          : 'Incorrect. Correct answer: ${question['answer']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isCorrect
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
           );
         }),
 
-         const SizedBox(height: 30),
+        const SizedBox(height: 24),
 
         if (shortQuestions.isNotEmpty) ...[
           const Text(
             'Short Answer Questions',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+
           const SizedBox(height: 12),
 
           ...List.generate(shortQuestions.length, (index) {
             final question = shortQuestions[index];
 
+            final learnerAnswer =
+                (shortAnswers[index] ?? '').trim().toLowerCase();
+
+            final correctAnswer =
+                question['answer'].toString().trim().toLowerCase();
+
+            final isCorrect = learnerAnswer == correctAnswer;
+
             return Card(
-              margin: const EdgeInsets.only(bottom: 14),
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '${index + 1}. ${question['question']}',
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
                     ),
-                    const SizedBox(height: 8),
+
+                    const SizedBox(height: 12),
+
                     TextField(
                       enabled: !shortAnswersSubmitted,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Write your answer',
-                      ),
+                      decoration:
+                          buildAnswerInputDecoration('Missing word(s) only'),
                       onChanged: (value) {
                         shortAnswers[index] = value;
                       },
                     ),
+
+                    if (shortAnswersSubmitted) ...[
+                      const SizedBox(height: 10),
+                      Text(
+                        isCorrect
+                            ? 'Correct'
+                            : 'Incorrect. Correct answer: ${question['answer']}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: isCorrect
+                              ? Colors.green
+                              : Colors.orange,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
             );
           }),
+        ],
+
+        const SizedBox(height: 12),
 
         if (!comprehensionSubmitted) ...[
           ElevatedButton(
@@ -1139,7 +1213,6 @@ Widget buildComprehensionStep() {
             child: const Text('Submit comprehension answers'),
           ),
         ] else ...[
-          const SizedBox(height: 20),
           Text(
             'You got $comprehensionScore / 10 correct.',
             style: const TextStyle(
@@ -1147,14 +1220,9 @@ Widget buildComprehensionStep() {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: nextStep,
-            child: const Text('Continue'),
-          ),
-        ],
-        ] else ...[
-          const SizedBox(height: 20),
+
           ElevatedButton(
             onPressed: nextStep,
             child: const Text('Continue'),

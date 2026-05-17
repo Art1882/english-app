@@ -247,52 +247,62 @@ final lesson1 = {
   ],
 },
 
-  // Comprehension
-  'comprehension': [
-    {
-      'question': 'Why do some people learn English for work?',
-      'options': [
-        'Because English is used in many international companies',
-        'Because English is easier than other languages',
-      ],
-      'answer': 'Because English is used in many international companies',
-    },
-    {
-      'question': 'Why do some teenagers learn languages?',
-      'options': [
-        'To speak to online friends from different countries',
-        'To avoid homework',
-      ],
-      'answer': 'To speak to online friends from different countries',
-    },
-    {
-      'question':
-          'What can learning a language help people understand better?',
-      'options': [
-        'Different cultures and traditions',
-        'Science and maths',
-      ],
-      'answer': 'Different cultures and traditions',
-    },
-    {
-      'question':
-          'How do students often feel when they successfully use another language?',
-      'options': [
-        'Proud',
-        'Confused',
-      ],
-      'answer': 'Proud',
-    },
-    {
-      'question':
-          'According to teachers, language learning improves:',
-      'options': [
-        'memory, confidence, and problem-solving skills',
-        'speed and fitness',
-      ],
-      'answer': 'memory, confidence, and problem-solving skills',
-    },
-  ],
+// Comprehension
+'comprehension': [
+  {
+    'question': 'Why do some people learn English for work?',
+    'options': [
+      'Because English is easier than other languages',
+      'Because English is used in many international companies',
+      'Because English has fewer grammar rules',
+      'Because English is only spoken in Europe',
+    ],
+    'answer': 'Because English is used in many international companies',
+  },
+  {
+    'question': 'Why do some teenagers learn languages?',
+    'options': [
+      'To avoid homework',
+      'To become famous online',
+      'To speak to online friends from different countries',
+      'To stop using technology',
+    ],
+    'answer': 'To speak to online friends from different countries',
+  },
+  {
+    'question':
+        'What can learning a language help people understand better?',
+    'options': [
+      'Science and maths',
+      'Computer programming',
+      'Different cultures and traditions',
+      'Sports competitions',
+    ],
+    'answer': 'Different cultures and traditions',
+  },
+  {
+    'question':
+        'How do students often feel when they successfully use another language?',
+    'options': [
+      'Confused',
+      'Angry',
+      'Bored',
+      'Proud',
+    ],
+    'answer': 'Proud',
+  },
+  {
+    'question':
+        'According to teachers, language learning improves:',
+    'options': [
+      'speed and fitness',
+      'memory, confidence, and problem-solving skills',
+      'drawing and painting skills',
+      'muscle strength',
+    ],
+    'answer': 'memory, confidence, and problem-solving skills',
+  },
+],
 
   // Short Answer
   'shortAnswerQuestions': [

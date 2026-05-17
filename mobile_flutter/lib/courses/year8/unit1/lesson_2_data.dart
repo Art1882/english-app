@@ -251,55 +251,64 @@ final lesson2 = {
     },
   ],
 },
-  // Comprehension
-  'comprehension': [
-    {
-      'question':
-          'What do people usually say in Spanish instead of “hello”?',
-      'options': [
-        'hola',
-        'bonjour',
-      ],
-      'answer': 'hola',
-    },
-    {
-      'question':
-          'In France, people often say:',
-      'options': [
-        'bonjour',
-        'konnichiwa',
-      ],
-      'answer': 'bonjour',
-    },
-    {
-      'question':
-          'What word do Americans usually use instead of “chips”?',
-      'options': [
-        'fries',
-        'crisps',
-      ],
-      'answer': 'fries',
-    },
-    {
-      'question':
-          'What do people often do while greeting someone in Korea?',
-      'options': [
-        'bow slightly',
-        'hug',
-      ],
-      'answer': 'bow slightly',
-    },
-    {
-      'question':
-          'According to the programme, languages help people communicate:',
-      'options': [
-        'ideas, feelings, and culture',
-        'sports and games',
-      ],
-      'answer': 'ideas, feelings, and culture',
-    },
-  ],
-
+// Comprehension
+'comprehension': [
+  {
+    'question':
+        'What do people usually say in Spanish instead of “hello”?',
+    'options': [
+      'bonjour',
+      'fries',
+      'hola',
+      'goodbye',
+    ],
+    'answer': 'hola',
+  },
+  {
+    'question':
+        'In France, people often say:',
+    'options': [
+      'konnichiwa',
+      'hola',
+      'thank you',
+      'bonjour',
+    ],
+    'answer': 'bonjour',
+  },
+  {
+    'question':
+        'What word do Americans usually use instead of “chips”?',
+    'options': [
+      'crisps',
+      'fries',
+      'rice',
+      'biscuits',
+    ],
+    'answer': 'fries',
+  },
+  {
+    'question':
+        'What do people often do while greeting someone in Korea?',
+    'options': [
+      'hug',
+      'wave both hands',
+      'bow slightly',
+      'jump',
+    ],
+    'answer': 'bow slightly',
+  },
+  {
+    'question':
+        'According to the programme, languages help people communicate:',
+    'options': [
+      'sports and games',
+      'weather and traffic',
+      'homework answers',
+      'ideas, feelings, and culture',
+    ],
+    'answer': 'ideas, feelings, and culture',
+  },
+],
   // Short Answer
   'shortAnswerQuestions': [
     {
