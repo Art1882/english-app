@@ -7,6 +7,7 @@ final lesson3 = {
 
     //Beta save
   'lessonId': 'unit1_lesson3',
+  'unitTitle': 'Unit 1',
 
   // Completion
   'completionText':
@@ -23,36 +24,41 @@ final lesson3 = {
       'Technology is changing communication as well. Teenagers are using emojis, photos, and videos to express emotions online. Although they are not speaking face-to-face, they are still sharing feelings and ideas.\n\n'
       'Understanding non-verbal communication can help people avoid misunderstandings and communicate more successfully with others.',
 
-  'inputQuestions': [
-    {
-      'question': 'What is the main topic of the text?',
-      'options': [
-        'Different train stations around the world',
-        'How people communicate without words',
-      ],
-      'answer': 'How people communicate without words',
-    },
-    {
-      'question':
-          'Which example does the text use to show non-verbal communication?',
-      'options': [
-        'A busy train station',
-        'A sports centre',
-      ],
-      'answer': 'A busy train station',
-    },
-    {
-      'question':
-          'What does the writer say about technology and communication?',
-      'options': [
+ 'inputQuestions': [
+  {
+    'question': 'What is the main topic of the text?',
+    'options': [
+      'Different train stations around the world',
+      'How technology is changing transport',
+      'How people communicate without words',
+      'Why eye contact is dangerous',
+    ],
+    'answer': 'How people communicate without words',
+  },
+  {
+    'question':
+        'Which example does the text use to show non-verbal communication?',
+    'options': [
+      'A sports centre',
+      'A school classroom',
+      'A busy train station',
+      'An airport restaurant',
+    ],
+    'answer': 'A busy train station',
+  },
+  {
+    'question':
+        'What does the writer say about technology and communication?',
+    'options': [
+      'Technology is stopping communication',
+      'Technology is helping people share feelings online',
+      'Technology is only useful for adults',
+      'Technology is making people forget languages',
+    ],
+    'answer':
         'Technology is helping people share feelings online',
-        'Technology is stopping communication',
-      ],
-      'answer':
-          'Technology is helping people share feelings online',
-    },
-  ],
-
+  },
+],
 // Vocabulary
 'vocabulary': [
   {

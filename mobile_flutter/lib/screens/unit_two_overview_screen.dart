@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../courses/year8/input_lesson_screen.dart';
+import '../courses/year8/unit2/lesson_1_data.dart';
+
 class UnitTwoOverviewScreen extends StatefulWidget {
   const UnitTwoOverviewScreen({super.key});
 
@@ -15,7 +18,6 @@ class _UnitTwoOverviewScreenState
   bool lesson2Complete = false;
   bool lesson3Complete = false;
   bool lesson4Complete = false;
-  bool lesson5Complete = false;
   bool unitTestComplete = false;
 
   @override
@@ -30,19 +32,12 @@ class _UnitTwoOverviewScreenState
     setState(() {
       lesson1Complete =
           prefs.getBool('unit2_lesson1_complete') ?? false;
-
       lesson2Complete =
           prefs.getBool('unit2_lesson2_complete') ?? false;
-
       lesson3Complete =
           prefs.getBool('unit2_lesson3_complete') ?? false;
-
       lesson4Complete =
           prefs.getBool('unit2_lesson4_complete') ?? false;
-
-      lesson5Complete =
-          prefs.getBool('unit2_lesson5_complete') ?? false;
-
       unitTestComplete =
           prefs.getBool('unit2_test_complete') ?? false;
     });
@@ -69,7 +64,7 @@ class _UnitTwoOverviewScreenState
             const SizedBox(height: 6),
 
             const Text(
-              'Placeholder unit title',
+              'The World Around Us',
               style: TextStyle(fontSize: 18),
             ),
 
@@ -77,37 +72,31 @@ class _UnitTwoOverviewScreenState
 
             buildLessonCard(
               title: 'Lesson 1',
-              subtitle: 'Placeholder lesson',
+              subtitle: 'Everyday Objects',
               complete: lesson1Complete,
             ),
 
             buildLessonCard(
               title: 'Lesson 2',
-              subtitle: 'Placeholder lesson',
+              subtitle: 'Imagining Different Worlds',
               complete: lesson2Complete,
             ),
 
             buildLessonCard(
               title: 'Lesson 3',
-              subtitle: 'Placeholder lesson',
+              subtitle: 'Amazing Buildings',
               complete: lesson3Complete,
             ),
 
             buildLessonCard(
               title: 'Lesson 4',
-              subtitle: 'Placeholder lesson',
+              subtitle: 'Building a Better Future',
               complete: lesson4Complete,
             ),
 
             buildLessonCard(
-              title: 'Lesson 5',
-              subtitle: 'Placeholder lesson',
-              complete: lesson5Complete,
-            ),
-
-            buildLessonCard(
               title: 'Unit Review',
-              subtitle: 'Placeholder review',
+              subtitle: 'The World Around Us review',
               complete: unitTestComplete,
               isTest: true,
             ),
@@ -136,7 +125,33 @@ class _UnitTwoOverviewScreenState
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () {
+        onTap: () async {
+          if (complete) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'You have already completed this lesson.',
+                ),
+              ),
+            );
+            return;
+          }
+
+          if (title == 'Lesson 1') {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InputLessonScreen(
+                  data: lesson1,
+                ),
+              ),
+            );
+
+            await loadProgress();
+
+            return;
+          }
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text(

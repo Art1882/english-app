@@ -6,6 +6,7 @@ final lesson2 = {
 
     //Beta save
   'lessonId': 'unit1_lesson2',
+  'unitTitle': 'Unit 1',
 
   // Completion
   'completionText':
@@ -24,37 +25,43 @@ final lesson2 = {
       'Languages may sound very different, although they all help people communicate ideas, feelings, and culture. Learning another language can help us understand people from other countries better.\n\n'
       'So next time you hear a new language, remember that people around the world often say the same thing in many different ways!',
 
-  'inputQuestions': [
-    {
-      'question': 'What is the main topic of the programme?',
-      'options': [
+'inputQuestions': [
+  {
+    'question':
+        'What is the main topic of the programme?',
+    'options': [
+      'Different foods around the world',
+      'Why students dislike languages',
+      'Different ways people say the same thing in different languages',
+      'How to travel to different countries',
+    ],
+    'answer':
         'Different ways people say the same thing in different languages',
-        'Different foods around the world',
-      ],
-      'answer':
-          'Different ways people say the same thing in different languages',
-    },
-    {
-      'question':
-          'Which example does the presenter use to explain greetings in different languages?',
-      'options': [
-        'hello',
-        'goodbye',
-      ],
-      'answer': 'hello',
-    },
-    {
-      'question':
-          'What does the presenter say about learning another language?',
-      'options': [
+  },
+  {
+    'question':
+        'Which example does the presenter use to explain greetings in different languages?',
+    'options': [
+      'goodbye',
+      'thank you',
+      'hello',
+      'good night',
+    ],
+    'answer': 'hello',
+  },
+  {
+    'question':
+        'What does the presenter say about learning another language?',
+    'options': [
+      'It is too difficult for most people',
+      'It helps people understand others better',
+      'It is only important in schools',
+      'It is only useful for travel',
+    ],
+    'answer':
         'It helps people understand others better',
-        'It is only useful for travel',
-      ],
-      'answer':
-          'It helps people understand others better',
-    },
-  ],
-
+  },
+],
 // Vocabulary
 'vocabulary': [
   {

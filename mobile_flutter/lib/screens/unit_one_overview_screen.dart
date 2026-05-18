@@ -134,6 +134,19 @@ class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () async {
+          await loadProgress();
+
+          if (complete) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'You have already completed this lesson.',
+                ),
+              ),
+            );
+            return;
+          }
+
           await Navigator.push(
             context,
             MaterialPageRoute(
@@ -141,7 +154,7 @@ class _UnitOneOverviewScreenState extends State<UnitOneOverviewScreen> {
             ),
           );
 
-          loadProgress();
+          await loadProgress();
         },
         child: Padding(
           padding: const EdgeInsets.all(18),

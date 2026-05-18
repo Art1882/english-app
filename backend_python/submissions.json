@@ -60,5 +60,109 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-17 18:09"
+    },
+    {
+        "student": "Coco",
+        "class": "Y8",
+        "lesson": "Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 2,
+            "vocabularyScore": 1,
+            "grammarScore": 2,
+            "comprehensionScore": 1
+        },
+        "responses": {
+            "inputAnswers": {
+                "2": "It is becoming increasingly useful",
+                "1": "English",
+                "0": "How to travel around the world"
+            },
+            "vocabularyAnswers": {
+                "0": "rewarding",
+                "1": "connect",
+                "2": "opportunities",
+                "3": "traditions",
+                "4": "traditions",
+                "5": "successfully",
+                "6": "communicate",
+                "7": "opportunities"
+            },
+            "grammarAnswers": {
+                "0": "Why",
+                "1": "What",
+                "2": "Who",
+                "3": "When",
+                "4": "Where"
+            },
+            "comprehensionAnswers": {
+                "0": "Because English is used in many international companies",
+                "1": "To become famous online",
+                "2": "Computer programming",
+                "3": "Bored",
+                "4": "muscle strength"
+            },
+            "shortAnswers": {
+                "0": "dsdf",
+                "1": "dfd",
+                "2": "dffd",
+                "3": "dfdf",
+                "4": "fdd"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-18 08:06"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Lesson 1: Everyday Objects?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 1,
+            "vocabularyScore": 0,
+            "grammarScore": 0,
+            "comprehensionScore": 3
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Why everyday objects are important",
+                "1": "Famous inventions and machines",
+                "2": "They are becoming more expensive"
+            },
+            "vocabularyAnswers": {
+                "0": "communicate",
+                "1": "messages",
+                "2": "comfort",
+                "3": "containers",
+                "4": "ordinary",
+                "5": "carry",
+                "6": "comfortable",
+                "7": "comfortable"
+            },
+            "grammarAnswers": {
+                "0": "ede",
+                "1": "eeded",
+                "2": "eded",
+                "3": "edede",
+                "4": "deed"
+            },
+            "comprehensionAnswers": {
+                "0": "A piece of paper with homework",
+                "1": "Coffee",
+                "2": "To reduce waste",
+                "3": "Bars of soap",
+                "4": "Sleep and relax"
+            },
+            "shortAnswers": {
+                "0": "edde",
+                "1": "eddded",
+                "2": "ded",
+                "3": "dede",
+                "4": "ddee"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-18 08:43"
     }
 ]

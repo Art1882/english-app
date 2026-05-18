@@ -6,6 +6,7 @@ final lesson4 = {
 
     //Beta save
   'lessonId': 'unit1_lesson4',
+  'unitTitle': 'Unit 1',
 
   // Completion
   'completionText':
@@ -25,36 +26,42 @@ final lesson4 = {
       'Although technology offers many advantages, experts believe that balancing online and offline activities is important. Spending time outdoors, exercising regularly, and meeting people face-to-face are still necessary for a healthy lifestyle.\n\n'
       'So next time you go online, think carefully about how you are using technology and whether it is improving your daily life.',
 
-  'inputQuestions': [
-    {
-      'question': 'What is the main topic of the programme?',
-      'options': [
+'inputQuestions': [
+  {
+    'question': 'What is the main topic of the programme?',
+    'options': [
+      'Why students dislike homework',
+      'How people use technology and communicate online',
+      'How teenagers play sports',
+      'Why schools should ban phones',
+    ],
+    'answer':
         'How people use technology and communicate online',
-        'How teenagers play sports',
-      ],
-      'answer':
-          'How people use technology and communicate online',
-    },
-    {
-      'question':
-          'What does the presenter say about online learning?',
-      'options': [
-        'It is becoming more popular',
-        'It is only useful for adults',
-      ],
-      'answer': 'It is becoming more popular',
-    },
-    {
-      'question':
-          'What does the presenter suggest at the end of the programme?',
-      'options': [
+  },
+  {
+    'question':
+        'What does the presenter say about online learning?',
+    'options': [
+      'It is only useful for adults',
+      'It is becoming less common',
+      'It is becoming more popular',
+      'It is replacing all schools',
+    ],
+    'answer': 'It is becoming more popular',
+  },
+  {
+    'question':
+        'What does the presenter suggest at the end of the programme?',
+    'options': [
+      'People should stop using technology completely',
+      'People should spend all their time online',
+      'Technology should only be used in schools',
+      'People should think carefully about how they use technology',
+    ],
+    'answer':
         'People should think carefully about how they use technology',
-        'People should stop using technology completely',
-      ],
-      'answer':
-          'People should think carefully about how they use technology',
-    },
-  ],
+  },
+],
 // Vocabulary
 'vocabulary': [
   {

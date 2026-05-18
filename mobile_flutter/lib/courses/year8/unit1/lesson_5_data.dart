@@ -6,6 +6,7 @@ final lesson5 = {
 
     //Beta save
   'lessonId': 'unit1_lesson5',
+  'unitTitle': 'Unit 1',
 
   // Completion
   'completionText':
@@ -24,37 +25,43 @@ final lesson5 = {
       'Online communication can also influence identity. Teenagers are often exploring different interests, friendships, and communities while they are growing up. Positive online experiences can create happiness, inspiration, and motivation. At the same time, too much pressure from social media may lead to stress or insecurity.\n\n'
       'Although technology continues to change communication, understanding, kindness, and honesty remain important in every conversation.',
 
-  'inputQuestions': [
-    {
-      'question': 'What is the main topic of the article?',
-      'options': [
+'inputQuestions': [
+  {
+    'question': 'What is the main topic of the article?',
+    'options': [
+      'How to create video channels online',
+      'Why teenagers should avoid the internet',
+      'How teenagers communicate and express themselves online',
+      'Why schools should stop online communication',
+    ],
+    'answer':
         'How teenagers communicate and express themselves online',
-        'How to create video channels online',
-      ],
-      'answer':
-          'How teenagers communicate and express themselves online',
-    },
-    {
-      'question':
-          'What does the writer say about online communication for teenagers?',
-      'options': [
+  },
+  {
+    'question':
+        'What does the writer say about online communication for teenagers?',
+    'options': [
+      'It only creates problems',
+      'It gives teenagers new ways to express ideas and identity',
+      'It is only useful for adults',
+      'It stops teenagers from having interests',
+    ],
+    'answer':
         'It gives teenagers new ways to express ideas and identity',
-        'It only creates problems',
-      ],
-      'answer':
-          'It gives teenagers new ways to express ideas and identity',
-    },
-    {
-      'question':
-          'What does the article suggest is still important in communication?',
-      'options': [
+  },
+  {
+    'question':
+        'What does the article suggest is still important in communication?',
+    'options': [
+      'Fame and popularity',
+      'Speed and technology',
+      'Understanding, kindness, and honesty',
+      'Photos and videos',
+    ],
+    'answer':
         'Understanding, kindness, and honesty',
-        'Fame and popularity',
-      ],
-      'answer':
-          'Understanding, kindness, and honesty',
-    },
-  ],
+  },
+],
 
 // Vocabulary
 'vocabulary': [
