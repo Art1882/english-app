@@ -14,7 +14,7 @@ final lesson2 = {
   
   // Input
   'inputType': 'listening',
-  'audioPath': 'audio/lesson_2_audio.mp3',
+  'audioPath': 'audio/unit1_lesson2_audio.mp3',
   'imagePath': 'assets/images/unit1_lesson2.png',
 
   'input':

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../courses/year8/input_lesson_screen.dart';
 import '../courses/year8/unit2/lesson_1_data.dart';
+import '../courses/year8/unit2/lesson_2_data.dart';
 
 class UnitTwoOverviewScreen extends StatefulWidget {
   const UnitTwoOverviewScreen({super.key});
@@ -137,29 +138,29 @@ class _UnitTwoOverviewScreenState
             return;
           }
 
-          if (title == 'Lesson 1') {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => InputLessonScreen(
-                  data: lesson1,
-                ),
-              ),
-            );
-
-            await loadProgress();
-
-            return;
-          }
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Unit 2 lessons coming soon',
+        if (title == 'Lesson 2') {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InputLessonScreen(
+                data: lesson2,
               ),
             ),
           );
-        },
+
+          await loadProgress();
+
+          return;
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Unit 2 lessons coming soon',
+            ),
+          ),
+        );
+      },
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Row(

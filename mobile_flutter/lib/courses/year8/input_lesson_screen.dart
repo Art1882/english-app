@@ -70,6 +70,36 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     });
   }
 
+  String normaliseAnswer(String value) {
+    return value
+        .trim()
+        .toLowerCase()
+        .replaceAll('’', "'")
+        .replaceAll("didn't", "did not")
+        .replaceAll("wouldn't", "would not")
+        .replaceAll("couldn't", "could not")
+        .replaceAll("shouldn't", "should not")
+        .replaceAll("can't", "cannot")
+        .replaceAll(RegExp(r'\s+'), ' ');
+  }
+
+  bool isFlexibleMatch(String learner, String correct) {
+    final learnerText = normaliseAnswer(learner);
+    final correctText = normaliseAnswer(correct);
+
+    if (learnerText == correctText) return true;
+
+    if (correctText.contains(learnerText) && learnerText.length >= 4) {
+      return true;
+    }
+
+    if (learnerText.contains(correctText) && correctText.length >= 4) {
+      return true;
+    }
+
+    return false;
+  }
+
   InputDecoration buildAnswerInputDecoration(String label) {
     return InputDecoration(
       labelText: label,
@@ -189,10 +219,8 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     int score = 0;
 
     for (int i = 0; i < questions.length; i++) {
-      final correctAnswer =
-          (questions[i]['answer'] as String).trim().toLowerCase();
-      final learnerAnswer =
-          (vocabularyAnswers[i] ?? '').trim().toLowerCase();
+      final correctAnswer = normaliseAnswer(questions[i]['answer'] as String);
+      final learnerAnswer = normaliseAnswer(vocabularyAnswers[i] ?? '');
 
       if (learnerAnswer == correctAnswer) {
         score++;
@@ -217,13 +245,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     int score = 0;
 
     for (int i = 0; i < practice.length; i++) {
-      final correctAnswer =
-          (practice[i]['answer'] as String).trim().toLowerCase();
+      final correctAnswer = practice[i]['answer'] as String;
+      final learnerAnswer = grammarAnswers[i] ?? '';
 
-      final learnerAnswer =
-          (grammarAnswers[i] ?? '').trim().toLowerCase();
-
-      if (learnerAnswer == correctAnswer) {
+      if (isFlexibleMatch(learnerAnswer, correctAnswer)) {
         score++;
       }
     }
@@ -252,12 +277,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     }
 
     for (int i = 0; i < shortQuestions.length; i++) {
-      final correctAnswer =
-          (shortQuestions[i]['answer'] as String).trim().toLowerCase();
+      final correctAnswer = shortQuestions[i]['answer'] as String;
+      final learnerAnswer = shortAnswers[i] ?? '';
 
-      final learnerAnswer = (shortAnswers[i] ?? '').trim().toLowerCase();
-
-      if (learnerAnswer == correctAnswer) {
+      if (isFlexibleMatch(learnerAnswer, correctAnswer)) {
         score++;
       }
     }
@@ -323,7 +346,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
       body: jsonEncode({
         "student": studentName,
         "class": studentClass,
-        "lesson":'${data['unitTitle']} - ${data['appBarTitle']}',
+        "lesson": '${data['unitTitle']} - ${data['appBarTitle']}',
         "activity": "Lesson completed",
         "answer": {
           "inputScore": inputScore,
@@ -894,13 +917,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
         ...List.generate(practice.length, (index) {
           final question = practice[index];
 
-          final learnerAnswer =
-              (grammarAnswers[index] ?? '').trim().toLowerCase();
-
-          final correctAnswer =
-              question['answer'].toString().trim().toLowerCase();
-
-          final isCorrect = learnerAnswer == correctAnswer;
+          final isCorrect = isFlexibleMatch(
+            grammarAnswers[index] ?? '',
+            question['answer'].toString(),
+          );
 
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
@@ -1070,13 +1090,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
           ...List.generate(shortQuestions.length, (index) {
             final question = shortQuestions[index];
 
-            final learnerAnswer =
-                (shortAnswers[index] ?? '').trim().toLowerCase();
-
-            final correctAnswer =
-                question['answer'].toString().trim().toLowerCase();
-
-            final isCorrect = learnerAnswer == correctAnswer;
+            final isCorrect = isFlexibleMatch(
+              shortAnswers[index] ?? '',
+              question['answer'].toString(),
+            );
 
             return Card(
               margin: const EdgeInsets.only(bottom: 16),
@@ -1100,8 +1117,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
                     const SizedBox(height: 12),
                     TextField(
                       enabled: !shortAnswersSubmitted,
-                      decoration:
-                          buildAnswerInputDecoration('Short answer'),
+                      decoration: buildAnswerInputDecoration('Short answer'),
                       onChanged: (value) {
                         shortAnswers[index] = value;
                       },

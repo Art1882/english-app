@@ -199,7 +199,7 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${entry.key}: ',
+                    '${int.parse(entry.key.toString()) + 1}: ',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

@@ -164,5 +164,57 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-18 08:43"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 2 - Lesson 2: Everyday Objects",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 3,
+            "vocabularyScore": 8,
+            "grammarScore": 5,
+            "comprehensionScore": 8
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "What life would be like without everyday objects",
+                "1": "A world without everyday objects",
+                "2": "They can make life easier and more comfortable"
+            },
+            "vocabularyAnswers": {
+                "0": "environment",
+                "1": "habits",
+                "2": "communication",
+                "3": "stressful",
+                "4": "inventions",
+                "5": "arranging",
+                "6": "disappeared",
+                "7": "refrigerators"
+            },
+            "grammarAnswers": {
+                "0": "did not have",
+                "1": "would spend",
+                "2": "walked ",
+                "3": "bought",
+                "4": "would feel"
+            },
+            "comprehensionAnswers": {
+                "0": "completely lost",
+                "1": "read printed books and write by hand",
+                "2": "spend more time outdoors",
+                "3": "They would need to buy fresh food every day",
+                "4": "small changes in daily habits"
+            },
+            "shortAnswers": {
+                "0": "smartphone",
+                "1": "slower",
+                "2": "washing machine",
+                "3": "plastics",
+                "4": "the future"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-18 13:51"
     }
 ]
