@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../courses/year8/input_lesson_screen.dart';
+import '../courses/year8/unit_test_screen.dart';
 import '../courses/year8/unit2/lesson_1_data.dart';
 import '../courses/year8/unit2/lesson_2_data.dart';
+import '../courses/year8/unit2/lesson_3_data.dart';
+import '../courses/year8/unit2/lesson_4_data.dart';
+import '../courses/year8/unit2/unit_2_test_data.dart';
 
 class UnitTwoOverviewScreen extends StatefulWidget {
   const UnitTwoOverviewScreen({super.key});
@@ -126,17 +130,31 @@ class _UnitTwoOverviewScreenState
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () async {
-          if (complete) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'You have already completed this lesson.',
-                ),
+       onTap: () async {
+        if (complete) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'You have already completed this lesson.',
               ),
-            );
-            return;
-          }
+            ),
+          );
+          return;
+        }
+
+        if (title == 'Lesson 1') {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InputLessonScreen(
+                data: lesson1,
+              ),
+            ),
+          );
+
+          await loadProgress();
+          return;
+        }
 
         if (title == 'Lesson 2') {
           await Navigator.push(
@@ -149,7 +167,47 @@ class _UnitTwoOverviewScreenState
           );
 
           await loadProgress();
+          return;
+        }
 
+        if (title == 'Lesson 3') {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InputLessonScreen(
+                data: lesson3,
+              ),
+            ),
+          );
+
+          await loadProgress();
+          return;
+        }
+
+        if (title == 'Lesson 4') {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InputLessonScreen(
+                data: lesson4,
+              ),
+            ),
+          );
+
+          await loadProgress();
+          return;
+        }
+        if (title == 'Unit Review') {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UnitTestScreen(
+                data: unit2Test,
+              ),
+            ),
+          );
+
+          await loadProgress();
           return;
         }
 

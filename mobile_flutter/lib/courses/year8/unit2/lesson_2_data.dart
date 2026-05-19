@@ -325,32 +325,62 @@ final lesson2 = {
     },
   ],
 
-  // Short Answer
+// Short Answer
   'shortAnswerQuestions': [
     {
       'question':
           'What object do many teenagers use for communication every day?',
       'answer': 'phones',
+      'acceptedAnswers': [
+        'phone',
+        'mobile phones',
+        'smartphones',
+        'mobile phone',
+        'a phone',
+      ],
     },
     {
       'question':
           'What would communication become without instant messages?',
       'answer': 'much slower',
+      'acceptedAnswers': [
+        'slower',
+        'very slow',
+        'more difficult and slower',
+      ],
     },
     {
       'question':
           'What household machine helps people clean clothes?',
       'answer': 'washing machines',
+      'acceptedAnswers': [
+        'washing machine',
+        'washer',
+        'a washing machine',
+      ],
     },
     {
       'question':
           'What kind of products should people use fewer of to help the environment?',
       'answer': 'plastic products',
+      'acceptedAnswers': [
+        'plastic',
+        'plastic items',
+        'plastic objects',
+        'products made of plastic',
+      ],
     },
     {
       'question':
           'What do scientists believe small changes could improve?',
       'answer': 'the future of the planet',
+      'acceptedAnswers': [
+        'the planet',
+        'the future',
+        'the earth',
+        'the future of earth',
+        'the future of the earth',
+      ],
     },
   ],
 };

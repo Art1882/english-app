@@ -1,7 +1,9 @@
 final unit1Test = {
-  'title': 'Unit 1 Review Test',
+  'unitTitle': 'Unit 1',
 
-  //Save beta
+  'title': 'Unit 1 Review Test',
+  'backButtonText': 'Back to Unit 1',
+
   'testId': 'unit1_test',
   'imagePath': 'assets/images/unit1_review.png',
 

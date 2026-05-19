@@ -19,7 +19,7 @@ class UnitTestScreen extends StatefulWidget {
 
 class _UnitTestScreenState extends State<UnitTestScreen> {
   late final Map<String, dynamic> data;
-  
+
   final ScrollController scrollController = ScrollController();
 
   int step = 0;
@@ -51,17 +51,56 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
     });
   }
 
+  String normaliseAnswer(String value) {
+    return value
+        .trim()
+        .toLowerCase()
+        .replaceAll('’', "'")
+        .replaceAll(RegExp(r'\s+'), ' ');
+  }
+
+  bool allVocabularyQuestionsAnswered() {
+    final questions = data['vocabularyQuestions'] as List;
+
+    return vocabularyAnswers.length == questions.length;
+  }
+
+  bool allGrammarQuestionsAnswered() {
+    final questions = data['grammarQuestions'] as List;
+
+    for (int i = 0; i < questions.length; i++) {
+      if ((grammarAnswers[i] ?? '').trim().isEmpty) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  void showMissingAnswersMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please answer all questions before submitting.'),
+      ),
+    );
+  }
+
   void submitVocabularyAnswers() {
+    if (!allVocabularyQuestionsAnswered()) {
+      showMissingAnswersMessage();
+      return;
+    }
+
     final questions = data['vocabularyQuestions'] as List;
 
     int score = 0;
 
     for (int i = 0; i < questions.length; i++) {
       final correctAnswer =
-          (questions[i]['answer'] as String).trim().toLowerCase();
+          normaliseAnswer(questions[i]['answer'] as String);
 
       final learnerAnswer =
-          (vocabularyAnswers[i] ?? '').trim().toLowerCase();
+          normaliseAnswer(vocabularyAnswers[i] ?? '');
 
       if (learnerAnswer == correctAnswer) {
         score++;
@@ -75,16 +114,21 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
   }
 
   void submitGrammarAnswers() {
+    if (!allGrammarQuestionsAnswered()) {
+      showMissingAnswersMessage();
+      return;
+    }
+
     final questions = data['grammarQuestions'] as List;
 
     int score = 0;
 
     for (int i = 0; i < questions.length; i++) {
       final correctAnswer =
-          (questions[i]['answer'] as String).trim().toLowerCase();
+          normaliseAnswer(questions[i]['answer'] as String);
 
       final learnerAnswer =
-          (grammarAnswers[i] ?? '').trim().toLowerCase();
+          normaliseAnswer(grammarAnswers[i] ?? '');
 
       if (learnerAnswer == correctAnswer) {
         score++;
@@ -131,10 +175,13 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
       ),
     );
   }
+
   Future<void> saveTestComplete() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final testId = data['testId'] as String;
+    final testId =
+        data['testId'] as String? ?? data['lessonId'] as String? ?? 'unit_test';
+
     await prefs.setBool('${testId}_complete', true);
   }
 
@@ -147,13 +194,16 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
     final studentClass =
         prefs.getString('studentClass') ?? '8EAL';
 
+    final unitTitle = data['unitTitle'] as String? ?? 'Unit';
+    final testTitle = data['title'] as String? ?? 'Unit Test';
+
     await http.post(
       Uri.parse('$baseUrl/submit-activity'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         "student": studentName,
         "class": studentClass,
-        "lesson": data['title'] ?? 'Unit Test',
+        "lesson": '$unitTitle - $testTitle',
         "activity": "Unit review test completed",
         "answer": {
           "vocabularyScore": vocabularyScore,
@@ -172,56 +222,56 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
     );
   }
 
-Widget buildTestSectionHeader({
-  required int stepNumber,
-  required int totalSteps,
-  required String title,
-}) {
-  final double progressValue = stepNumber / totalSteps;
+  Widget buildTestSectionHeader({
+    required int stepNumber,
+    required int totalSteps,
+    required String title,
+  }) {
+    final double progressValue = stepNumber / totalSteps;
 
-  return Card(
-    color: Colors.purple.shade50,
-    elevation: 3,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(18),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Step $stepNumber of $totalSteps',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.purple,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          LinearProgressIndicator(
-            value: progressValue,
-            minHeight: 8,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ],
+    return Card(
+      color: Colors.purple.shade50,
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
       ),
-    ),
-  );
-}
-  Widget buildVocabularyTest() {
-  final questions = data['vocabularyQuestions'] as List;
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Step $stepNumber of $totalSteps',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.purple,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            LinearProgressIndicator(
+              value: progressValue,
+              minHeight: 8,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-  return SingleChildScrollView(
-    child: Column(
+  Widget buildVocabularyTest() {
+    final questions = data['vocabularyQuestions'] as List;
+
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildTestSectionHeader(
@@ -258,6 +308,9 @@ Widget buildTestSectionHeader({
         ...List.generate(questions.length, (index) {
           final question = questions[index];
           final options = question['options'] as List;
+
+          final isCorrect =
+              vocabularyAnswers[index] == question['answer'];
 
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
@@ -297,15 +350,15 @@ Widget buildTestSectionHeader({
 
                   if (vocabularySubmitted)
                     Text(
-                      vocabularyAnswers[index] == question['answer']
+                      isCorrect
                           ? 'Correct'
                           : 'Incorrect. Correct answer: ${question['answer']}',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: vocabularyAnswers[index] == question['answer']
+                        color: isCorrect
                             ? Colors.green
-                            : Colors.orange,
+                            : Colors.red,
                       ),
                     ),
                 ],
@@ -338,14 +391,13 @@ Widget buildTestSectionHeader({
           ),
         ],
       ],
-    ),
-  );
-}
-Widget buildGrammarTest() {
-  final questions = data['grammarQuestions'] as List;
+    );
+  }
 
-  return SingleChildScrollView(
-    child: Column(
+  Widget buildGrammarTest() {
+    final questions = data['grammarQuestions'] as List;
+
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildTestSectionHeader(
@@ -372,13 +424,10 @@ Widget buildGrammarTest() {
         ...List.generate(questions.length, (index) {
           final question = questions[index];
 
-          final learnerAnswer =
-              (grammarAnswers[index] ?? '').trim().toLowerCase();
-
-          final correctAnswer =
-              question['answer'].toString().trim().toLowerCase();
-
-          final isCorrect = learnerAnswer == correctAnswer;
+          final isCorrect = normaliseAnswer(
+                grammarAnswers[index] ?? '',
+              ) ==
+              normaliseAnswer(question['answer'].toString());
 
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
@@ -416,7 +465,7 @@ Widget buildGrammarTest() {
                   TextField(
                     enabled: !grammarSubmitted,
                     decoration:
-                      buildAnswerInputDecoration('Missing word(s) only'),
+                        buildAnswerInputDecoration('Missing word(s) only'),
                     onChanged: (value) {
                       grammarAnswers[index] = value;
                     },
@@ -434,7 +483,7 @@ Widget buildGrammarTest() {
                         fontWeight: FontWeight.bold,
                         color: isCorrect
                             ? Colors.green
-                            : Colors.orange,
+                            : Colors.red,
                       ),
                     ),
                   ],
@@ -468,9 +517,8 @@ Widget buildGrammarTest() {
           ),
         ],
       ],
-    ),
-  );
-}
+    );
+  }
 
   Widget buildResultsScreen() {
     final vocabQuestions = data['vocabularyQuestions'] as List;
@@ -480,101 +528,102 @@ Widget buildGrammarTest() {
     final totalQuestions =
         vocabQuestions.length + grammarQuestions.length;
 
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            data['title'] as String,
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          data['title'] as String? ?? 'Unit Test',
+          style: const TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.center,
+        ),
 
+        const SizedBox(height: 24),
+
+        if (data['imagePath'] != null) ...[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              data['imagePath'] as String,
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
           const SizedBox(height: 24),
-
-          if (data['imagePath'] != null) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                data['imagePath'] as String,
-                height: 220,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 24),
-          ],
-
-          Text(
-            'Vocabulary: $vocabularyScore / ${vocabQuestions.length}',
-            style: const TextStyle(fontSize: 18),
-          ),
-
-          Text(
-            'Grammar: $grammarScore / ${grammarQuestions.length}',
-            style: const TextStyle(fontSize: 18),
-          ),
-
-          const SizedBox(height: 16),
-
-          Text(
-            'Total: $totalScore / $totalQuestions',
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          ElevatedButton(
-            onPressed: () async {
-              await saveTestComplete();
-
-              try {
-                await saveTeacherTestSubmission();
-              } catch (e) {
-                print('Teacher test submission failed: $e');
-              }
-
-              if (!context.mounted) return;
-              Navigator.pop(context);
-            },
-            child: const Text('Back to Unit'),
-          ),
         ],
-      ),
+
+        Text(
+          'Vocabulary: $vocabularyScore / ${vocabQuestions.length}',
+          style: const TextStyle(fontSize: 18),
+        ),
+
+        Text(
+          'Grammar: $grammarScore / ${grammarQuestions.length}',
+          style: const TextStyle(fontSize: 18),
+        ),
+
+        const SizedBox(height: 16),
+
+        Text(
+          'Total: $totalScore / $totalQuestions',
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 30),
+
+        ElevatedButton(
+          onPressed: () async {
+            await saveTestComplete();
+
+            try {
+              await saveTeacherTestSubmission();
+            } catch (e) {
+              print('Teacher test submission failed: $e');
+            }
+
+            if (!context.mounted) return;
+            Navigator.pop(context);
+          },
+          child: Text(
+            data['backButtonText'] as String? ?? 'Back to Unit',
+          ),
+        ),
+      ],
     );
   }
-@override
-void dispose() {
-  scrollController.dispose();
-  super.dispose();
-}
 
-@override
-Widget build(BuildContext context) {
-  final title = data['title'] as String? ?? 'Unit Test';
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(title),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(24),
-      child: Center(
-        child: SizedBox(
-          width: 540,
-          child: SingleChildScrollView(
-            controller: scrollController,
-            child: getStep(),
+  @override
+  Widget build(BuildContext context) {
+    final title = data['title'] as String? ?? 'Unit Test';
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Center(
+          child: SizedBox(
+            width: 540,
+            child: SingleChildScrollView(
+              controller: scrollController,
+              child: getStep(),
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

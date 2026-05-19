@@ -45,7 +45,6 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
       prefs.getBool('unit2_lesson2_complete') ?? false,
       prefs.getBool('unit2_lesson3_complete') ?? false,
       prefs.getBool('unit2_lesson4_complete') ?? false,
-      prefs.getBool('unit2_lesson5_complete') ?? false,
       prefs.getBool('unit2_test_complete') ?? false,
     ].where((item) => item).length;
 
@@ -126,7 +125,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
 
             LearnerUnitCard(
               title: '📘 Unit 2',
-              subtitle: 'Placeholder unit title',
+              subtitle: 'The World Around Us',
               status: unit2Status,
               progressValue: getUnitProgressValue(unit2CompletedItems),
               onTap: () async {

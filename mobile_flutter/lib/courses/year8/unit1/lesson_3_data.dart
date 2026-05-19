@@ -325,33 +325,61 @@ final lesson3 = {
   },
 ],
 
-  // Short Answer
+// Short Answer
   'shortAnswerQuestions': [
     {
       'question':
           'What do people use every day besides words to communicate?',
       'answer':
           'Body language, facial expressions, and gestures',
+      'acceptedAnswers': [
+        'body language',
+        'facial expressions',
+        'gestures',
+        'body language and gestures',
+        'gestures and facial expressions',
+        'body language facial expressions and gestures',
+      ],
     },
     {
       'question':
           'What are some passengers doing when they meet friends or family members?',
       'answer': 'Smiling',
+      'acceptedAnswers': [
+        'smile',
+        'smiling at them',
+        'they are smiling',
+      ],
     },
     {
       'question':
           'What movement do people often use to say “yes”?',
       'answer': 'Nodding their heads',
+      'acceptedAnswers': [
+        'nodding',
+        'nodding their head',
+        'nod their heads',
+        'nodding heads',
+      ],
     },
     {
       'question':
           'In some cultures, too much eye contact is considered what?',
       'answer': 'Rude',
+      'acceptedAnswers': [
+        'impolite',
+        'disrespectful',
+      ],
     },
     {
       'question':
           'What are teenagers sharing online besides emotions?',
       'answer': 'Ideas',
+      'acceptedAnswers': [
+        'their ideas',
+        'thoughts',
+        'opinions',
+      ],
     },
   ],
 };

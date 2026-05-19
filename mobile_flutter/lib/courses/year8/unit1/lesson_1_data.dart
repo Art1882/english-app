@@ -311,32 +311,59 @@ final lesson1 = {
     'answer': 'memory, confidence, and problem-solving skills',
   },
 ],
-
-  // Short Answer
+// Short Answer
   'shortAnswerQuestions': [
     {
       'question': 'What do some people need English for?',
       'answer': 'work',
+      'acceptedAnswers': [
+        'their job',
+        'jobs',
+        'employment',
+        'working',
+      ],
     },
     {
       'question':
           'What do some learners enjoy watching in another language?',
       'answer': 'films',
+      'acceptedAnswers': [
+        'film',
+        'movies',
+        'movie',
+      ],
     },
     {
       'question':
           'What do students sometimes read in another language?',
       'answer': 'a text',
+      'acceptedAnswers': [
+        'text',
+        'texts',
+        'articles',
+        'stories',
+      ],
     },
     {
       'question':
           'What skill besides memory and confidence can language learning improve?',
       'answer': 'problem-solving skills',
+      'acceptedAnswers': [
+        'problem solving',
+        'problem-solving',
+        'solving problems',
+        'problem solving skills',
+      ],
     },
     {
       'question':
           'What kind of world does the text describe today?',
       'answer': 'a connected world',
+      'acceptedAnswers': [
+        'connected world',
+        'global world',
+        'modern connected world',
+      ],
     },
   ],
 };

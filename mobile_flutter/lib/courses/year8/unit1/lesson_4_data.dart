@@ -324,32 +324,62 @@ final lesson4 = {
         'balancing online and offline activities',
   },
 ],
-  // Short Answer
+// Short Answer
   'shortAnswerQuestions': [
     {
       'question':
           'What are many teenagers using to chat with friends?',
       'answer': 'the internet',
+      'acceptedAnswers': [
+        'internet',
+        'online platforms',
+        'social media',
+        'apps',
+      ],
     },
     {
       'question':
           'What is faster and easier than making phone calls?',
       'answer': 'sending messages',
+      'acceptedAnswers': [
+        'messages',
+        'texting',
+        'sending texts',
+        'sending text messages',
+      ],
     },
     {
       'question':
           'What are some students scrolling through before going to sleep?',
       'answer': 'social media',
+      'acceptedAnswers': [
+        'their social media',
+        'social media apps',
+        'instagram',
+        'tiktok',
+      ],
     },
     {
       'question':
           'What are some schools encouraging students to practise by recording?',
       'answer': 'speaking skills',
+      'acceptedAnswers': [
+        'speaking',
+        'their speaking',
+        'oral skills',
+        'communication skills',
+      ],
     },
     {
       'question':
           'What kind of activities should people balance with online activities?',
       'answer': 'offline activities',
+      'acceptedAnswers': [
+        'offline activity',
+        'real life activities',
+        'activities offline',
+        'face-to-face activities',
+      ],
     },
   ],
 };

@@ -216,5 +216,239 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-18 13:51"
+    },
+    {
+        "student": "Jerry",
+        "class": "Y8",
+        "lesson": "Unit 2 - Lesson 2: Everyday Objects",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 0,
+            "vocabularyScore": 3,
+            "grammarScore": 1,
+            "comprehensionScore": 5
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "How technology was invented",
+                "1": "A future with more robots",
+                "2": "They should all be replaced"
+            },
+            "vocabularyAnswers": {
+                "0": "environment",
+                "2": "stress",
+                "1": "arrangements",
+                "3": "ordinary",
+                "4": "routines",
+                "5": "arranging",
+                "6": "arranged",
+                "7": "refrigerators"
+            },
+            "grammarAnswers": {
+                "0": "did not have",
+                "1": "would spent",
+                "2": "walk",
+                "3": "buyed",
+                "4": "felt"
+            },
+            "comprehensionAnswers": {
+                "0": "confident",
+                "1": "read printed books and write by hand",
+                "2": "buy more technology",
+                "3": "They would need to buy fresh food every day",
+                "4": "building larger homes"
+            },
+            "shortAnswers": {
+                "0": "phones",
+                "1": "more difficult",
+                "2": "washing machnine",
+                "3": "plastic",
+                "4": "the future"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-19 09:02"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 2 - Lesson 2: Incredible Buildings Around the World",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 3,
+            "vocabularyScore": 8,
+            "grammarScore": 2,
+            "comprehensionScore": 7
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Incredible buildings and their features",
+                "1": "Because of their design or history",
+                "2": "They are becoming more environmentally friendly"
+            },
+            "vocabularyAnswers": {
+                "0": "stable",
+                "1": "recycling",
+                "2": "unusual",
+                "3": "environmentally",
+                "4": "earthquakes",
+                "5": "structure",
+                "6": "admired",
+                "7": "reflect"
+            },
+            "grammarAnswers": {
+                "0": "in",
+                "1": "from",
+                "2": "on",
+                "3": "on",
+                "4": "on"
+            },
+            "comprehensionAnswers": {
+                "0": "being the tallest building in the world",
+                "1": "because of its unique shape",
+                "2": "special safety systems",
+                "3": "fresh air",
+                "4": "creativity, culture, and technology"
+            },
+            "shortAnswers": {
+                "0": "Burj Khalifa",
+                "1": "views",
+                "2": "earthquakes",
+                "3": "saftey systems",
+                "4": "fresh air"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-19 13:28"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 2 - Lesson 4: Building a Better Future",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 2,
+            "vocabularyScore": 8,
+            "grammarScore": 3,
+            "comprehensionScore": 6
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Designing future cities and buildings",
+                "1": "They may become cleaner and quieter",
+                "2": "shopping and transport"
+            },
+            "vocabularyAnswers": {
+                "0": "automatically",
+                "1": "cooperation",
+                "2": "crowded",
+                "3": "convenient",
+                "4": "security",
+                "5": "stressful",
+                "6": "Architects",
+                "7": "communities"
+            },
+            "grammarAnswers": {
+                "0": "In",
+                "1": "For",
+                "2": "For",
+                "3": "In",
+                "4": "In"
+            },
+            "comprehensionAnswers": {
+                "0": "rooftop gardens and solar panels",
+                "1": "using electric transport and environmentally friendly technology",
+                "2": "architects and shopkeepers",
+                "3": "They improve people\u2019s health and happiness",
+                "4": "computers"
+            },
+            "shortAnswers": {
+                "0": "rooftop",
+                "2": "crowded",
+                "1": "water",
+                "3": "waste",
+                "4": "technology"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-19 14:24"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 2 - Unit 2 Review Test",
+        "activity": "Unit review test completed",
+        "answer": {
+            "vocabularyScore": 5,
+            "grammarScore": 0,
+            "totalScore": 5
+        },
+        "responses": {
+            "vocabularyAnswers": {
+                "0": "reusable",
+                "1": "inventions",
+                "2": "structures",
+                "3": "structure",
+                "4": "containers",
+                "5": "arranged",
+                "6": "structures",
+                "7": "stressful",
+                "8": "automatically",
+                "9": "Containers"
+            },
+            "grammarAnswers": {
+                "0": "s",
+                "1": "s",
+                "2": "s",
+                "3": "s",
+                "4": "s",
+                "5": "s",
+                "6": "s",
+                "7": "s",
+                "8": "s",
+                "9": "s"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-19 15:22"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit - Unit 1 Review Test",
+        "activity": "Unit review test completed",
+        "answer": {
+            "vocabularyScore": 3,
+            "grammarScore": 0,
+            "totalScore": 3
+        },
+        "responses": {
+            "vocabularyAnswers": {
+                "0": "communicate",
+                "1": "polite",
+                "2": "culture",
+                "3": "opportunities",
+                "4": "polite",
+                "5": "confidence",
+                "6": "express",
+                "7": "misunderstandings",
+                "8": "polite",
+                "9": "express"
+            },
+            "grammarAnswers": {
+                "0": "s",
+                "1": "s",
+                "2": "s",
+                "3": "s",
+                "4": "s",
+                "5": "s",
+                "6": "s",
+                "7": "s",
+                "8": "s",
+                "9": "s"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-19 15:24"
     }
 ]

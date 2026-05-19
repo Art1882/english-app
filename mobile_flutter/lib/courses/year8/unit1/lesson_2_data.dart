@@ -316,32 +316,55 @@ final lesson2 = {
     'answer': 'ideas, feelings, and culture',
   },
 ],
-  // Short Answer
-  'shortAnswerQuestions': [
-    {
-      'question':
-          'What do people often say in Japan when greeting someone?',
-      'answer': 'konnichiwa',
-    },
-    {
-      'question':
-          'What food do British people call “chips”?',
-      'answer': 'fries',
-    },
-    {
-      'question':
-          'What do people usually do in many English-speaking countries when greeting someone?',
-      'answer': 'shake hands',
-    },
-    {
-      'question':
-          'What can learning another language help people understand better?',
-      'answer': 'people from other countries',
-    },
-    {
-      'question':
-          'According to the presenter, what can languages help people communicate besides ideas and feelings?',
-      'answer': 'culture',
-    },
-  ],
+'shortAnswerQuestions': [
+  {
+    'question':
+        'What do people often say in Japan when greeting someone?',
+    'answer': 'konnichiwa',
+    'acceptedAnswers': [
+      'konnichiwa!',
+      'hello',
+    ],
+  },
+  {
+    'question':
+        'What food do British people call “chips”?',
+    'answer': 'fries',
+    'acceptedAnswers': [
+      'french fries',
+      'chips',
+    ],
+  },
+  {
+    'question':
+        'What do people usually do in many English-speaking countries when greeting someone?',
+    'answer': 'shake hands',
+    'acceptedAnswers': [
+      'shake hand',
+      'handshake',
+      'give a handshake',
+    ],
+  },
+  {
+    'question':
+        'What can learning another language help people understand better?',
+    'answer': 'people from other countries',
+    'acceptedAnswers': [
+      'other people',
+      'people from different countries',
+      'other cultures',
+      'different cultures',
+    ],
+  },
+  {
+    'question':
+        'According to the presenter, what can languages help people communicate besides ideas and feelings?',
+    'answer': 'culture',
+    'acceptedAnswers': [
+      'cultures',
+      'their culture',
+      'different cultures',
+    ],
+  },
+],
 };

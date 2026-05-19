@@ -334,29 +334,63 @@ final lesson5 = {
       'question':
           'What are many teenagers sharing online besides opinions?',
       'answer': 'photos and personal experiences',
+      'acceptedAnswers': [
+        'photos',
+        'personal experiences',
+        'pictures and experiences',
+        'photos and experiences',
+        'personal stories',
+      ],
     },
     {
       'question':
           'What do some students gain from online communication?',
       'answer': 'confidence and independence',
+      'acceptedAnswers': [
+        'confidence',
+        'independence',
+        'more confidence',
+        'confidence and freedom',
+      ],
     },
     {
       'question':
           'What can a single comment sometimes cause?',
       'answer':
           'misunderstanding, embarrassment, or conflict',
+      'acceptedAnswers': [
+        'misunderstanding',
+        'embarrassment',
+        'conflict',
+        'arguments',
+        'problems',
+      ],
     },
     {
       'question':
           'What are teenagers exploring while growing up?',
       'answer':
           'different interests, friendships, and communities',
+      'acceptedAnswers': [
+        'interests friendships and communities',
+        'different interests',
+        'friendships',
+        'communities',
+        'new interests and friendships',
+      ],
     },
     {
       'question':
           'What should remain important in every conversation?',
       'answer':
           'understanding, kindness, and honesty',
+      'acceptedAnswers': [
+        'understanding kindness and honesty',
+        'kindness',
+        'honesty',
+        'respect',
+        'being kind and honest',
+      ],
     },
   ],
 };

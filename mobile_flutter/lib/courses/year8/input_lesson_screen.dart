@@ -70,31 +70,63 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     });
   }
 
-  String normaliseAnswer(String value) {
+  String normaliseBasic(String value) {
     return value
-        .trim()
         .toLowerCase()
         .replaceAll('’', "'")
-        .replaceAll("didn't", "did not")
-        .replaceAll("wouldn't", "would not")
-        .replaceAll("couldn't", "could not")
-        .replaceAll("shouldn't", "should not")
-        .replaceAll("can't", "cannot")
-        .replaceAll(RegExp(r'\s+'), ' ');
+        .replaceAll('‘', "'")
+        .replaceAll('`', "'")
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
   }
 
-  bool isFlexibleMatch(String learner, String correct) {
-    final learnerText = normaliseAnswer(learner);
-    final correctText = normaliseAnswer(correct);
+  String normaliseGrammar(String value) {
+    return normaliseBasic(value)
+        .replaceAll("can't", 'cannot')
+        .replaceAll("won't", 'will not')
+        .replaceAll("n't", ' not')
+        .replaceAll("'re", ' are')
+        .replaceAll("'m", ' am')
+        .replaceAll("'s", ' is')
+        .replaceAll("'ve", ' have')
+        .replaceAll("'ll", ' will')
+        .replaceAll("'d", ' would')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+  }
 
-    if (learnerText == correctText) return true;
+  String normaliseShortAnswer(String value) {
+    return normaliseBasic(value)
+        .replaceFirst(RegExp(r'^(a|an|the) '), '')
+        .replaceFirst(RegExp(r's$'), '');
+  }
 
-    if (correctText.contains(learnerText) && learnerText.length >= 4) {
+  bool isGrammarAnswerCorrect(String learnerAnswer, String correctAnswer) {
+    return normaliseGrammar(learnerAnswer) ==
+        normaliseGrammar(correctAnswer);
+  }
+
+  bool isShortAnswerCorrect(
+    String learnerAnswer,
+    Map<String, dynamic> questionData,
+  ) {
+    final learner = normaliseShortAnswer(learnerAnswer);
+    final correct = normaliseShortAnswer(
+      questionData['answer']?.toString() ?? '',
+    );
+
+    if (learner == correct) {
       return true;
     }
 
-    if (learnerText.contains(correctText) && correctText.length >= 4) {
-      return true;
+    final acceptedAnswers = questionData['acceptedAnswers'];
+
+    if (acceptedAnswers is List) {
+      for (final acceptedAnswer in acceptedAnswers) {
+        if (learner == normaliseShortAnswer(acceptedAnswer.toString())) {
+          return true;
+        }
+      }
     }
 
     return false;
@@ -219,8 +251,8 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     int score = 0;
 
     for (int i = 0; i < questions.length; i++) {
-      final correctAnswer = normaliseAnswer(questions[i]['answer'] as String);
-      final learnerAnswer = normaliseAnswer(vocabularyAnswers[i] ?? '');
+      final correctAnswer = normaliseBasic(questions[i]['answer'] as String);
+      final learnerAnswer = normaliseBasic(vocabularyAnswers[i] ?? '');
 
       if (learnerAnswer == correctAnswer) {
         score++;
@@ -248,7 +280,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
       final correctAnswer = practice[i]['answer'] as String;
       final learnerAnswer = grammarAnswers[i] ?? '';
 
-      if (isFlexibleMatch(learnerAnswer, correctAnswer)) {
+      if (isGrammarAnswerCorrect(learnerAnswer, correctAnswer)) {
         score++;
       }
     }
@@ -277,10 +309,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     }
 
     for (int i = 0; i < shortQuestions.length; i++) {
-      final correctAnswer = shortQuestions[i]['answer'] as String;
       final learnerAnswer = shortAnswers[i] ?? '';
+      final questionData = Map<String, dynamic>.from(shortQuestions[i] as Map);
 
-      if (isFlexibleMatch(learnerAnswer, correctAnswer)) {
+      if (isShortAnswerCorrect(learnerAnswer, questionData)) {
         score++;
       }
     }
@@ -344,30 +376,30 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
       Uri.parse('$baseUrl/submit-activity'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        "student": studentName,
-        "class": studentClass,
-        "lesson": '${data['unitTitle']} - ${data['appBarTitle']}',
-        "activity": "Lesson completed",
-        "answer": {
-          "inputScore": inputScore,
-          "vocabularyScore": vocabularyScore,
-          "grammarScore": grammarScore,
-          "comprehensionScore": comprehensionScore,
+        'student': studentName,
+        'class': studentClass,
+        'lesson': '${data['unitTitle']} - ${data['appBarTitle']}',
+        'activity': 'Lesson completed',
+        'answer': {
+          'inputScore': inputScore,
+          'vocabularyScore': vocabularyScore,
+          'grammarScore': grammarScore,
+          'comprehensionScore': comprehensionScore,
         },
-        "responses": {
-          "inputAnswers": inputAnswers.map(
+        'responses': {
+          'inputAnswers': inputAnswers.map(
             (key, value) => MapEntry(key.toString(), value),
           ),
-          "vocabularyAnswers": vocabularyAnswers.map(
+          'vocabularyAnswers': vocabularyAnswers.map(
             (key, value) => MapEntry(key.toString(), value),
           ),
-          "grammarAnswers": grammarAnswers.map(
+          'grammarAnswers': grammarAnswers.map(
             (key, value) => MapEntry(key.toString(), value),
           ),
-          "comprehensionAnswers": comprehensionAnswers.map(
+          'comprehensionAnswers': comprehensionAnswers.map(
             (key, value) => MapEntry(key.toString(), value),
           ),
-          "shortAnswers": shortAnswers.map(
+          'shortAnswers': shortAnswers.map(
             (key, value) => MapEntry(key.toString(), value),
           ),
         },
@@ -917,7 +949,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
         ...List.generate(practice.length, (index) {
           final question = practice[index];
 
-          final isCorrect = isFlexibleMatch(
+          final isCorrect = isGrammarAnswerCorrect(
             grammarAnswers[index] ?? '',
             question['answer'].toString(),
           );
@@ -1090,9 +1122,9 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
           ...List.generate(shortQuestions.length, (index) {
             final question = shortQuestions[index];
 
-            final isCorrect = isFlexibleMatch(
+            final isCorrect = isShortAnswerCorrect(
               shortAnswers[index] ?? '',
-              question['answer'].toString(),
+              Map<String, dynamic>.from(question as Map),
             );
 
             return Card(

@@ -321,34 +321,62 @@ final lesson1 = {
           'Study, work, travel, and communicate',
     },
   ],
-
-  // Short Answer
+// Short Answer
   'shortAnswerQuestions': [
     {
       'question':
           'What is the writer carrying for lunch?',
       'answer': 'a bar of chocolate',
+      'acceptedAnswers': [
+        'bar of chocolate',
+        'chocolate',
+        'a chocolate bar',
+      ],
     },
     {
       'question':
           'What is inside the school bag besides homework?',
       'answer':
           'a bottle of water and packets of tissues',
+      'acceptedAnswers': [
+        'a bottle of water',
+        'packets of tissues',
+        'water and tissues',
+        'a water bottle and tissues',
+      ],
     },
     {
       'question':
           'What do families use to complete daily tasks?',
       'answer': 'useful items',
+      'acceptedAnswers': [
+        'items',
+        'objects',
+        'everyday objects',
+        'useful objects',
+      ],
     },
     {
       'question':
           'What kind of bottles are many teenagers carrying now?',
       'answer': 'reusable bottles',
+      'acceptedAnswers': [
+        'reusable bottle',
+        'water bottles',
+        'reusable water bottles',
+      ],
     },
     {
       'question':
           'What can everyday objects have on people’s lives?',
       'answer': 'a big effect',
+      'acceptedAnswers': [
+        'big effect',
+        'an effect',
+        'a large effect',
+        'a strong effect',
+        'an impact',
+      ],
     },
   ],
 };
