@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -762,60 +763,193 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     );
   }
 
-  Widget buildGrammarStep() {
-    final grammar = data['grammar'] as Map;
-    final examples = grammar['examples'] as List;
-    final textExamples = grammar['textExamples'] as List? ?? [];
-    final practice = grammar['practice'] as List;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildLessonSectionHeader(
-          stepNumber: 3,
-          totalSteps: 4,
-          title: 'Grammar',
+Widget buildGrammarStep() {
+  final grammar = data['grammar'] as Map;
+  final practice = grammar['practice'] as List;
+  final summary = grammar['summary'] as Map<String, dynamic>? ?? {};
+  final example = grammar['example'] as Map?;
+  final videoPath = data['grammarVideoPath'] as String?;
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      buildLessonSectionHeader(
+        stepNumber: 3,
+        totalSteps: 4,
+        title: 'Grammar',
+      ),
+
+      const SizedBox(height: 20),
+
+      Text(
+        grammar['title'] as String,
+        style: const TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
         ),
-        const SizedBox(height: 20),
-        Text(
-          grammar['title'] as String,
-          style: const TextStyle(
+      ),
+
+      const SizedBox(height: 20),
+
+      if (videoPath != null) ...[
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: VideoPlayer(
+              VideoPlayerController.asset(videoPath)
+                ..initialize()
+                ..setLooping(false)
+                ..play(),
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+      ],
+
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.purple.shade50,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.purple.shade100),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Summary',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.purple,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Text(
+              summary['grammarPoint'] ?? grammar['title'],
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'USE',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              summary['use'] ?? '',
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.5,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'FORM',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              summary['form'] ?? '',
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.7,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'EXAMPLES',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.orange,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            ...((summary['examples'] as List?) ?? []).map((item) {
+              return Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Text(
+                  item.toString(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    height: 1.5,
+                  ),
+                ),
+              );
+            }),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'REMEMBER',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              summary['remember'] ?? '',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                height: 1.5,
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      const SizedBox(height: 30),
+
+      if (example != null) ...[
+        const Text(
+          'Example',
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.blue.shade100),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Use',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                grammar['use'] as String,
-                style: const TextStyle(
-                  fontSize: 16,
-                  height: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
+
+        const SizedBox(height: 12),
+
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(16),
@@ -827,202 +961,151 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Form',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-              const SizedBox(height: 8),
               Text(
-                grammar['form'] as String,
+                example['sentence'] as String,
                 style: const TextStyle(
                   fontSize: 16,
+                  height: 1.5,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Text(
+                '→ ${example['answer']}',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
                   height: 1.5,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 24),
-        const Text(
-          'Examples',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
+
+        const SizedBox(height: 30),
+      ],
+
+      const Text(
+        'Practice',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
         ),
-        const SizedBox(height: 12),
-        ...examples.map((example) {
-          return Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.blue.shade100),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
+      ),
+
+      const SizedBox(height: 8),
+
+      Text(
+        grammar['instruction'] as String? ??
+            'Use the correct word to complete each sentence.',
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      const SizedBox(height: 16),
+
+      ...List.generate(practice.length, (index) {
+        final question = practice[index];
+
+        final isCorrect = isGrammarAnswerCorrect(
+          grammarAnswers[index] ?? '',
+          question['answer'].toString(),
+        );
+
+        return Card(
+          margin: const EdgeInsets.only(bottom: 16),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.chat_bubble_outline,
-                  color: Colors.blue.shade400,
+                Text(
+                  '${index + 1}. ${question['sentence']}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    height: 1.5,
+                  ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    example as String,
-                    style: const TextStyle(
-                      fontSize: 16,
+
+                if (question['question'] != null) ...[
+                  const SizedBox(height: 10),
+
+                  Text(
+                    question['question'] as String,
+                    style: TextStyle(
+                      fontSize: 15,
                       height: 1.5,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-        if (textExamples.isNotEmpty) ...[
-          const SizedBox(height: 20),
-          const Text(
-            'Examples from the text',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ...textExamples.map((example) {
-            return Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.orange.shade50,
-                border: Border.all(color: Colors.orange.shade100),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.article_outlined,
-                    color: Colors.orange.shade400,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      example as String,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 1.5,
-                      ),
+                      color: Colors.grey.shade700,
                     ),
                   ),
                 ],
-              ),
-            );
-          }),
-        ],
-        const SizedBox(height: 24),
-        const Text(
-          'Practice',
-          style: TextStyle(
-            fontSize: 22,
+
+                const SizedBox(height: 12),
+
+                TextField(
+                  enabled: !grammarSubmitted,
+                  decoration: buildAnswerInputDecoration(
+                    'Missing word(s) only',
+                  ),
+                  onChanged: (value) {
+                    grammarAnswers[index] = value;
+                  },
+                ),
+
+                if (grammarSubmitted) ...[
+                  const SizedBox(height: 10),
+
+                  Text(
+                    isCorrect
+                        ? 'Correct'
+                        : 'Incorrect. Correct answer: ${question['answer']}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: isCorrect ? Colors.green : Colors.red,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      }),
+
+      const SizedBox(height: 12),
+
+      if (!grammarSubmitted)
+        ElevatedButton(
+          onPressed: submitGrammarAnswers,
+          child: const Text('Submit grammar answers'),
+        )
+      else ...[
+        Text(
+          'You got $grammarScore / ${practice.length} correct.',
+          style: const TextStyle(
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          grammar['instruction'] as String? ??
-              'Use the correct word to complete each sentence.',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+
+        const SizedBox(height: 20),
+
+        ElevatedButton(
+          onPressed: nextStep,
+          child: const Text('Continue'),
         ),
-        const SizedBox(height: 12),
-        ...List.generate(practice.length, (index) {
-          final question = practice[index];
-
-          final isCorrect = isGrammarAnswerCorrect(
-            grammarAnswers[index] ?? '',
-            question['answer'].toString(),
-          );
-
-          return Card(
-            margin: const EdgeInsets.only(bottom: 16),
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${index + 1}. ${question['sentence']}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    enabled: !grammarSubmitted,
-                    decoration:
-                        buildAnswerInputDecoration('Missing word(s) only'),
-                    onChanged: (value) {
-                      grammarAnswers[index] = value;
-                    },
-                  ),
-                  if (grammarSubmitted) ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      isCorrect
-                          ? 'Correct'
-                          : 'Incorrect. Correct answer: ${question['answer']}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: isCorrect ? Colors.green : Colors.red,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          );
-        }),
-        const SizedBox(height: 12),
-        if (!grammarSubmitted)
-          ElevatedButton(
-            onPressed: submitGrammarAnswers,
-            child: const Text('Submit grammar answers'),
-          )
-        else ...[
-          Text(
-            'You got $grammarScore / ${practice.length} correct.',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: nextStep,
-            child: const Text('Continue'),
-          ),
-        ],
       ],
-    );
-  }
+    ],
+  );
+}
 
   Widget buildComprehensionStep() {
     final questions = data['comprehension'] as List;

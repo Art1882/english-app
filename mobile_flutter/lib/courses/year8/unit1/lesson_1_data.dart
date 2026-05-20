@@ -7,6 +7,7 @@ final lesson1 = {
   //Beta save
   'lessonId': 'unit1_lesson1',
   'unitTitle': 'Unit 1',
+  'grammarVideoPath':'assets/videos/unit1_lesson1_grammar.mp4',
 
   // Completion
   'completionText':
@@ -194,65 +195,62 @@ final lesson1 = {
     'answer': 'connect',
   },
 ],
-// Grammar
 'grammar': {
-  'title': 'Question words',
+  'title': 'Question Words',
 
-  'instruction':
-      'Use the correct question word to complete each question.',
+  'summary': {
+    'grammarPoint': 'Question Words',
+    'use': 'We use question words to ask for information.',
+    'form':
+        'Who + verb ... ?\nWhat + auxiliary + subject + verb ... ?\nWhere + auxiliary + subject + verb ... ?',
+    'examples': [
+      'Who lives in Melbourne?',
+      'Where is English used?',
+      'What does language learning improve?',
+    ],
+    'remember':
+        'Question words help us learn new information.',
+  },
 
-  'use':
-      'We use question words to ask for specific information.',
+  'instruction': 'Complete each sentence with the correct question word.',
 
-  'form':
-      'Question word + auxiliary verb + subject + main verb',
-
-  'examples': [
-    'Why do students learn English?',
-    'Where is English used?',
-    'How can languages help people?',
-  ],
-
-  'textExamples': [
-    'People learn languages for many different reasons.',
-    'Why do people learn languages?',
-    'English is used in many international companies, airports, hotels, and universities around the world.',
-    'Where is English used?',
-    'Some teenagers learn languages so they can speak to online friends from different countries.',
-    'Who do some teenagers want to speak to?',
-    'Teachers believe that language learning also improves memory, confidence, and problem-solving skills.',
-    'What does language learning improve?',
-    'Speaking more than one language is becoming increasingly useful.',
-    'What is becoming increasingly useful?',
-  ],
-
-  'practice': [
-    {
-      'sentence':
-          '______ do many people learn English for work and travel?',
-      'answer': 'Why',
-    },
-    {
-      'sentence':
-          '______ can students understand when they learn another language?',
-      'answer': 'What',
-    },
-    {
-      'sentence':
-          '______ is English used around the world?',
-      'answer': 'Where',
-    },
-    {
-      'sentence':
-          '______ do teenagers speak to online in different countries?',
-      'answer': 'Who',
-    },
-    {
-      'sentence':
-          '______ is learning a language becoming more useful today?',
-      'answer': 'Why',
-    },
-  ],
+'practice': [
+  {
+    'sentence':
+        '______ is English used?',
+    'question':
+        'English is used in airports and hotels.',
+    'answer': 'Where',
+  },
+  {
+    'sentence':
+        '______ do some teenagers want to speak to?',
+    'question':
+        'Teenagers want to speak to online friends.',
+    'answer': 'Who',
+  },
+  {
+    'sentence':
+        '______ does language learning improve?',
+    'question':
+        'Language learning improves memory and confidence.',
+    'answer': 'What',
+  },
+  {
+    'sentence':
+        '______ is becoming increasingly useful?',
+    'question':
+        'Speaking more than one language is becoming increasingly useful.',
+    'answer': 'What',
+  },
+  {
+    'sentence':
+        '______ father speaks Cantonese and English?',
+    'question':
+        'Kelly’s father speaks Cantonese and English.',
+    'answer': 'Whose',
+  },
+],
 },
 
 // Comprehension
