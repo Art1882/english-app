@@ -1,9 +1,9 @@
 final lesson3 = {
 
   // Overview
-  'appBarTitle': 'Lesson 3: Different Ways to Say the Same Thing',
+  'appBarTitle': 'Lesson 3: Communicate Without Words',
   'backButtonText': 'Back to Unit 1',
-  'title': 'Silent Messages: How We Communicate Without Words',
+  'title': 'Communicate Without Words',
 
     //Beta save
   'lessonId': 'unit1_lesson3',
@@ -16,6 +16,7 @@ final lesson3 = {
   // Input
   'inputType': 'reading',
   'imagePath': 'assets/images/unit1_lesson3.png',
+  'grammarVideoPath':'assets/videos/unit1_lesson3_grammar.mp4',
 
   'input':
       'Have you ever noticed that people are communicating even when they are not speaking? Around the world, people use body language, facial expressions, and gestures every day. In fact, experts say that a large part of communication is non-verbal.\n\n'
@@ -205,61 +206,62 @@ final lesson3 = {
 
 // Grammar
 'grammar': {
-  'title': 'Question words',
+  'title': 'Present Continuous',
+
+  'summary': {
+    'grammarPoint': 'Present Continuous',
+
+    'use':
+        'We use the present continuous for actions and feelings happening now.',
+
+    'form':
+        'be + verb-ing',
+
+    'examples': [
+      'People are communicating.',
+      'Some passengers are smiling.',
+      'Teenagers are using emojis.',
+    ],
+
+    'remember':
+        'Use the correct form of “be” before the verb ending in -ing.',
+  },
+
+  'example': {
+    'sentence':
+        'People __________ (communicate) online now.',
+    'answer':
+        'are communicating',
+  },
 
   'instruction':
-      'Use the correct question word to complete each question.',
-
-  'use':
-      'We use question words to ask for specific information.',
-
-  'form':
-      'Question word + auxiliary verb + subject + main verb',
-
-  'examples': [
-    'Why do students learn English?',
-    'Where is English used?',
-    'How can languages help people?',
-  ],
-
-  'textExamples': [
-    'People learn languages for many different reasons.',
-    'Why do people learn languages?',
-    'English is used in many international companies, airports, hotels, and universities around the world.',
-    'Where is English used?',
-    'Some teenagers learn languages so they can speak to online friends from different countries.',
-    'Who do some teenagers want to speak to?',
-    'Teachers believe that language learning also improves memory, confidence, and problem-solving skills.',
-    'What does language learning improve?',
-    'Speaking more than one language is becoming increasingly useful.',
-    'What is becoming increasingly useful?',
-  ],
+      'Complete each sentence using the present continuous form.',
 
   'practice': [
     {
       'sentence':
-          '______ do many people learn English for work and travel?',
-      'answer': 'Why',
+          'Some passengers __________ (smile).',
+      'answer': 'are smiling',
     },
     {
       'sentence':
-          '______ can students understand when they learn another language?',
-      'answer': 'What',
+          'People __________ (show) feelings without words.',
+      'answer': 'are showing',
     },
     {
       'sentence':
-          '______ is English used around the world?',
-      'answer': 'Where',
+          'Teenagers __________ (use) emojis and videos.',
+      'answer': 'are using',
     },
     {
       'sentence':
-          '______ do teenagers speak to online in different countries?',
-      'answer': 'Who',
+          'Technology __________ (change) communication.',
+      'answer': 'is changing',
     },
     {
       'sentence':
-          '______ is learning a language becoming more useful today?',
-      'answer': 'Why',
+          'People __________ (look) directly at each other.',
+      'answer': 'are looking',
     },
   ],
 },
