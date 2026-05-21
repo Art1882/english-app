@@ -16,6 +16,7 @@ final lesson2 = {
   'inputType': 'listening',
   'audioPath': 'audio/unit1_lesson2_audio.mp3',
   'imagePath': 'assets/images/unit1_lesson2.png',
+  'grammarVideoPath':'assets/videos/unit1_lesson2_grammar.mp4',
 
   'input':
       'Welcome to today’s language programme. We are talking about how people around the world say the same thing in different ways.\n\n'
@@ -204,57 +205,56 @@ final lesson2 = {
 ],
 // Grammar
 'grammar': {
-  'title': 'Conjunctions: although, while, whereas',
+  'title': 'Although, While and Whereas',
+
+  'summary': {
+    'grammarPoint': 'Although, While and Whereas',
+    'use': 'We use these words to compare and contrast ideas.',
+    'form':
+        'although + clause\nclause + while + clause\nclause + whereas + clause',
+    'examples': [
+      'Languages may sound different, although they help people communicate.',
+      'In France people say “bonjour,” while in Japan people say “konnichiwa.”',
+      'In Britain people say “chips,” whereas Americans say “fries.”',
+    ],
+    'remember':
+        'These words help us compare different ideas clearly.',
+  },
+
+  'example': {
+    'sentence':
+        'People say “hello” in English, ______ people say “hola” in Spanish.',
+    'answer': 'while',
+  },
 
   'instruction':
-      'Use the correct conjunction to complete each sentence.',
-
-  'use':
-      'We use conjunctions to connect ideas and compare information.',
-
-  'form':
-      'Although + clause, + clause / Clause + while + clause / Clause + whereas + clause',
-
-  'examples': [
-    'Although the words are different, they describe the same food.',
-    'In France, people say “bonjour,” while in Japan they often say “konnichiwa.”',
-    'In Britain, people say “chips,” whereas Americans usually say “fries.”',
-  ],
-
-  'textExamples': [
-    'People say “hello,” although in Spanish people usually say “hola.”',
-    'In France, people say “bonjour,” while in Japan they often say “konnichiwa.”',
-    'In Britain, people say “chips,” whereas Americans usually say “fries.”',
-    'People often bow slightly while greeting someone.',
-    'Languages may sound very different, although they all help people communicate ideas, feelings, and culture.',
-    'In many English-speaking countries people usually shake hands, whereas in Korea people often bow slightly.',
-  ],
+      'Complete each sentence with although, while, or whereas.',
 
   'practice': [
     {
       'sentence':
-          'In Malaysia, many people speak Malay, ______ others also speak English and Chinese.',
-      'answer': 'while',
+          'Languages may sound very different, ______ they all help people communicate.',
+      'answer': 'although',
     },
     {
       'sentence':
-          'Some students enjoy reading books, ______ others prefer watching videos online.',
+          'In Britain, people say “chips,” ______ Americans usually say “fries.”',
       'answer': 'whereas',
     },
     {
       'sentence':
-          '______ learning a language can be difficult, many students enjoy it.',
-      'answer': 'Although',
-    },
-    {
-      'sentence':
-          'In some countries people eat rice every day, ______ in others bread is more common.',
-      'answer': 'whereas',
-    },
-    {
-      'sentence':
-          'Teenagers often use emojis ______ chatting with friends online.',
+          'In France, people say “bonjour,” ______ in Japan people say “konnichiwa.”',
       'answer': 'while',
+    },
+    {
+      'sentence':
+          'People often bow slightly ______ greeting someone.',
+      'answer': 'while',
+    },
+    {
+      'sentence':
+          'In many English-speaking countries people shake hands, ______ in Korea people often bow slightly.',
+      'answer': 'whereas',
     },
   ],
 },

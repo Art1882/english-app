@@ -763,7 +763,6 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     );
   }
 
-
 Widget buildGrammarStep() {
   final grammar = data['grammar'] as Map;
   final practice = grammar['practice'] as List;
