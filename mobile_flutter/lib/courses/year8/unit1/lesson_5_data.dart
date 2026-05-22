@@ -17,6 +17,8 @@ final lesson5 = {
   // Input
   'inputType': 'reading',
   'imagePath': 'assets/images/unit1_lesson5.png',
+  'grammarVideoPath':'assets/videos/unit1_lesson5_grammar.mp4',
+
 
   'input':
       'For teenagers today, communication is about much more than simply sending messages. Social media, videos, and online communities are giving young people new ways to express their thoughts, creativity, and identity.\n\n'
@@ -209,61 +211,62 @@ final lesson5 = {
 
 // Grammar
 'grammar': {
-  'title': 'Abstract nouns',
+  'title': 'Abstract Nouns',
+
+  'summary': {
+    'grammarPoint': 'Abstract Nouns',
+
+    'use':
+        'We use abstract nouns for ideas, feelings, and qualities.',
+
+    'form':
+        'abstract noun',
+
+    'examples': [
+      'Communication is important.',
+      'Online communication provides confidence.',
+      'Kindness and honesty remain important.',
+    ],
+
+    'remember':
+        'Abstract nouns are usually used without “a/an” or “the”.',
+  },
+
+  'example': {
+    'sentence':
+        'People need __________ (kind) when communicating online.',
+    'answer':
+        'kindness',
+  },
 
   'instruction':
-      'Use the correct abstract noun to complete each sentence.',
-
-  'use':
-      'Abstract nouns describe feelings, ideas, qualities, and experiences.',
-
-  'form':
-      'Abstract nouns are often formed from adjectives or verbs using endings such as -ness, -tion, -ity, and -ence.',
-
-  'examples': [
-    'Kind → kindness',
-    'Creative → creativity',
-    'Inspire → inspiration',
-    'Confident → confidence',
-  ],
-
-  'textExamples': [
-    'Communication is about much more than simply sending messages.',
-    'Express their thoughts, creativity, and identity.',
-    'Many teenagers enjoy the freedom of sharing opinions.',
-    'Online communication provides confidence and independence.',
-    'The importance of responsibility and respect online.',
-    'Cause misunderstanding, embarrassment, or conflict.',
-    'Positive online experiences can create happiness, inspiration, and motivation.',
-    'May lead to stress or insecurity.',
-    'Understanding, kindness, and honesty remain important.',
-  ],
+      'Complete each sentence using the correct abstract noun.',
 
   'practice': [
     {
       'sentence':
-          'Good communication and ______ are important in friendships. (kind)',
-      'answer': 'kindness',
+          'Online communication can create __________ (happy).',
+      'answer': 'happiness',
     },
     {
       'sentence':
-          'Many students feel ______ when they speak English successfully. (confident)',
-      'answer': 'confidence',
+          'Teenagers enjoy the __________ (free) of sharing opinions.',
+      'answer': 'freedom',
     },
     {
       'sentence':
-          'Social media can sometimes create stress and ______. (insecure)',
-      'answer': 'insecurity',
-    },
-    {
-      'sentence':
-          'Learning new skills can give teenagers motivation and ______. (inspire)',
-      'answer': 'inspiration',
-    },
-    {
-      'sentence':
-          'Teachers encourage students to show ______ and responsibility online. (honest)',
+          'Respect and __________ (honest) are important online.',
       'answer': 'honesty',
+    },
+    {
+      'sentence':
+          'Some online experiences may cause __________ (embarrassed).',
+      'answer': 'embarrassment',
+    },
+    {
+      'sentence':
+          'Good communication can build __________ (confident).',
+      'answer': 'confidence',
     },
   ],
 },

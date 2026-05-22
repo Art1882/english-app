@@ -112,73 +112,78 @@ final unit1Test = {
 'grammarQuestions': [
   {
     'instruction':
-        'Complete the sentence using the correct question word.',
+        'Complete the question using the correct question word.',
     'sentence':
-        '______ do people learn languages?',
-    'answer': 'Why',
+        '______ is English used?',
+    'question':
+        'English is used in airports and hotels.',
+    'answer': 'Where',
   },
   {
     'instruction':
-        'Complete the sentence using the correct question word.',
+        'Complete the question using the correct question word.',
     'sentence':
-        '______ language do people speak in Brazil?',
+        '______ does language learning improve?',
+    'question':
+        'Language learning improves memory and confidence.',
     'answer': 'What',
   },
   {
     'instruction':
-        'Complete the sentence using the correct conjunction.',
+        'Complete the sentence using the correct conjunction: Although, While, or Whereas.',
     'sentence':
-        'People say “chips” in Britain, ______ Americans say “fries”.',
+        'Languages may sound very different, ______ they all help people communicate.',
+    'answer': 'although',
+  },
+
+  {
+    'instruction':
+        'Complete the sentence using the correct conjunction: Although, While, or Whereas.',
+    'sentence':
+        'In Britain, people say “chips,” ______ Americans usually say “fries.”',
     'answer': 'whereas',
   },
   {
     'instruction':
-        'Complete the sentence using the correct conjunction.',
+        'Complete the sentence using the present continuous form of the verb.',
     'sentence':
-        '______ the words are different, the meaning is similar.',
-    'answer': 'Although',
+        'Some passengers __________ (smile).',
+    'answer': 'are smiling',
   },
   {
     'instruction':
         'Complete the sentence using the present continuous form of the verb.',
     'sentence':
-        'Students ______ (use) English in class now.',
-    'answer': 'are using',
+        'Technology __________ (change) communication.',
+    'answer': 'is changing',
   },
   {
     'instruction':
-        'Complete the sentence using the present continuous form of the verb.',
+        'Complete the sentence using the -ing form of the verb.',
     'sentence':
-        'A girl ______ (look) at a message on her phone.',
-    'answer': 'is looking',
+        '__________ (send) messages is faster than making phone calls.',
+    'answer': 'Sending',
   },
   {
     'instruction':
-        'Complete the sentence using the present continuous form of the verb.',
+        'Complete the sentence using the -ing form of the verb.',
     'sentence':
-        'Teenagers ______ (share) photos online.',
-    'answer': 'are sharing',
+        'Many teenagers enjoy __________ (use) the internet.',
+    'answer': 'using',
   },
   {
     'instruction':
         'Complete the sentence using the correct abstract noun.',
     'sentence':
-        '______ is important when people talk to each other.',
-    'answer': 'Communication',
+        'Online communication can create __________ (happy).',
+    'answer': 'happiness',
   },
   {
     'instruction':
         'Complete the sentence using the correct abstract noun.',
     'sentence':
-        'Students can build ______ by practising English.',
+        'Good communication can build __________ (confident).',
     'answer': 'confidence',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the correct abstract noun.',
-    'sentence':
-        'Learning about other cultures can improve ______.',
-    'answer': 'understanding',
   },
 ],
 };

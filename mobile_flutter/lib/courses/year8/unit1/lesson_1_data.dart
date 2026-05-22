@@ -214,8 +214,10 @@ final lesson1 = {
 
   'instruction': 'Complete each sentence with the correct question word.',
 
-'practice': [
+'grammarQuestions': [
   {
+    'instruction':
+        'Complete the question using the correct question word.',
     'sentence':
         '______ is English used?',
     'question':
@@ -223,13 +225,8 @@ final lesson1 = {
     'answer': 'Where',
   },
   {
-    'sentence':
-        '______ do some teenagers want to speak to?',
-    'question':
-        'Teenagers want to speak to online friends.',
-    'answer': 'Who',
-  },
-  {
+    'instruction':
+        'Complete the question using the correct question word.',
     'sentence':
         '______ does language learning improve?',
     'question':
@@ -237,18 +234,60 @@ final lesson1 = {
     'answer': 'What',
   },
   {
+    'instruction':
+        'Complete the sentence using the correct conjunction.',
     'sentence':
-        '______ is becoming increasingly useful?',
-    'question':
-        'Speaking more than one language is becoming increasingly useful.',
-    'answer': 'What',
+        'Languages may sound very different, ______ they all help people communicate.',
+    'answer': 'although',
   },
   {
+    'instruction':
+        'Complete the sentence using the correct conjunction.',
     'sentence':
-        '______ father speaks Cantonese and English?',
-    'question':
-        'Kelly’s father speaks Cantonese and English.',
-    'answer': 'Whose',
+        'In Britain, people say “chips,” ______ Americans usually say “fries.”',
+    'answer': 'whereas',
+  },
+  {
+    'instruction':
+        'Complete the sentence using the present continuous form of the verb.',
+    'sentence':
+        'Some passengers __________ (smile).',
+    'answer': 'are smiling',
+  },
+  {
+    'instruction':
+        'Complete the sentence using the present continuous form of the verb.',
+    'sentence':
+        'Technology __________ (change) communication.',
+    'answer': 'is changing',
+  },
+  {
+    'instruction':
+        'Complete the sentence using the -ing form of the verb.',
+    'sentence':
+        '__________ (send) messages is faster than making phone calls.',
+    'answer': 'Sending',
+  },
+  {
+    'instruction':
+        'Complete the sentence using the -ing form of the verb.',
+    'sentence':
+        'Many teenagers enjoy __________ (use) the internet.',
+    'answer': 'using',
+  },
+  {
+    'instruction':
+        'Complete the sentence using the correct abstract noun.',
+    'sentence':
+        'Online communication can create __________ (happy).',
+    'answer': 'happiness',
+  },
+  {
+    'instruction':
+        'Complete the sentence using the correct abstract noun.',
+    'sentence':
+        'Good communication can build __________ (confident).',
+    'answer': 'confidence',
   },
 ],
 },

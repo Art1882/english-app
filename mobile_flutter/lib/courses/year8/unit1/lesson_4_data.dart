@@ -16,6 +16,7 @@ final lesson4 = {
   'inputType': 'listening',
   'audioPath': 'audio/unit1_lesson4_audio.mp3',
   'imagePath': 'assets/images/unit1_lesson4.png',
+  'grammarVideoPath':'assets/videos/unit1_lesson4_grammar.mp4',
 
 
   'input':
@@ -205,61 +206,62 @@ final lesson4 = {
 ],
 // Grammar
 'grammar': {
-  'title': '-ing Forms as Subjects and Objects',
+  'title': '-ing Forms',
+
+  'summary': {
+    'grammarPoint': '-ing Forms',
+
+    'use':
+        'We use -ing forms as subjects and after some verbs.',
+
+    'form':
+        '-ing form + verb\nverb + -ing form',
+
+    'examples': [
+      'Sending messages is faster than making phone calls.',
+      'Many teenagers enjoy using the internet.',
+      'Exercising regularly is important for a healthy lifestyle.',
+    ],
+
+    'remember':
+        'An -ing form can work like a noun in a sentence.',
+  },
+
+  'example': {
+    'sentence':
+        'People __________ (watch) videos online every day.',
+    'answer':
+        'Watching',
+  },
 
   'instruction':
-      'Use the correct -ing form of the verb to complete each sentence.',
-
-  'use':
-      'We use -ing forms as subjects of a sentence and as objects after certain verbs.',
-
-  'form':
-      'Verb + ing + verb / Verb + -ing form',
-
-  'examples': [
-    'Watching videos is popular.',
-    'Listening to podcasts helps students learn.',
-    'Students enjoy using the internet.',
-  ],
-
-  'textExamples': [
-    'Watching videos, sharing photos, and chatting with friends are some of the most common online habits.',
-    'Sending messages is faster and easier than making phone calls.',
-    'Spending too much time online can also create problems.',
-    'Listening to podcasts, joining virtual classes, and researching information are helping students learn in new ways.',
-    'Spending time outdoors, exercising regularly, and meeting people face-to-face are still necessary for a healthy lifestyle.',
-    'Many teenagers enjoy using the internet.',
-    'Some students dislike studying.',
-    'Others find it difficult to stop scrolling.',
-    'Schools are even encouraging students to practise speaking skills by recording videos.',
-    'Or participating in online discussions.',
-  ],
+      'Complete each sentence using the correct -ing form.',
 
   'practice': [
     {
       'sentence':
-          '______ (play) online games is a popular activity for teenagers.',
-      'answer': 'Playing',
+          '__________ (send) messages is faster than making phone calls.',
+      'answer': 'Sending',
     },
     {
       'sentence':
-          'Many students enjoy ______ (watch) videos in English.',
-      'answer': 'watching',
-    },
-    {
-      'sentence':
-          'Some people dislike ______ (use) social media late at night.',
+          'Many teenagers enjoy __________ (use) the internet.',
       'answer': 'using',
     },
     {
       'sentence':
-          '______ (learn) new languages online can help students communicate with others.',
-      'answer': 'Learning',
+          'Some students dislike __________ (study).',
+      'answer': 'studying',
     },
     {
       'sentence':
-          'My friend stopped ______ (send) messages because he needed to study.',
-      'answer': 'sending',
+          'Schools are encouraging students to practise speaking by __________ (record) videos.',
+      'answer': 'recording',
+    },
+    {
+      'sentence':
+          '__________ (exercise) regularly is important for a healthy lifestyle.',
+      'answer': 'Exercising',
     },
   ],
 },

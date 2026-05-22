@@ -460,6 +460,19 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
                     ),
                   ),
 
+                  if (question.containsKey('question')) ...[
+                    const SizedBox(height: 10),
+
+                    Text(
+                      question['question'] as String,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey.shade700,
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+
                   const SizedBox(height: 12),
 
                   TextField(

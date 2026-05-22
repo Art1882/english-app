@@ -1081,31 +1081,40 @@ Widget buildGrammarStep() {
 
       const SizedBox(height: 12),
 
-      if (!grammarSubmitted)
-        ElevatedButton(
-          onPressed: submitGrammarAnswers,
-          child: const Text('Submit grammar answers'),
-        )
-      else ...[
-        Text(
-          'You got $grammarScore / ${practice.length} correct.',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+    if (!grammarSubmitted)
+      ElevatedButton(
+        onPressed: () {
+          submitGrammarAnswers();
 
-        const SizedBox(height: 20),
-
-        ElevatedButton(
-          onPressed: nextStep,
-          child: const Text('Continue'),
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (scrollController.hasClients) {
+              scrollController.jumpTo(
+                scrollController.position.maxScrollExtent,
+              );
+            }
+          });
+        },
+        child: const Text('Submit grammar answers'),
+      )
+    else ...[
+      Text(
+        'You got $grammarScore / ${practice.length} correct.',
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
-      ],
+      ),
+
+      const SizedBox(height: 20),
+
+      ElevatedButton(
+        onPressed: nextStep,
+        child: const Text('Continue'),
+      ),
     ],
+  ],
   );
 }
-
   Widget buildComprehensionStep() {
     final questions = data['comprehension'] as List;
     final shortQuestions = data['shortAnswerQuestions'] as List? ?? [];
