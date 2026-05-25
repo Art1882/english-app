@@ -200,96 +200,70 @@ final lesson1 = {
 
   'summary': {
     'grammarPoint': 'Question Words',
-    'use': 'We use question words to ask for information.',
+
+    'use':
+        'We use question words to ask for information.',
+
     'form':
         'Who + verb ... ?\nWhat + auxiliary + subject + verb ... ?\nWhere + auxiliary + subject + verb ... ?',
+
     'examples': [
       'Who lives in Melbourne?',
       'Where is English used?',
       'What does language learning improve?',
     ],
+
     'remember':
         'Question words help us learn new information.',
   },
 
-  'instruction': 'Complete each sentence with the correct question word.',
+  'example': {
+    'sentence':
+        'People learn languages for work and travel.',
+    'answer':
+        'Why do people learn languages?',
+  },
 
-'grammarQuestions': [
-  {
-    'instruction':
-        'Complete the question using the correct question word.',
-    'sentence':
-        '______ is English used?',
-    'question':
-        'English is used in airports and hotels.',
-    'answer': 'Where',
-  },
-  {
-    'instruction':
-        'Complete the question using the correct question word.',
-    'sentence':
-        '______ does language learning improve?',
-    'question':
-        'Language learning improves memory and confidence.',
-    'answer': 'What',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the correct conjunction.',
-    'sentence':
-        'Languages may sound very different, ______ they all help people communicate.',
-    'answer': 'although',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the correct conjunction.',
-    'sentence':
-        'In Britain, people say “chips,” ______ Americans usually say “fries.”',
-    'answer': 'whereas',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the present continuous form of the verb.',
-    'sentence':
-        'Some passengers __________ (smile).',
-    'answer': 'are smiling',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the present continuous form of the verb.',
-    'sentence':
-        'Technology __________ (change) communication.',
-    'answer': 'is changing',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the -ing form of the verb.',
-    'sentence':
-        '__________ (send) messages is faster than making phone calls.',
-    'answer': 'Sending',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the -ing form of the verb.',
-    'sentence':
-        'Many teenagers enjoy __________ (use) the internet.',
-    'answer': 'using',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the correct abstract noun.',
-    'sentence':
-        'Online communication can create __________ (happy).',
-    'answer': 'happiness',
-  },
-  {
-    'instruction':
-        'Complete the sentence using the correct abstract noun.',
-    'sentence':
-        'Good communication can build __________ (confident).',
-    'answer': 'confidence',
-  },
-],
+  'instruction':
+      'Complete each question with the correct question word.',
+
+  'practice': [
+    {
+      'sentence':
+          '______ is English used?',
+      'question':
+          'English is used in airports and hotels.',
+      'answer': 'Where',
+    },
+    {
+      'sentence':
+          '______ do some teenagers want to speak to?',
+      'question':
+          'Teenagers want to speak to online friends.',
+      'answer': 'Who',
+    },
+    {
+      'sentence':
+          '______ does language learning improve?',
+      'question':
+          'Language learning improves memory and confidence.',
+      'answer': 'What',
+    },
+    {
+      'sentence':
+          '______ is becoming increasingly useful?',
+      'question':
+          'Speaking more than one language is becoming increasingly useful.',
+      'answer': 'What',
+    },
+    {
+      'sentence':
+          '______ father speaks Cantonese and English?',
+      'question':
+          'Kelly’s father speaks Cantonese and English.',
+      'answer': 'Whose',
+    },
+  ],
 },
 
 // Comprehension
