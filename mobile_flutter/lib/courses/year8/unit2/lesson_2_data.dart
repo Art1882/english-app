@@ -1,8 +1,8 @@
 final lesson2 = {
     // Overview
-  'appBarTitle': 'Lesson 2: Everyday Objects',
+  'appBarTitle': 'Lesson 2: Imagining Different Worlds',
   'backButtonText': 'Back to Unit 2',
-  'title': 'Everyday Objects',
+  'title': 'Imagining Different Worlds',
 
   //Beta save
   'lessonId': 'unit2_lesson2',
@@ -16,6 +16,8 @@ final lesson2 = {
   'inputType': 'listening',
     'audioPath': 'audio/unit2_lesson2_audio.mp3',
   'imagePath': 'assets/images/unit2_lesson2.png',
+    'grammarVideoPath':'assets/videos/unit2_lesson2_grammar.mp4',
+
 
   'input':
       'Welcome back to the Teen Minds Podcast! Today, we’re imagining a very different world. What would happen if everyday objects suddenly disappeared?\n\n'
@@ -206,63 +208,67 @@ final lesson2 = {
   },
 ],
 
-  // Grammar
-  'grammar': {
-    'title': 'Second conditional',
+ // Grammar
+'grammar': {
+  'title': 'Second Conditional',
+
+  'summary': {
+    'grammarPoint': 'Second Conditional',
 
     'use':
-        'We use the second conditional to talk about imaginary, unlikely, or hypothetical situations.',
+        'We use the second conditional to imagine unreal or unlikely situations.',
 
     'form':
-        'If + past simple, would + base verb',
+        'if + past simple, would + verb',
 
     'examples': [
-      'If I had more time, I would read more books.',
-      'If people used less plastic, the environment would become cleaner.',
-      'If students didn’t have computers, they would read more books.',
-    ],
-
-    'textExamples': [
-      'What would happen if everyday objects suddenly disappeared?',
-      'What would you do if you didn’t have a phone, a pen, or even a backpack?',
-      'Many teenagers say they would feel completely lost.',
-      'If students didn’t have computers, they would probably spend more time reading printed books.',
       'If social media didn’t exist, teenagers might spend more time outdoors.',
-      'If people couldn’t send instant messages, arranging plans would take much more time.',
-      'If families didn’t have refrigerators, they would need to buy fresh food every day.',
-      'If washing machines disappeared, people would spend hours cleaning clothes by hand.',
-      'If people used fewer plastic products, the environment would probably become cleaner.',
+      'If students didn’t have computers, they would read more books.',
+      'If I were you, I wouldn’t travel in this weather.',
     ],
 
-    'practice': [
-      {
-        'sentence':
-            'If I ______ (not/have) my phone, I would feel very confused.',
-        'answer': 'didn’t have',
-      },
-      {
-        'sentence':
-            'If students used less technology, they ______ (spend) more time outdoors.',
-        'answer': 'would spend',
-      },
-      {
-        'sentence':
-            'If people ______ (walk) more often, cities would become less polluted.',
-        'answer': 'walked',
-      },
-      {
-        'sentence':
-            'My family would save money if we ______ (buy) fewer unnecessary objects.',
-        'answer': 'bought',
-      },
-      {
-        'sentence':
-            'If social media disappeared, many teenagers ______ (feel) surprised.',
-        'answer': 'would feel',
-      },
-    ],
+    'remember':
+        'Use the past simple after “if” and “would” in the main clause.',
   },
 
+  'example': {
+    'sentence':
+        'If people __________ (use) fewer plastic products, the environment would become cleaner.',
+    'answer':
+        'used',
+  },
+
+  'instruction':
+      'Complete each sentence using the correct second conditional form.',
+
+  'practice': [
+    {
+      'sentence':
+          'If students __________ (not have) computers, they would read more books.',
+      'answer': 'didn’t have',
+    },
+    {
+      'sentence':
+          'If social media __________ (not exist), teenagers might spend more time outdoors.',
+      'answer': 'didn’t exist',
+    },
+    {
+      'sentence':
+          'If people __________ (not send) instant messages, arranging plans would take longer.',
+      'answer': 'couldn’t send',
+    },
+    {
+      'sentence':
+          'If washing machines disappeared, people __________ (clean) clothes by hand.',
+      'answer': 'would clean',
+    },
+    {
+      'sentence':
+          'If I were you, I __________ (not travel) in this weather.',
+      'answer': 'wouldn’t travel',
+    },
+  ],
+},
   // Comprehension
   'comprehension': [
     {
