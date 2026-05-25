@@ -1,13 +1,15 @@
 final lesson1 = {
 
   // Overview
-  'appBarTitle': 'Lesson 1: Everyday Objects?',
+  'appBarTitle': 'Lesson 1: Everyday Objects',
   'backButtonText': 'Back to Unit 2',
   'title': 'Everyday Objects',
 
   //Beta save
   'lessonId': 'unit2_lesson1',
   'unitTitle': 'Unit 2',
+  'grammarVideoPath':'assets/videos/unit2_lesson1_grammar.mp4',
+
 
   // Completion
   'completionText':
@@ -204,62 +206,67 @@ final lesson1 = {
       'answer': 'ordinary',
     },
   ],
-  // Grammar
-  'grammar': {
-    'title': 'Partitives',
+// Grammar
+'grammar': {
+  'title': 'Partitives',
+
+  'summary': {
+    'grammarPoint': 'Partitives',
 
     'use':
-        'Partitives are words or phrases we use to talk about quantities, pieces, or amounts of things that are difficult to count directly.',
+        'We use partitives to talk about quantities and amounts.',
 
     'form':
-        'Partitive + of + noun',
+        'a/an + partitive + of + noun',
 
     'examples': [
-      'A piece of paper',
-      'A bottle of water',
-      'A slice of bread',
+      'a bottle of water',
+      'a slice of bread',
+      'a piece of paper',
     ],
 
-    'textExamples': [
-      'A piece of paper',
-      'A bottle of water',
-      'A bar of chocolate',
-      'A few packets of tissues',
-      'A slice of bread',
-      'A cup of tea',
-      'A tube of toothpaste',
-      'Using bars of soap',
-      'A box of pencils',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            'I drank a ______ of orange juice after football practice.',
-        'answer': 'bottle',
-      },
-      {
-        'sentence':
-            'My teacher gave me a ______ of paper for the test.',
-        'answer': 'piece',
-      },
-      {
-        'sentence':
-            'We bought a ______ of toothpaste from the supermarket.',
-        'answer': 'tube',
-      },
-      {
-        'sentence':
-            'She ate a ______ of pizza for lunch.',
-        'answer': 'slice',
-      },
-      {
-        'sentence':
-            'There is a ______ of chocolates on the kitchen table.',
-        'answer': 'box',
-      },
-    ],
+    'remember':
+        'Different nouns use different partitives.',
   },
+
+  'example': {
+    'sentence':
+        'I drank __________ of water.',
+    'answer':
+        'a bottle',
+  },
+
+  'instruction':
+      'Complete each sentence using the correct partitive.',
+
+  'practice': [
+    {
+      'sentence':
+          'She ate __________ of bread.',
+      'answer': 'a slice',
+    },
+    {
+      'sentence':
+          'He bought __________ of chocolate.',
+      'answer': 'a bar',
+    },
+    {
+      'sentence':
+          'We used __________ of toothpaste.',
+      'answer': 'a tube',
+    },
+    {
+      'sentence':
+          'They opened __________ of pencils.',
+      'answer': 'a box',
+    },
+    {
+      'sentence':
+          'I wrote on __________ of paper.',
+      'answer': 'a piece',
+    },
+  ],
+},
 
   // Comprehension
   'comprehension': [
