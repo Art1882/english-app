@@ -15,6 +15,8 @@ final lesson3 = {
   // Input
   'inputType': 'reading',
   'imagePath': 'assets/images/unit2_lesson3.png',
+      'grammarVideoPath':'assets/videos/unit2_lesson3_grammar.mp4',
+
 
   'input':
       'Around the world, there are many amazing buildings in which people live, work, and study. Some are famous because of their unusual design, while others are important because of the history with which they are connected.\n\n'
@@ -206,60 +208,66 @@ final lesson3 = {
   ],
 
   // Grammar
-  'grammar': {
-    'title': 'Relative clauses with prepositions',
+'grammar': {
+  'title': 'Relative Clauses with Prepositions',
+
+  'summary': {
+    'grammarPoint': 'Relative Clauses with Prepositions',
 
     'use':
-        'Relative clauses with prepositions give extra information about places, objects, people, and systems.',
+        'We use relative clauses with prepositions to describe people, places, and things more clearly.',
 
     'form':
-        'Preposition + which/whom',
+        'noun + preposition + which + clause',
 
     'examples': [
-      'The building in which people work',
-      'The system to which new technology is added',
-      'The city from which tourists travel',
+      'Homes in which solar panels are included.',
+      'Structures to which safety systems are added.',
+      'Gardens from which workers enjoy fresh air.',
     ],
 
-    'textExamples': [
-      'Many amazing buildings in which people live, work, and study.',
-      'The history with which they are connected.',
-      'The Sydney Opera House in Sydney, for which architects are admired.',
-      'Structures to which special safety systems are added.',
-      'Homes in which solar panels and recycling systems are included.',
-      'Gardens on their roofs, from which workers can enjoy fresh air.',
-      'The societies from which they come.',
-    ],
-
-    'practice': [
-      {
-        'sentence':
-            'The school ______ which my brother studies has a large library.',
-        'answer': 'in',
-      },
-      {
-        'sentence':
-            'This is the website ______ which students can find homework information.',
-        'answer': 'on',
-      },
-      {
-        'sentence':
-            'The room ______ which we held the meeting was very modern.',
-        'answer': 'in',
-      },
-      {
-        'sentence':
-            'The bridge ______ which thousands of cars travel every day is very old.',
-        'answer': 'on',
-      },
-      {
-        'sentence':
-            'The programme ______ which teenagers learn coding is becoming popular.',
-        'answer': 'through',
-      },
-    ],
+    'remember':
+        'The preposition comes before “which” in formal English.',
   },
 
+  'example': {
+    'sentence':
+        'Homes __________ solar panels are included can save energy.',
+    'answer':
+        'in which',
+  },
+
+  'instruction':
+      'Complete each sentence using the correct relative clause with a preposition.',
+
+  'practice': [
+    {
+      'sentence':
+          'Buildings __________ people work and study are often very busy.',
+      'answer': 'in which',
+    },
+    {
+      'sentence':
+          'Structures __________ safety systems are added are safer during emergencies.',
+      'answer': 'to which',
+    },
+    {
+      'sentence':
+          'Rooftop gardens __________ workers enjoy fresh air are becoming popular.',
+      'answer': 'from which',
+    },
+    {
+      'sentence':
+          'The societies __________ these buildings come are very different.',
+      'answer': 'from which',
+    },
+    {
+      'sentence':
+          'The Sydney Opera House is a building __________ architects are admired.',
+      'answer': 'for which',
+    },
+  ],
+},
   // Comprehension
   'comprehension': [
     {

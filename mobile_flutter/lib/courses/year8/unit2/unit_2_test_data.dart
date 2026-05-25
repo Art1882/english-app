@@ -125,66 +125,85 @@ final unit2Test = {
       'answer': 'Architects',
     },
   ],
+
 'grammarQuestions': [
   {
-    'instruction': 'Complete the sentence using the correct partitive.',
-    'sentence': 'I drank a ______ of water after football practice.',
-    'answer': 'bottle',
-  },
-  {
-    'instruction': 'Complete the sentence using the correct partitive.',
-    'sentence': 'My teacher gave me a ______ of paper for the activity.',
-    'answer': 'piece',
-  },
-  {
-    'instruction': 'Complete the sentence using the correct preposition.',
+    'instruction':
+        'Complete the sentence using the correct partitive.',
     'sentence':
-        'The school ______ which my cousin studies has a science laboratory.',
-    'answer': 'in',
+        'She ate __________ of bread.',
+    'answer': 'a slice',
   },
   {
-    'instruction': 'Complete the sentence using the correct preposition.',
+    'instruction':
+        'Complete the sentence using the correct partitive.',
     'sentence':
-        'The bridge ______ which thousands of cars travel every day is very busy.',
-    'answer': 'on',
+        'He bought __________ of chocolate.',
+    'answer': 'a bar',
   },
   {
     'instruction':
         'Complete the sentence using the correct second conditional form.',
     'sentence':
-        'If students used less technology, they ______ more time outdoors.',
-    'answer': 'would spend',
+        'If students __________ (not have) computers, they would read more books.',
+    'answer': 'didn’t have',
   },
   {
     'instruction':
         'Complete the sentence using the correct second conditional form.',
     'sentence':
-        'If people ______ more often, cities would become cleaner.',
-    'answer': 'walked',
-  },
-  {
-    'instruction': 'Complete the sentence using the correct preposition.',
-    'sentence':
-        '______ whom should engineers discuss new building plans?',
-    'answer': 'With',
-  },
-  {
-    'instruction': 'Complete the sentence using the correct preposition.',
-    'sentence':
-        '______ what purpose are rooftop gardens included in some buildings?',
-    'answer': 'For',
+        'If washing machines disappeared, people __________ (clean) clothes by hand.',
+    'answer': 'would clean',
   },
   {
     'instruction':
-        'Complete the sentence using the correct second conditional form.',
+        'Complete each sentence using the correct relative clause with a preposition.',
     'sentence':
-        'If social media disappeared, many teenagers ______ surprised.',
-    'answer': 'would feel',
+        'Buildings __________ people work and study are often very busy.',
+    'answer': 'in which',
   },
   {
-    'instruction': 'Complete the sentence using the correct partitive.',
-    'sentence': 'She ate a ______ of pizza for lunch.',
-    'answer': 'slice',
+    'instruction':
+        'Complete each sentence using the correct relative clause with a preposition.',
+    'sentence':
+        'Rooftop gardens __________ workers enjoy fresh air are becoming popular.',
+    'answer': 'from which',
+  },
+  {
+    'instruction':
+        'Complete each formal question with the correct word.',
+    'sentence':
+        '→ In which __________ should new houses be built?',
+    'question':
+        'New houses should be built in safe areas.',
+    'answer': 'areas',
+  },
+  {
+    'instruction':
+        'Complete each formal question with the correct word.',
+    'sentence':
+        '→ With __________ should city planners discuss these ideas?',
+    'question':
+        'City planners should discuss ideas with local communities.',
+    'answer': 'whom',
+  },
+  {
+    'instruction':
+        'Complete each formal question with the correct word.',
+    'sentence':
+        '→ Without __________ may cities feel crowded?',
+    'question':
+        'Cities may feel crowded without parks and open spaces.',
+    'answer': 'what',
+  },
+  {
+    'instruction':
+        'Complete each formal question with the correct word.',
+    'sentence':
+        '→ From which __________ can workers enjoy fresh air?',
+    'question':
+        'Workers can enjoy fresh air from rooftop gardens.',
+    'answer': 'gardens',
   },
 ],
 };

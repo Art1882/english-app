@@ -16,6 +16,7 @@ final lesson4 = {
   'inputType': 'listening',
     'audioPath': 'audio/unit2_lesson4_audio.mp3',
   'imagePath': 'assets/images/unit2_lesson4.png',
+      'grammarVideoPath':'assets/videos/unit2_lesson4_grammar.mp4',
 
   'input':
       'Welcome back to Teen World Radio! Today, I’m talking about the future of cities and the kinds of buildings people may live and work in one day.\n\n'
@@ -208,60 +209,77 @@ final lesson4 = {
     },
   ],
 
-  // Grammar
-  'grammar': {
-    'title': 'Questions beginning with prepositions',
+// Grammar
+'grammar': {
+  'title': 'Questions Beginning with Prepositions',
+
+  'summary': {
+    'grammarPoint': 'Questions Beginning with Prepositions',
 
     'use':
-        'Some questions begin with prepositions such as for, in, with, and without. These questions are often more formal and are common in academic writing, interviews, and reports.',
+        'We use prepositions at the beginning of questions to make them clearer and more formal.',
 
     'form':
-        'Preposition + question word + auxiliary verb + subject + verb',
+        'preposition + which/whom/what + clause',
 
     'examples': [
-      'For what purpose should buildings be used?',
-      'In which areas should new houses be built?',
-      'With whom should planners discuss ideas?',
-    ],
-
-    'textExamples': [
-      'For what purpose should large buildings be used?',
       'In which areas should new houses be built?',
       'With whom should city planners discuss these ideas?',
-      'Without these areas, cities may feel crowded and stressful.',
-      'Without what may cities feel crowded and stressful?',
-      'Smart buildings in which lights, temperature, and security systems are controlled automatically.',
-      'In which buildings are systems controlled automatically?',
+      'For what purpose should large buildings be used?',
     ],
 
-    'practice': [
-      {
-        'sentence':
-            '______ which areas should more parks be created?',
-        'answer': 'In',
-      },
-      {
-        'sentence':
-            '______ whom should engineers discuss new building plans?',
-        'answer': 'With',
-      },
-      {
-        'sentence':
-            '______ what purpose are rooftop gardens included in some buildings?',
-        'answer': 'For',
-      },
-      {
-        'sentence':
-            '______ what could cities become cleaner and quieter?',
-        'answer': 'Without',
-      },
-      {
-        'sentence':
-            '______ which buildings are computers controlling lights and temperature automatically?',
-        'answer': 'In',
-      },
-    ],
+    'remember':
+        'Formal questions often begin with a preposition.',
   },
+
+  'example': {
+    'sentence':
+        'Large buildings should be used for community activities.',
+    'answer':
+        'For what purpose should large buildings be used?',
+  },
+
+  'instruction':
+      'Complete each formal question with the correct word.',
+
+  'practice': [
+    {
+      'sentence':
+          '→ In which __________ should new houses be built?',
+      'question':
+          'New houses should be built in safe areas.',
+      'answer': 'areas',
+    },
+    {
+      'sentence':
+          '→ With __________ should city planners discuss these ideas?',
+      'question':
+          'City planners should discuss ideas with local communities.',
+      'answer': 'whom',
+    },
+    {
+      'sentence':
+          '→ Without __________ may cities feel crowded?',
+      'question':
+          'Cities may feel crowded without parks and open spaces.',
+      'answer': 'what',
+    },
+    {
+      'sentence':
+          '→ In which __________ are systems controlled automatically?',
+      'question':
+          'Smart systems are controlled automatically in modern buildings.',
+      'answer': 'buildings',
+    },
+    {
+      'sentence':
+          '→ From which __________ can workers enjoy fresh air?',
+      'question':
+          'Workers can enjoy fresh air from rooftop gardens.',
+      'answer': 'gardens',
+    },
+  ],
+},
 
   // Comprehension
   'comprehension': [
