@@ -14,7 +14,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+@app.get("/")
+def root():
+    return {"status": "backend working"}
 
 # 🔥 in-memory storage
 SUBMISSIONS_FILE = "submissions.json"
