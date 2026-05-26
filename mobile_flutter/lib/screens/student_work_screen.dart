@@ -63,6 +63,10 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
   }
 
   int getPossibleScore(Map answer) {
+    if (answer.containsKey('totalPossible')) {
+      return answer['totalPossible'] ?? 20;
+    }
+
     if (answer.containsKey('totalScore')) {
       return 20;
     }
@@ -149,7 +153,7 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
     );
   }
 
-  Widget _scoreRow(String label, dynamic score, String possible) {
+  Widget _scoreRow(String label, dynamic score, dynamic possible) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
@@ -165,100 +169,95 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
     );
   }
 
- Widget _responseBox(Map responses) {
-  Widget answerSection({
-    required String title,
-    required Map answers,
-  }) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          ...answers.entries.map((entry) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${int.parse(entry.key.toString()) + 1}: ',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Expanded(
-                    child: SelectableText(
-                      entry.value.toString(),
-                    ),
-                  ),
-                ],
+  Widget _responseBox(Map responses) {
+    Widget answerSection({
+      required String title,
+      required Map answers,
+    }) {
+      return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-            );
-          }),
-        ],
-      ),
+            ),
+            const SizedBox(height: 10),
+            ...answers.entries.map((entry) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${int.parse(entry.key.toString()) + 1}: ',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: SelectableText(
+                        entry.value.toString(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ),
+      );
+    }
+
+    Map getMap(String key) {
+      final value = responses[key];
+      if (value is Map) return value;
+      return {};
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (getMap('inputAnswers').isNotEmpty)
+          answerSection(
+            title: 'Input answers',
+            answers: getMap('inputAnswers'),
+          ),
+        if (getMap('vocabularyAnswers').isNotEmpty)
+          answerSection(
+            title: 'Vocabulary answers',
+            answers: getMap('vocabularyAnswers'),
+          ),
+        if (getMap('grammarAnswers').isNotEmpty)
+          answerSection(
+            title: 'Grammar answers',
+            answers: getMap('grammarAnswers'),
+          ),
+        if (getMap('comprehensionAnswers').isNotEmpty)
+          answerSection(
+            title: 'Comprehension answers',
+            answers: getMap('comprehensionAnswers'),
+          ),
+        if (getMap('shortAnswers').isNotEmpty)
+          answerSection(
+            title: 'Short answers',
+            answers: getMap('shortAnswers'),
+          ),
+      ],
     );
   }
 
-  Map getMap(String key) {
-    final value = responses[key];
-    if (value is Map) return value;
-    return {};
-  }
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      if (getMap('inputAnswers').isNotEmpty)
-        answerSection(
-          title: 'Input answers',
-          answers: getMap('inputAnswers'),
-        ),
-
-      if (getMap('vocabularyAnswers').isNotEmpty)
-        answerSection(
-          title: 'Vocabulary answers',
-          answers: getMap('vocabularyAnswers'),
-        ),
-
-      if (getMap('grammarAnswers').isNotEmpty)
-        answerSection(
-          title: 'Grammar answers',
-          answers: getMap('grammarAnswers'),
-        ),
-
-      if (getMap('comprehensionAnswers').isNotEmpty)
-        answerSection(
-          title: 'Comprehension answers',
-          answers: getMap('comprehensionAnswers'),
-        ),
-
-      if (getMap('shortAnswers').isNotEmpty)
-        answerSection(
-          title: 'Short answers',
-          answers: getMap('shortAnswers'),
-        ),
-    ],
-  );
-}
   @override
   Widget build(BuildContext context) {
     final averagePercentage = getAveragePercentage();
@@ -421,35 +420,35 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                                     _scoreRow(
                                       'Total',
                                       score,
-                                      possible.toString(),
+                                      possible,
                                     ),
 
                                     if (answer.containsKey('inputScore'))
                                       _scoreRow(
                                         'Input',
                                         answer['inputScore'] ?? 0,
-                                        '3',
+                                        3,
                                       ),
 
                                     if (answer.containsKey('vocabularyScore'))
                                       _scoreRow(
                                         'Vocabulary',
                                         answer['vocabularyScore'] ?? 0,
-                                        '8',
+                                        answer['vocabularyTotal'] ?? 8,
                                       ),
 
                                     if (answer.containsKey('grammarScore'))
                                       _scoreRow(
                                         'Grammar',
                                         answer['grammarScore'] ?? 0,
-                                        '5',
+                                        answer['grammarTotal'] ?? 5,
                                       ),
 
                                     if (answer.containsKey('comprehensionScore'))
                                       _scoreRow(
                                         'Comprehension',
                                         answer['comprehensionScore'] ?? 0,
-                                        '10',
+                                        10,
                                       ),
                                   ] else ...[
                                     Text('Answer: ${answer ?? ''}'),
@@ -495,4 +494,3 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
     );
   }
 }
-
