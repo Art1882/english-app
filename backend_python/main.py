@@ -18,6 +18,13 @@ app.add_middleware(
 def root():
     return {"status": "backend working"}
 
+@app.get("/reset-submissions")
+def reset_submissions():
+    global submissions
+    submissions = []
+    save_submissions()
+    return {"status": "submissions reset"}
+
 # 🔥 in-memory storage
 SUBMISSIONS_FILE = "submissions.json"
 
