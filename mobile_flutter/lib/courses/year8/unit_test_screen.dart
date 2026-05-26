@@ -51,13 +51,25 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
     });
   }
 
-  String normaliseAnswer(String value) {
-    return value
-        .trim()
-        .toLowerCase()
-        .replaceAll('’', "'")
-        .replaceAll(RegExp(r'\s+'), ' ');
-  }
+String normaliseAnswer(String value) {
+  return value
+      .trim()
+      .toLowerCase()
+      .replaceAll('’', "'")
+      .replaceAll('‘', "'")
+      .replaceAll('`', "'")
+      .replaceAll("can't", 'cannot')
+      .replaceAll("won't", 'will not')
+      .replaceAll("n't", ' not')
+      .replaceAll("'re", ' are')
+      .replaceAll("'m", ' am')
+      .replaceAll("'s", ' is')
+      .replaceAll("'ve", ' have')
+      .replaceAll("'ll", ' will')
+      .replaceAll("'d", ' would')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+}
 
   bool allVocabularyQuestionsAnswered() {
     final questions = data['vocabularyQuestions'] as List;
@@ -207,8 +219,14 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
         "activity": "Unit review test completed",
         "answer": {
           "vocabularyScore": vocabularyScore,
+          "vocabularyTotal": data['vocabularyQuestions'].length,
+
           "grammarScore": grammarScore,
+          "grammarTotal": data['grammarQuestions'].length,
+
           "totalScore": vocabularyScore + grammarScore,
+          "totalPossible":
+              data['vocabularyQuestions'].length + data['grammarQuestions'].length,
         },
         "responses": {
           "vocabularyAnswers": vocabularyAnswers.map(

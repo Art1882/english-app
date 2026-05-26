@@ -81,10 +81,10 @@ final lesson3 = {
         'annoyed because something is taking too long',
   },
   {
-    'word': 'confidence',
-    'partOfSpeech': 'n',
+    'word': 'non-verbal',
+    'partOfSpeech': 'adj',
     'meaning':
-        'the feeling of believing in yourself',
+        'not involving or using words',
   },
   {
     'word': 'rude',
@@ -105,10 +105,10 @@ final lesson3 = {
         'situations where people understand something wrongly',
   },
   {
-    'word': 'successfully',
+    'word': 'emotions',
     'partOfSpeech': 'adv',
     'meaning':
-        'in a good or effective way',
+        'a strong feeling',
   },
 ],
 
@@ -121,7 +121,7 @@ final lesson3 = {
       'gesture',
       'confidence',
       'nervous',
-      'successfully',
+      'emotion',
     ],
     'answer': 'nervous',
   },
@@ -143,20 +143,20 @@ final lesson3 = {
       'nervous',
       'successfully',
       'impatient',
-      'confidence',
+      'emotion',
     ],
     'answer': 'impatient',
   },
   {
     'sentence':
-        'Speaking clearly can help you communicate more ______ with others.',
+        'Love is a powerful ______.',
     'options': [
       'gesture',
       'rude',
       'misunderstandings',
-      'successfully',
+      'emotion',
     ],
-    'answer': 'successfully',
+    'answer': 'emotion',
   },
   {
     'sentence':
@@ -182,14 +182,14 @@ final lesson3 = {
   },
   {
     'sentence':
-        'Team activities can help students build ______ when speaking English.',
+        'Shaking hands is an example ______ communication.',
     'options': [
       'misunderstandings',
       'rude',
-      'confidence',
+      'non-verbal',
       'gesture',
     ],
-    'answer': 'confidence',
+    'answer': 'non-verbal',
   },
   {
     'sentence':

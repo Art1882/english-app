@@ -109,10 +109,10 @@ final lesson1 = {
           'something used to hold or carry things',
     },
     {
-      'word': 'communicate',
-      'partOfSpeech': 'v',
+      'word': 'waste',
+      'partOfSpeech': 'n',
       'meaning':
-          'to share information or ideas with others',
+          'material that is worthless, defective, or of no use',
     },
   ],
 
@@ -123,7 +123,7 @@ final lesson1 = {
       'options': [
         'reduce',
         'invent',
-        'communicate',
+        'routines',
         'contain',
       ],
       'answer': 'reduce',
@@ -174,14 +174,14 @@ final lesson1 = {
     },
     {
       'sentence':
-          'Teachers encourage students to ______ clearly when working in groups.',
+          'Teachers encourage students to reduce the amount of ________ they leave after lunchtimes.',
       'options': [
-        'communicate',
+        'waste',
         'reduce',
         'carry',
         'invent',
       ],
-      'answer': 'communicate',
+      'answer': 'waste',
     },
     {
       'sentence':
@@ -199,7 +199,7 @@ final lesson1 = {
           'Although the café looked very ______, the food was excellent.',
       'options': [
         'ordinary',
-        'comfortable',
+        'waste',
         'reusable',
         'useful',
       ],
@@ -368,6 +368,7 @@ final lesson1 = {
           'What kind of bottles are many teenagers carrying now?',
       'answer': 'reusable bottles',
       'acceptedAnswers': [
+        'reusable',
         'reusable bottle',
         'water bottles',
         'reusable water bottles',

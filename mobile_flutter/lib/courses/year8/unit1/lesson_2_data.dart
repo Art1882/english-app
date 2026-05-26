@@ -99,10 +99,10 @@ final lesson2 = {
         'the ideas, customs, and way of life of a group of people',
   },
   {
-    'word': 'communicate',
-    'partOfSpeech': 'v',
+    'word': 'different',
+    'partOfSpeech': 'adj',
     'meaning':
-        'to share information or ideas with others',
+        'not the same',
   },
   {
     'word': 'understand',
@@ -182,14 +182,14 @@ final lesson2 = {
   },
   {
     'sentence':
-        'Mobile phones make it easier for people to ______ with family and friends.',
+        'English has many ______ words that mean the samne thing.',
     'options': [
       'expressions',
       'describe',
-      'communicate',
+      'different',
       'politeness',
     ],
-    'answer': 'communicate',
+    'answer': 'different',
   },
   {
     'sentence':
@@ -233,27 +233,27 @@ final lesson2 = {
   'practice': [
     {
       'sentence':
-          'Languages may sound very different, ______ they all help people communicate.',
+          'People in many countries speak different languages, ______ they can still communicate online.',
       'answer': 'although',
     },
     {
       'sentence':
-          'In Britain, people say “chips,” ______ Americans usually say “fries.”',
+          'In Britain people drive on the left, ______ in most European countries people drive on the right.',
       'answer': 'whereas',
     },
     {
       'sentence':
-          'In France, people say “bonjour,” ______ in Japan people say “konnichiwa.”',
+          'Some teenagers listen to music ______ studying.',
       'answer': 'while',
     },
     {
       'sentence':
-          'People often bow slightly ______ greeting someone.',
-      'answer': 'while',
+          '______ online communication is fast, face-to-face conversations are still important.',
+      'answer': 'Although',
     },
     {
       'sentence':
-          'In many English-speaking countries people shake hands, ______ in Korea people often bow slightly.',
+          'In some cultures people bow when greeting others, ______ in other cultures people shake hands.',
       'answer': 'whereas',
     },
   ],
@@ -319,11 +319,10 @@ final lesson2 = {
 'shortAnswerQuestions': [
   {
     'question':
-        'What do people often say in Japan when greeting someone?',
-    'answer': 'konnichiwa',
+        'In which country do people say konnichiwa when greeting someone?',
+    'answer': 'Japan',
     'acceptedAnswers': [
-      'konnichiwa!',
-      'hello',
+      'Japan',
     ],
   },
   {
@@ -358,12 +357,12 @@ final lesson2 = {
   },
   {
     'question':
-        'According to the presenter, what can languages help people communicate besides ideas and feelings?',
-    'answer': 'culture',
+        'According to the presenter, what can languages help people communicate besides ideas and culture?',
+    'answer': 'feelings',
     'acceptedAnswers': [
-      'cultures',
-      'their culture',
-      'different cultures',
+      'feeling',
+      'their feelings',
+      'different feelings',
     ],
   },
 ],

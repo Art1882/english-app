@@ -1,8 +1,8 @@
 final lesson3 = {
         // Overview
-  'appBarTitle': 'Lesson 3: Incredible Buildings Around the World',
+  'appBarTitle': 'Lesson 3: Amazing Buildings',
   'backButtonText': 'Back to Unit 2',
-  'title': 'Incredible Buildings Around the World',
+  'title': 'Amazing Buildings',
 
   //Beta save
   'lessonId': 'unit2_lesson3',

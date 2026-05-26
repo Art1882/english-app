@@ -80,10 +80,10 @@ final lesson2 = {
           'making people feel worried or under pressure',
     },
     {
-      'word': 'communication',
-      'partOfSpeech': 'n',
+      'word': 'suddenly',
+      'partOfSpeech': 'adv',
       'meaning':
-          'the process of sharing information or ideas',
+          'in a sudden manner; quickly',
     },
     {
       'word': 'arranging',
@@ -98,10 +98,10 @@ final lesson2 = {
           'machines that keep food cold and fresh',
     },
     {
-      'word': 'inventions',
-      'partOfSpeech': 'n',
+      'word': 'instant',
+      'partOfSpeech': 'adj',
       'meaning':
-          'new things or machines that people create',
+          'immediate, direct',
     },
     {
       'word': 'environment',
@@ -110,10 +110,10 @@ final lesson2 = {
           'the natural world around us',
     },
     {
-      'word': 'habits',
-      'partOfSpeech': 'n',
+      'word': 'fresh',
+      'partOfSpeech': 'adj',
       'meaning':
-          'things people do regularly',
+          'not stale, sour, or decayed; new',
     },
   ],
 
@@ -122,7 +122,7 @@ final lesson2 = {
     'sentence':
         'Many people are trying to protect the ______ by recycling plastic and paper.',
     'options': [
-      'communication',
+      'fresh',
       'refrigerators',
       'environment',
       'habits',
@@ -131,25 +131,25 @@ final lesson2 = {
   },
   {
     'sentence':
-        'Good study ______ can help students prepare for exams successfully.',
+        'It is important to include ______ fruit in your diet.',
     'options': [
       'machines',
-      'habits',
+      'fresh',
       'arrangements',
       'inventions',
     ],
-    'answer': 'habits',
+    'answer': 'fresh',
   },
   {
     'sentence':
-        'Mobile phones have improved ______ between friends and families.',
+        'Mobile phones have improved ______ communication between friends and families.',
     'options': [
       'stress',
-      'communication',
+      'instant',
       'arranging',
       'environment',
     ],
-    'answer': 'communication',
+    'answer': 'instant',
   },
   {
     'sentence':
@@ -164,22 +164,22 @@ final lesson2 = {
   },
   {
     'sentence':
-        'Scientists are creating new ______ to make everyday life easier.',
+        'She stood up _______ and surprised everyone.',
     'options': [
       'containers',
       'routines',
       'habits',
-      'inventions',
+      'suddenly',
     ],
-    'answer': 'inventions',
+    'answer': 'suddenly',
   },
   {
     'sentence':
         'My parents are ______ a family trip for the school holidays.',
     'options': [
-      'inventing',
+      'fresh',
       'arranging',
-      'communicating',
+      'instantly',
       'disappearing',
     ],
     'answer': 'arranging',
@@ -188,7 +188,7 @@ final lesson2 = {
     'sentence':
         'If all the internet connections suddenly ______, many people would not know what to do.',
     'options': [
-      'communicated',
+      'instantly',
       'improved',
       'disappeared',
       'arranged',

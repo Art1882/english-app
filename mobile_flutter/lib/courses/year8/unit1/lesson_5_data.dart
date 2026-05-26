@@ -80,10 +80,10 @@ final lesson5 = {
         'who a person is and how they see themselves',
   },
   {
-    'word': 'confidence',
+    'word': 'opinions',
     'partOfSpeech': 'n',
     'meaning':
-        'the feeling of believing in yourself',
+        'a view or judgment about a particular matter',
   },
   {
     'word': 'independence',
@@ -123,7 +123,7 @@ final lesson5 = {
     'sentence':
         'Drawing, writing stories, and making music can help students develop their ______.',
     'options': [
-      'confidence',
+      'opinion',
       'identity',
       'creativity',
       'responsibility',
@@ -143,14 +143,14 @@ final lesson5 = {
   },
   {
     'sentence':
-        'Public speaking can improve students’ ______ over time.',
+        'Public speaking can improve students’ skills about effectively sharing their ______.',
     'options': [
       'identity',
       'responsibility',
-      'confidence',
+      'opinion',
       'insecurity',
     ],
-    'answer': 'confidence',
+    'answer': 'opinion',
   },
   {
     'sentence':
@@ -167,7 +167,7 @@ final lesson5 = {
     'sentence':
         'Forgetting your lines during a performance may cause ______.',
     'options': [
-      'confidence',
+      'opinion',
       'independence',
       'responsibility',
       'embarrassment',
@@ -189,7 +189,7 @@ final lesson5 = {
     'sentence':
         'Famous athletes often give young people ______ to work hard and follow their dreams.',
     'options': [
-      'confidence',
+      'opinion',
       'embarrassment',
       'inspiration',
       'independence',

@@ -119,7 +119,7 @@ final lesson1 = {
   },
   {
     'sentence':
-        'Many schools are using technology ______ more in the classroom.',
+        'Many schools are ______ using technology in the classroom.',
     'options': [
       'successfully',
       'confidence',
@@ -371,6 +371,7 @@ final lesson1 = {
           'What kind of world does the text describe today?',
       'answer': 'a connected world',
       'acceptedAnswers': [
+        'connected',
         'connected world',
         'global world',
         'modern connected world',

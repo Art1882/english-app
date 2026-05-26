@@ -351,6 +351,7 @@ final lesson4 = {
           'What kind of gardens may future homes include?',
       'answer': 'rooftop gardens',
       'acceptedAnswers': [
+        'rooftop',
         'rooftop gardens',
         'roof gardens',
         'gardens on rooftops',

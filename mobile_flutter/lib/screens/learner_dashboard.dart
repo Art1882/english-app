@@ -54,26 +54,32 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     });
   }
 
-  String getUnitStatus(int completedItems) {
-    if (completedItems == 6) {
-      return 'Unit completed';
-    }
-
-    if (completedItems > 0) {
-      return 'In progress';
-    }
-
-    return 'Start learning';
+String getUnitStatus(
+  int completedItems,
+  int totalItems,
+) {
+  if (completedItems == totalItems) {
+    return 'Unit completed';
   }
 
-  double getUnitProgressValue(int completedItems) {
-    return completedItems / 6;
+  if (completedItems > 0) {
+    return 'In progress';
   }
+
+  return 'Start learning';
+}
+
+double getUnitProgressValue(
+  int completedItems,
+  int totalItems,
+) {
+  return completedItems / totalItems;
+}
 
   @override
   Widget build(BuildContext context) {
-    final unit1Status = getUnitStatus(unit1CompletedItems);
-    final unit2Status = getUnitStatus(unit2CompletedItems);
+  final unit1Status = getUnitStatus(unit1CompletedItems, 6);
+  final unit2Status = getUnitStatus(unit2CompletedItems, 5);
 
     return Scaffold(
       appBar: AppBar(
@@ -109,7 +115,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
               title: '🗣 Unit 1',
               subtitle: 'How people communicate',
               status: unit1Status,
-              progressValue: getUnitProgressValue(unit1CompletedItems),
+              progressValue: getUnitProgressValue(unit1CompletedItems, 6),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -127,7 +133,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
               title: '📘 Unit 2',
               subtitle: 'The World Around Us',
               status: unit2Status,
-              progressValue: getUnitProgressValue(unit2CompletedItems),
+              progressValue: getUnitProgressValue(unit2CompletedItems, 5),
               onTap: () async {
                 await Navigator.push(
                   context,

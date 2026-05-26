@@ -333,6 +333,7 @@ final lesson4 = {
           'What are many teenagers using to chat with friends?',
       'answer': 'the internet',
       'acceptedAnswers': [
+        'technology',
         'internet',
         'online platforms',
         'social media',
@@ -377,6 +378,7 @@ final lesson4 = {
           'What kind of activities should people balance with online activities?',
       'answer': 'offline activities',
       'acceptedAnswers': [
+        'offline',
         'offline activity',
         'real life activities',
         'activities offline',
