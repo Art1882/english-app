@@ -19,7 +19,7 @@ final lesson1 = {
 'imagePath': 'assets/images/unit1_lesson1.png',
 
 'input':
-    'People learn languages for many different reasons. Some people learn English because they need it for work, while others learn it to travel or study in another country. Today, English is used in many international companies, airports, hotels, and universities around the world. Because of this, many people believe that learning English can create new opportunities in life.\n\n'
+    'This is a test. People learn languages for many different reasons. Some people learn English because they need it for work, while others learn it to travel or study in another country. Today, English is used in many international companies, airports, hotels, and universities around the world. Because of this, many people believe that learning English can create new opportunities in life.\n\n'
     'Languages also help people communicate with others. Some teenagers learn languages so they can speak to online friends from different countries. Others enjoy watching films, listening to music, or playing games in another language. Learning a language can also help people understand different cultures and traditions better.\n\n'
     'Although learning a language can sometimes be difficult, many learners say it is rewarding. Students often feel proud when they can successfully understand a song, read a text, or have a conversation in another language. Teachers believe that language learning also improves memory, confidence, and problem-solving skills.\n\n'
     'In today’s connected world, speaking more than one language is becoming increasingly useful. Whether people learn languages for work, travel, education, or communication, language learning helps people connect with the wider world.',
