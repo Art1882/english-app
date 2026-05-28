@@ -173,7 +173,7 @@ Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
 
   if (isPlaying) {
-    await audioPlayer.pause();
+    await audioPlayer.stop();
 
     setState(() {
       isPlaying = false;
@@ -182,10 +182,21 @@ Future<void> toggleAudio() async {
     await grammarVideoController?.pause();
 
     await audioPlayer.stop();
-    await audioPlayer.play(AssetSource(audioPath));
+
+    await audioPlayer.play(
+      AssetSource(audioPath),
+    );
 
     setState(() {
       isPlaying = true;
+    });
+
+    audioPlayer.onPlayerComplete.listen((event) {
+      if (mounted) {
+        setState(() {
+          isPlaying = false;
+        });
+      }
     });
   }
 }
