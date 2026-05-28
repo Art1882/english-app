@@ -77,12 +77,13 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     await grammarVideoController?.pause();
 
     if (isPlaying) {
-      await audioPlayer.pause();
+      await audioPlayer.stop();
 
       setState(() {
         isPlaying = false;
       });
     } else {
+      await audioPlayer.stop();
       await audioPlayer.play(AssetSource(audioPath));
 
       setState(() {
