@@ -169,21 +169,26 @@ Future<void> nextStep() async {
     );
   }
 
- Future<void> toggleAudio() async {
-    await stopGrammarVideo();
+Future<void> toggleAudio() async {
+  final audioPath = data['audioPath'] as String;
 
-    final audioPath = data['audioPath'] as String;
-
-    if (isPlaying) {
-      await audioPlayer.pause();
-    } else {
-      await audioPlayer.play(AssetSource(audioPath));
-    }
+  if (isPlaying) {
+    await audioPlayer.pause();
 
     setState(() {
-      isPlaying = !isPlaying;
+      isPlaying = false;
+    });
+  } else {
+    await grammarVideoController?.pause();
+
+    await audioPlayer.stop();
+    await audioPlayer.play(AssetSource(audioPath));
+
+    setState(() {
+      isPlaying = true;
     });
   }
+}
 
   bool allInputQuestionsAnswered() {
     final questions = data['inputQuestions'] as List;
