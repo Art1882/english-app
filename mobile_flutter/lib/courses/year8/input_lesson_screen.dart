@@ -1,12 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
-import 'package:audioplayers/audioplayers.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../../config.dart';
-
 import '../../../screens/writing_template_screen.dart';
 import '../../../screens/subscription_screen.dart';
 
@@ -28,15 +29,14 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   int step = 0;
   String feedback = '';
 
-
   final ScrollController scrollController = ScrollController();
-
-  VideoPlayerController? grammarVideoController;
-  String? currentGrammarVideoPath;
 
   final AudioPlayer audioPlayer = AudioPlayer();
   bool isPlaying = false;
+  StreamSubscription<void>? audioCompleteSubscription;
 
+  VideoPlayerController? grammarVideoController;
+  String? currentGrammarVideoPath;
 
   Map<int, String> inputAnswers = {};
   bool inputSubmitted = false;
@@ -61,45 +61,59 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   void initState() {
     super.initState();
     data = widget.data;
-  }
 
-
-Future<void> toggleAudio() async {
-  final audioPath = data['audioPath'] as String;
-
-  await grammarVideoController?.pause();
-
-  if (isPlaying) {
-    await audioPlayer.pause();
-  } else {
-    await audioPlayer.play(AssetSource(audioPath));
-  }
-
-  setState(() {
-    isPlaying = !isPlaying;
-  });
-}
-Future<void> nextStep() async {
-  await stopGrammarVideo();
-  await audioPlayer.stop();
-
-  setState(() {
-    step++;
-    feedback = '';
-  });
-
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    Future.delayed(const Duration(milliseconds: 50), () {
-      if (mounted && scrollController.hasClients) {
-        scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOut,
-        );
+    audioCompleteSubscription = audioPlayer.onPlayerComplete.listen((event) {
+      if (mounted) {
+        setState(() {
+          isPlaying = false;
+        });
       }
     });
-  });
-}
+  }
+
+  Future<void> toggleAudio() async {
+    final audioPath = data['audioPath'] as String;
+
+    await grammarVideoController?.pause();
+
+    if (isPlaying) {
+      await audioPlayer.pause();
+
+      setState(() {
+        isPlaying = false;
+      });
+    } else {
+      await audioPlayer.play(AssetSource(audioPath));
+
+      setState(() {
+        isPlaying = true;
+      });
+    }
+  }
+
+  Future<void> nextStep() async {
+    await stopGrammarVideo();
+    await audioPlayer.stop();
+
+    setState(() {
+      step++;
+      feedback = '';
+      isPlaying = false;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 50), () {
+        if (mounted && scrollController.hasClients) {
+          scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    });
+  }
+
   String normaliseBasic(String value) {
     return value
         .toLowerCase()
@@ -132,8 +146,7 @@ Future<void> nextStep() async {
   }
 
   bool isGrammarAnswerCorrect(String learnerAnswer, String correctAnswer) {
-    return normaliseGrammar(learnerAnswer) ==
-        normaliseGrammar(correctAnswer);
+    return normaliseGrammar(learnerAnswer) == normaliseGrammar(correctAnswer);
   }
 
   bool isShortAnswerCorrect(
@@ -186,9 +199,6 @@ Future<void> nextStep() async {
     );
   }
 
-
-
-
   bool allInputQuestionsAnswered() {
     final questions = data['inputQuestions'] as List;
     return inputAnswers.length == questions.length;
@@ -229,30 +239,32 @@ Future<void> nextStep() async {
     return true;
   }
 
+  Future<void> stopGrammarVideo() async {
+    final controller = grammarVideoController;
 
-Future<void> stopGrammarVideo() async {
-  final controller = grammarVideoController;
-  if (controller != null && controller.value.isInitialized) {
-    await controller.pause();
-    await controller.seekTo(Duration.zero);
-  }
-}
-
-Future<void> prepareGrammarVideo(String videoPath) async {
-  if (currentGrammarVideoPath == videoPath && grammarVideoController != null) {
-    return;
+    if (controller != null && controller.value.isInitialized) {
+      await controller.pause();
+      await controller.seekTo(Duration.zero);
+    }
   }
 
-  await grammarVideoController?.dispose();
+  Future<void> prepareGrammarVideo(String videoPath) async {
+    if (currentGrammarVideoPath == videoPath &&
+        grammarVideoController != null) {
+      return;
+    }
 
-  currentGrammarVideoPath = videoPath;
-  grammarVideoController = VideoPlayerController.asset(videoPath);
-  await grammarVideoController!.initialize();
+    await grammarVideoController?.dispose();
 
-  if (mounted) {
-    setState(() {});
+    currentGrammarVideoPath = videoPath;
+    grammarVideoController = VideoPlayerController.asset(videoPath);
+    await grammarVideoController!.initialize();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
-}
+
   void showMissingAnswersMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -805,387 +817,346 @@ Future<void> prepareGrammarVideo(String videoPath) async {
     );
   }
 
-Widget buildGrammarStep() {
-  final grammar = data['grammar'] as Map;
-  final practice = grammar['practice'] as List;
-  final summary = grammar['summary'] as Map<String, dynamic>? ?? {};
-  final example = grammar['example'] as Map?;
-  final videoPath = data['grammarVideoPath'] as String?;
+  Widget buildGrammarStep() {
+    final grammar = data['grammar'] as Map;
+    final practice = grammar['practice'] as List;
+    final summary = grammar['summary'] as Map<String, dynamic>? ?? {};
+    final example = grammar['example'] as Map?;
+    final videoPath = data['grammarVideoPath'] as String?;
 
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      buildLessonSectionHeader(
-        stepNumber: 3,
-        totalSteps: 4,
-        title: 'Grammar',
-      ),
-
-      const SizedBox(height: 20),
-
-      Text(
-        grammar['title'] as String,
-        style: const TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildLessonSectionHeader(
+          stepNumber: 3,
+          totalSteps: 4,
+          title: 'Grammar',
         ),
-      ),
-
-      const SizedBox(height: 20),
-
-      if (videoPath != null) ...[
-       Builder(
-        builder: (context) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            prepareGrammarVideo(videoPath);
-          });
-
-          final controller = grammarVideoController;
-
-          if (controller == null || !controller.value.isInitialized) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: AspectRatio(
-                  aspectRatio: controller.value.aspectRatio,
-                  child: VideoPlayer(controller),
-                ),
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    controller.value.isPlaying
-                        ? controller.pause()
-                        : controller.play();
-                  });
-                },
-                child: Text(
-                  controller.value.isPlaying ? 'Pause video' : 'Play video',
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-
-        const SizedBox(height: 24),
-      ],
-
-      Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.purple.shade50,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.purple.shade100),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Summary',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.purple,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            Text(
-              summary['grammarPoint'] ?? grammar['title'],
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'USE',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              summary['use'] ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-                height: 1.5,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'FORM',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              summary['form'] ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-                height: 1.7,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'EXAMPLES',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.orange,
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            ...((summary['examples'] as List?) ?? []).map((item) {
-              return Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Text(
-                  item.toString(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    height: 1.5,
-                  ),
-                ),
-              );
-            }),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'REMEMBER',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              summary['remember'] ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                height: 1.5,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 30),
-
-      if (example != null) ...[
-        const Text(
-          'Example',
-          style: TextStyle(
-            fontSize: 24,
+        const SizedBox(height: 20),
+        Text(
+          grammar['title'] as String,
+          style: const TextStyle(
+            fontSize: 28,
             fontWeight: FontWeight.bold,
           ),
         ),
+        const SizedBox(height: 20),
+        if (videoPath != null) ...[
+          Builder(
+            builder: (context) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted && currentGrammarVideoPath != videoPath) {
+                  prepareGrammarVideo(videoPath);
+                }
+              });
 
-        const SizedBox(height: 12),
+              final controller = grammarVideoController;
 
+              if (controller == null || !controller.value.isInitialized) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: AspectRatio(
+                      aspectRatio: controller.value.aspectRatio,
+                      child: VideoPlayer(controller),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.value.isPlaying
+                            ? controller.pause()
+                            : controller.play();
+                      });
+                    },
+                    child: Text(
+                      controller.value.isPlaying
+                          ? 'Pause video'
+                          : 'Play video',
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          const SizedBox(height: 24),
+        ],
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.green.shade50,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.green.shade100),
+            color: Colors.purple.shade50,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.purple.shade100),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                'Summary',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple,
+                ),
+              ),
+              const SizedBox(height: 20),
               Text(
-                example['sentence'] as String,
+                summary['grammarPoint'] ?? grammar['title'],
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'USE',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                summary['use'] ?? '',
                 style: const TextStyle(
                   fontSize: 16,
                   height: 1.5,
                 ),
               ),
-
-              const SizedBox(height: 10),
-
-              Text(
-                '→ ${example['answer']}',
-                style: const TextStyle(
-                  fontSize: 17,
+              const SizedBox(height: 20),
+              const Text(
+                'FORM',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                summary['form'] ?? '',
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.7,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'EXAMPLES',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...((summary['examples'] as List?) ?? []).map((item) {
+                return Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    item.toString(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      height: 1.5,
+                    ),
+                  ),
+                );
+              }),
+              const SizedBox(height: 20),
+              const Text(
+                'REMEMBER',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                summary['remember'] ?? '',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                   height: 1.5,
                 ),
               ),
             ],
           ),
         ),
-
         const SizedBox(height: 30),
-      ],
-
-      const Text(
-        'Practice',
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-
-      const SizedBox(height: 8),
-
-      Text(
-        grammar['instruction'] as String? ??
-            'Use the correct word to complete each sentence.',
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-
-      const SizedBox(height: 16),
-
-      ...List.generate(practice.length, (index) {
-        final question = practice[index];
-
-        final isCorrect = isGrammarAnswerCorrect(
-          grammarAnswers[index] ?? '',
-          question['answer'].toString(),
-        );
-
-        return Card(
-          margin: const EdgeInsets.only(bottom: 16),
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+        if (example != null) ...[
+          const Text(
+            'Example',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          child: Padding(
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
             padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.green.shade50,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.green.shade100),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${index + 1}. ${question['sentence']}',
+                  example['sentence'] as String,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
                     height: 1.5,
                   ),
                 ),
-
-                if (question['question'] != null) ...[
-                  const SizedBox(height: 10),
-
-                  Text(
-                    question['question'] as String,
-                    style: TextStyle(
-                      fontSize: 15,
-                      height: 1.5,
-                      color: Colors.grey.shade700,
-                    ),
+                const SizedBox(height: 10),
+                Text(
+                  '→ ${example['answer']}',
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    height: 1.5,
                   ),
-                ],
-
-                const SizedBox(height: 12),
-
-                TextField(
-                  enabled: !grammarSubmitted,
-                  decoration: buildAnswerInputDecoration(
-                    'Missing word(s) only',
-                  ),
-                  onChanged: (value) {
-                    grammarAnswers[index] = value;
-                  },
                 ),
-
-                if (grammarSubmitted) ...[
-                  const SizedBox(height: 10),
-
-                  Text(
-                    isCorrect
-                        ? 'Correct'
-                        : 'Incorrect. Correct answer: ${question['answer']}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: isCorrect ? Colors.green : Colors.red,
-                    ),
-                  ),
-                ],
               ],
             ),
           ),
-        );
-      }),
-
-      const SizedBox(height: 12),
-
-    if (!grammarSubmitted)
-      ElevatedButton(
-        onPressed: () {
-          submitGrammarAnswers();
-
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (scrollController.hasClients) {
-              scrollController.jumpTo(
-                scrollController.position.maxScrollExtent,
-              );
-            }
-          });
-        },
-        child: const Text('Submit grammar answers'),
-      )
-    else ...[
-      Text(
-        'You got $grammarScore / ${practice.length} correct.',
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+          const SizedBox(height: 30),
+        ],
+        const Text(
+          'Practice',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
+        const SizedBox(height: 8),
+        Text(
+          grammar['instruction'] as String? ??
+              'Use the correct word to complete each sentence.',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...List.generate(practice.length, (index) {
+          final question = practice[index];
 
-      const SizedBox(height: 20),
+          final isCorrect = isGrammarAnswerCorrect(
+            grammarAnswers[index] ?? '',
+            question['answer'].toString(),
+          );
 
-      ElevatedButton(
-        onPressed: nextStep,
-        child: const Text('Continue'),
-      ),
-    ],
-  ],
-  );
-}
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ${question['sentence']}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                    ),
+                  ),
+                  if (question['question'] != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      question['question'] as String,
+                      style: TextStyle(
+                        fontSize: 15,
+                        height: 1.5,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 12),
+                  TextField(
+                    enabled: !grammarSubmitted,
+                    decoration: buildAnswerInputDecoration(
+                      'Missing word(s) only',
+                    ),
+                    onChanged: (value) {
+                      grammarAnswers[index] = value;
+                    },
+                  ),
+                  if (grammarSubmitted) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      isCorrect
+                          ? 'Correct'
+                          : 'Incorrect. Correct answer: ${question['answer']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isCorrect ? Colors.green : Colors.red,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 12),
+        if (!grammarSubmitted)
+          ElevatedButton(
+            onPressed: () {
+              submitGrammarAnswers();
+
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (scrollController.hasClients) {
+                  scrollController.jumpTo(
+                    scrollController.position.maxScrollExtent,
+                  );
+                }
+              });
+            },
+            child: const Text('Submit grammar answers'),
+          )
+        else ...[
+          Text(
+            'You got $grammarScore / ${practice.length} correct.',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: nextStep,
+            child: const Text('Continue'),
+          ),
+        ],
+      ],
+    );
+  }
+
   Widget buildComprehensionStep() {
     final questions = data['comprehension'] as List;
     final shortQuestions = data['shortAnswerQuestions'] as List? ?? [];
@@ -1461,12 +1432,14 @@ Widget buildGrammarStep() {
   }
 
   @override
-    void dispose() {
-      scrollController.dispose();
-      audioPlayer.dispose();
-      grammarVideoController?.dispose();
-      super.dispose();
-      }
+  void dispose() {
+    audioCompleteSubscription?.cancel();
+    scrollController.dispose();
+    audioPlayer.dispose();
+    grammarVideoController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
