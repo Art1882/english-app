@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
@@ -30,11 +29,12 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
   final ScrollController scrollController = ScrollController();
 
-  final AudioPlayer audioPlayer = AudioPlayer();
-  bool isPlaying = false;
-
   VideoPlayerController? grammarVideoController;
   String? currentGrammarVideoPath;
+
+  VideoPlayerController? listeningAudioController;
+  String? currentListeningAudioPath;
+  bool isListeningAudioPlaying = false;
 
   Map<int, String> inputAnswers = {};
   bool inputSubmitted = false;
@@ -63,12 +63,12 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
 Future<void> nextStep() async {
   await stopGrammarVideo();
-  await audioPlayer.stop();
+  await listeningAudioController?.pause();
 
   setState(() {
     step++;
     feedback = '';
-    isPlaying = false;
+    isListeningAudioPlaying = false;
   });
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -168,38 +168,52 @@ Future<void> nextStep() async {
       ),
     );
   }
+Future<void> prepareListeningAudio(String audioPath) async {
+  if (currentListeningAudioPath == audioPath &&
+      listeningAudioController != null) {
+    return;
+  }
 
-Future<void> toggleAudio() async {
+  await listeningAudioController?.dispose();
+
+  currentListeningAudioPath = audioPath;
+  listeningAudioController = VideoPlayerController.asset(audioPath);
+  await listeningAudioController!.initialize();
+
+  if (mounted) {
+    setState(() {});
+  }
+}
+
+Future<void> toggleListeningAudio() async {
   final audioPath = data['audioPath'] as String;
 
-  if (isPlaying) {
-    await audioPlayer.stop();
+  await grammarVideoController?.pause();
 
+  if (currentListeningAudioPath != audioPath ||
+      listeningAudioController == null) {
+    await prepareListeningAudio(audioPath);
+  }
+
+  final controller = listeningAudioController;
+
+  if (controller == null || !controller.value.isInitialized) {
+    return;
+  }
+
+  if (controller.value.isPlaying) {
+    await controller.pause();
     setState(() {
-      isPlaying = false;
+      isListeningAudioPlaying = false;
     });
   } else {
-    await grammarVideoController?.pause();
-
-    await audioPlayer.stop();
-
-    await audioPlayer.play(
-      AssetSource(audioPath),
-    );
-
+    await controller.play();
     setState(() {
-      isPlaying = true;
-    });
-
-    audioPlayer.onPlayerComplete.listen((event) {
-      if (mounted) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
+      isListeningAudioPlaying = true;
     });
   }
 }
+
 
   bool allInputQuestionsAnswered() {
     final questions = data['inputQuestions'] as List;
@@ -645,8 +659,12 @@ Future<void> prepareGrammarVideo(String videoPath) async {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: toggleAudio,
-                child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
+                onPressed: toggleListeningAudio,
+                child: Text(
+                  isListeningAudioPlaying
+                      ? 'Pause audio'
+                      : 'Play audio',
+                ),
               ),
             ],
           ),
@@ -1234,8 +1252,12 @@ Widget buildGrammarStep() {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: toggleAudio,
-            child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
+            onPressed: toggleListeningAudio,
+            child: Text(
+              isListeningAudioPlaying
+                  ? 'Pause audio'
+                  : 'Play audio',
+            ),
           ),
         ] else ...[
           const Text(
@@ -1474,8 +1496,8 @@ Widget buildGrammarStep() {
   @override
     void dispose() {
       scrollController.dispose();
-      audioPlayer.dispose();
       grammarVideoController?.dispose();
+      listeningAudioController?.dispose();
       super.dispose();
       }
   @override
