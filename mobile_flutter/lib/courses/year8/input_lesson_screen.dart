@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../config.dart';
-import 'dart:html' as html;
 
 import '../../../screens/writing_template_screen.dart';
 import '../../../screens/subscription_screen.dart';
@@ -28,12 +28,14 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   int step = 0;
   String feedback = '';
 
-  html.AudioElement? webAudio;
 
   final ScrollController scrollController = ScrollController();
 
   VideoPlayerController? grammarVideoController;
   String? currentGrammarVideoPath;
+
+  final AudioPlayer audioPlayer = AudioPlayer();
+  bool isPlaying = false;
 
 
   Map<int, String> inputAnswers = {};
@@ -61,9 +63,25 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     data = widget.data;
   }
 
+
+Future<void> toggleAudio() async {
+  final audioPath = data['audioPath'] as String;
+
+  await grammarVideoController?.pause();
+
+  if (isPlaying) {
+    await audioPlayer.pause();
+  } else {
+    await audioPlayer.play(AssetSource(audioPath));
+  }
+
+  setState(() {
+    isPlaying = !isPlaying;
+  });
+}
 Future<void> nextStep() async {
   await stopGrammarVideo();
-  webAudio?.pause();
+  await audioPlayer.stop();
 
   setState(() {
     step++;
@@ -211,23 +229,6 @@ Future<void> nextStep() async {
     return true;
   }
 
-Future<void> toggleListeningAudio() async {
-  final audioPath = data['audioPath'] as String;
-
-  await grammarVideoController?.pause();
-
-  webAudio ??= html.AudioElement(audioPath);
-
-  if (webAudio!.paused ?? true) {
-    await webAudio!.play();
-
-    setState(() {});
-  } else {
-    webAudio!.pause();
-
-    setState(() {});
-  }
-}
 
 Future<void> stopGrammarVideo() async {
   final controller = grammarVideoController;
@@ -633,12 +634,8 @@ Future<void> prepareGrammarVideo(String videoPath) async {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: toggleListeningAudio,
-                child: Text(
-                  (webAudio?.paused ?? true)
-                      ? 'Play audio'
-                      : 'Pause audio',
-                ),
+                onPressed: toggleAudio,
+                child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
               ),
             ],
           ),
@@ -1226,12 +1223,8 @@ Widget buildGrammarStep() {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: toggleListeningAudio,
-            child: Text(
-              (webAudio?.paused ?? true)
-                  ? 'Play audio'
-                  : 'Pause audio',
-            ),
+            onPressed: toggleAudio,
+            child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
           ),
         ] else ...[
           const Text(
@@ -1470,6 +1463,7 @@ Widget buildGrammarStep() {
   @override
     void dispose() {
       scrollController.dispose();
+      audioPlayer.dispose();
       grammarVideoController?.dispose();
       super.dispose();
       }
