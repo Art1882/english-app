@@ -182,7 +182,7 @@ final lesson2 = {
   },
   {
     'sentence':
-        'English has many ______ words that mean the samne thing.',
+        'English has many ______ words that mean the same thing.',
     'options': [
       'expressions',
       'describe',

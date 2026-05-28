@@ -33,6 +33,9 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   final AudioPlayer audioPlayer = AudioPlayer();
   bool isPlaying = false;
 
+  VideoPlayerController? grammarVideoController;
+  String? currentGrammarVideoPath;
+
   Map<int, String> inputAnswers = {};
   bool inputSubmitted = false;
   int inputScore = 0;
@@ -58,19 +61,28 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     data = widget.data;
   }
 
-  void nextStep() {
-    setState(() {
-      step++;
-      feedback = '';
-    });
+Future<void> nextStep() async {
+  await stopGrammarVideo();
+  await audioPlayer.stop();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (scrollController.hasClients) {
-        scrollController.jumpTo(0);
+  setState(() {
+    step++;
+    feedback = '';
+    isPlaying = false;
+  });
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(const Duration(milliseconds: 50), () {
+      if (mounted && scrollController.hasClients) {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
       }
     });
-  }
-
+  });
+}
   String normaliseBasic(String value) {
     return value
         .toLowerCase()
@@ -157,7 +169,9 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     );
   }
 
-  Future<void> toggleAudio() async {
+ Future<void> toggleAudio() async {
+    await stopGrammarVideo();
+
     final audioPath = data['audioPath'] as String;
 
     if (isPlaying) {
@@ -211,6 +225,29 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     return true;
   }
 
+Future<void> stopGrammarVideo() async {
+  final controller = grammarVideoController;
+  if (controller != null && controller.value.isInitialized) {
+    await controller.pause();
+    await controller.seekTo(Duration.zero);
+  }
+}
+
+Future<void> prepareGrammarVideo(String videoPath) async {
+  if (currentGrammarVideoPath == videoPath && grammarVideoController != null) {
+    return;
+  }
+
+  await grammarVideoController?.dispose();
+
+  currentGrammarVideoPath = videoPath;
+  grammarVideoController = VideoPlayerController.asset(videoPath);
+  await grammarVideoController!.initialize();
+
+  if (mounted) {
+    setState(() {});
+  }
+}
   void showMissingAnswersMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -792,18 +829,47 @@ Widget buildGrammarStep() {
       const SizedBox(height: 20),
 
       if (videoPath != null) ...[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: VideoPlayer(
-              VideoPlayerController.asset(videoPath)
-                ..initialize()
-                ..setLooping(false)
-                ..play(),
-            ),
-          ),
-        ),
+       Builder(
+        builder: (context) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            prepareGrammarVideo(videoPath);
+          });
+
+          final controller = grammarVideoController;
+
+          if (controller == null || !controller.value.isInitialized) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: AspectRatio(
+                  aspectRatio: controller.value.aspectRatio,
+                  child: VideoPlayer(controller),
+                ),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    controller.value.isPlaying
+                        ? controller.pause()
+                        : controller.play();
+                  });
+                },
+                child: Text(
+                  controller.value.isPlaying ? 'Pause video' : 'Play video',
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+
         const SizedBox(height: 24),
       ],
 
@@ -1390,12 +1456,12 @@ Widget buildGrammarStep() {
   }
 
   @override
-  void dispose() {
-    scrollController.dispose();
-    audioPlayer.dispose();
-    super.dispose();
-  }
-
+    void dispose() {
+      scrollController.dispose();
+      audioPlayer.dispose();
+      grammarVideoController?.dispose();
+      super.dispose();
+      }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
