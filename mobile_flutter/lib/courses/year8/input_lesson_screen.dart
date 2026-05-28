@@ -5,6 +5,7 @@ import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../config.dart';
+import 'dart:html' as html;
 
 import '../../../screens/writing_template_screen.dart';
 import '../../../screens/subscription_screen.dart';
@@ -27,14 +28,13 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   int step = 0;
   String feedback = '';
 
+  html.AudioElement? webAudio;
+
   final ScrollController scrollController = ScrollController();
 
   VideoPlayerController? grammarVideoController;
   String? currentGrammarVideoPath;
 
-  VideoPlayerController? listeningAudioController;
-  String? currentListeningAudioPath;
-  bool isListeningAudioPlaying = false;
 
   Map<int, String> inputAnswers = {};
   bool inputSubmitted = false;
@@ -63,12 +63,11 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
 Future<void> nextStep() async {
   await stopGrammarVideo();
-  await listeningAudioController?.pause();
+  webAudio?.pause();
 
   setState(() {
     step++;
     feedback = '';
-    isListeningAudioPlaying = false;
   });
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -168,51 +167,8 @@ Future<void> nextStep() async {
       ),
     );
   }
-Future<void> prepareListeningAudio(String audioPath) async {
-  if (currentListeningAudioPath == audioPath &&
-      listeningAudioController != null) {
-    return;
-  }
 
-  await listeningAudioController?.dispose();
 
-  currentListeningAudioPath = audioPath;
-  listeningAudioController = VideoPlayerController.asset(audioPath);
-  await listeningAudioController!.initialize();
-
-  if (mounted) {
-    setState(() {});
-  }
-}
-
-Future<void> toggleListeningAudio() async {
-  final audioPath = data['audioPath'] as String;
-
-  await grammarVideoController?.pause();
-
-  if (currentListeningAudioPath != audioPath ||
-      listeningAudioController == null) {
-    await prepareListeningAudio(audioPath);
-  }
-
-  final controller = listeningAudioController;
-
-  if (controller == null || !controller.value.isInitialized) {
-    return;
-  }
-
-  if (controller.value.isPlaying) {
-    await controller.pause();
-    setState(() {
-      isListeningAudioPlaying = false;
-    });
-  } else {
-    await controller.play();
-    setState(() {
-      isListeningAudioPlaying = true;
-    });
-  }
-}
 
 
   bool allInputQuestionsAnswered() {
@@ -254,6 +210,24 @@ Future<void> toggleListeningAudio() async {
 
     return true;
   }
+
+Future<void> toggleListeningAudio() async {
+  final audioPath = data['audioPath'] as String;
+
+  await grammarVideoController?.pause();
+
+  webAudio ??= html.AudioElement(audioPath);
+
+  if (webAudio!.paused ?? true) {
+    await webAudio!.play();
+
+    setState(() {});
+  } else {
+    webAudio!.pause();
+
+    setState(() {});
+  }
+}
 
 Future<void> stopGrammarVideo() async {
   final controller = grammarVideoController;
@@ -661,9 +635,9 @@ Future<void> prepareGrammarVideo(String videoPath) async {
               ElevatedButton(
                 onPressed: toggleListeningAudio,
                 child: Text(
-                  isListeningAudioPlaying
-                      ? 'Pause audio'
-                      : 'Play audio',
+                  (webAudio?.paused ?? true)
+                      ? 'Play audio'
+                      : 'Pause audio',
                 ),
               ),
             ],
@@ -1254,9 +1228,9 @@ Widget buildGrammarStep() {
           ElevatedButton(
             onPressed: toggleListeningAudio,
             child: Text(
-              isListeningAudioPlaying
-                  ? 'Pause audio'
-                  : 'Play audio',
+              (webAudio?.paused ?? true)
+                  ? 'Play audio'
+                  : 'Pause audio',
             ),
           ),
         ] else ...[
@@ -1497,7 +1471,6 @@ Widget buildGrammarStep() {
     void dispose() {
       scrollController.dispose();
       grammarVideoController?.dispose();
-      listeningAudioController?.dispose();
       super.dispose();
       }
   @override
