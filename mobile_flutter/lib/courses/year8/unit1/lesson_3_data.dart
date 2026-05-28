@@ -182,7 +182,7 @@ final lesson3 = {
   },
   {
     'sentence':
-        'Shaking hands is an example ______ communication.',
+        'Shaking hands is an example of ______ communication.',
     'options': [
       'misunderstandings',
       'rude',

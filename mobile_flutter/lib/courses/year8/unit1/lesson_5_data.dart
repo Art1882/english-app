@@ -143,7 +143,7 @@ final lesson5 = {
   },
   {
     'sentence':
-        'Public speaking can improve students’ skills about effectively sharing their ______.',
+        'Public speaking can give students the experience of effectively sharing their ______ in groups.',
     'options': [
       'identity',
       'responsibility',

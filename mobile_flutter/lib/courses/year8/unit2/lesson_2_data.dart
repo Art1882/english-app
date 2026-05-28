@@ -142,7 +142,7 @@ final lesson2 = {
   },
   {
     'sentence':
-        'Mobile phones have improved ______ communication between friends and families.',
+        'Mobile phones have increased ______ communication between friends and families.',
     'options': [
       'stress',
       'instant',

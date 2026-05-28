@@ -342,25 +342,22 @@ final lesson1 = {
     },
     {
       'question':
-          'What is inside the school bag besides homework?',
+          'What is the writer bringing for a drink?',
       'answer':
-          'a bottle of water and packets of tissues',
+          'a bottle of water',
       'acceptedAnswers': [
-        'a bottle of water',
-        'packets of tissues',
-        'water and tissues',
-        'a water bottle and tissues',
+        'bottle of water',
+        'water',
+        'a water',
       ],
     },
     {
       'question':
-          'What do families use to complete daily tasks?',
-      'answer': 'useful items',
+          'What does the author eat for breakfast?',
+      'answer': 'a slice of bread',
       'acceptedAnswers': [
-        'items',
-        'objects',
-        'everyday objects',
-        'useful objects',
+        'slice of bread',
+        'bread',
       ],
     },
     {
@@ -376,14 +373,10 @@ final lesson1 = {
     },
     {
       'question':
-          'What can everyday objects have on people’s lives?',
-      'answer': 'a big effect',
+          'What does the author say can have a big effect on people’s lives?',
+      'answer': 'everyday objects',
       'acceptedAnswers': [
-        'big effect',
-        'an effect',
-        'a large effect',
-        'a strong effect',
-        'an impact',
+        'everyday object',
       ],
     },
   ],

@@ -367,6 +367,7 @@ final lesson3 = {
       'answer':
           'solar panels and recycling systems',
       'acceptedAnswers': [
+        'recycling'
         'solar panels and recycling systems',
         'recycling systems and solar panels',
         'solar panels',
