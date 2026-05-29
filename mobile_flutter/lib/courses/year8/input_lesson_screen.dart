@@ -117,7 +117,7 @@ Future<void> toggleAudio() async {
 
     debugPrint('PLAYING AUDIO');
 
-    await audioPlayer!.play(
+    await inputAudioPlayer!.play(
       UrlSource(audioUrl),
     );
 
