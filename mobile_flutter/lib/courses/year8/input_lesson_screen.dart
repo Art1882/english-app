@@ -71,27 +71,60 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     });
   }
 
-  Future<void> toggleAudio() async {
-    final audioPath = data['audioPath'] as String;
+ Future<void> toggleAudio() async {
+  final audioPath = data['audioPath'] as String;
 
+  debugPrint('====================');
+  debugPrint('BUTTON PRESSED');
+  debugPrint('PATH = $audioPath');
+  debugPrint('isPlaying = $isPlaying');
+
+  try {
     await grammarVideoController?.pause();
 
     if (isPlaying) {
+      debugPrint('STOPPING AUDIO');
+
       await audioPlayer.stop();
 
-      setState(() {
-        isPlaying = false;
-      });
-    } else {
-      await audioPlayer.stop();
-      await audioPlayer.play(AssetSource(audioPath));
+      if (mounted) {
+        setState(() {
+          isPlaying = false;
+        });
+      }
 
+      debugPrint('STOP SUCCESS');
+      return;
+    }
+
+    debugPrint('PLAYING AUDIO');
+
+    await audioPlayer.stop();
+
+    final result = await audioPlayer.play(
+      AssetSource(audioPath),
+    );
+
+    debugPrint('PLAY RESULT = $result');
+
+    if (mounted) {
       setState(() {
         isPlaying = true;
       });
     }
-  }
 
+    debugPrint('PLAY SUCCESS');
+  } catch (e, st) {
+    debugPrint('AUDIO ERROR = $e');
+    debugPrintStack(stackTrace: st);
+
+    if (mounted) {
+      setState(() {
+        isPlaying = false;
+      });
+    }
+  }
+}
   Future<void> nextStep() async {
     await stopGrammarVideo();
     await audioPlayer.stop();
