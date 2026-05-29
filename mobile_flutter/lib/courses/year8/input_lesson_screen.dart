@@ -67,25 +67,11 @@ Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
   final audioUrl = Uri.base.resolve('assets/assets/$audioPath').toString();
 
-  debugPrint('====================');
-  debugPrint('BUTTON PRESSED');
-  debugPrint('PATH = $audioPath');
-  debugPrint('URL = $audioUrl');
-  debugPrint('isPlaying = $isPlaying');
-
   try {
-    await grammarVideoController?.pause();
+    debugPrint('URL = $audioUrl');
 
     if (isPlaying) {
-      debugPrint('STOPPING AUDIO');
-
       await audioPlayer?.stop();
-      await audioPlayer?.dispose();
-
-      audioPlayer = null;
-
-      audioCompleteSubscription?.cancel();
-      audioCompleteSubscription = null;
 
       if (mounted) {
         setState(() {
@@ -93,21 +79,19 @@ Future<void> toggleAudio() async {
         });
       }
 
-      debugPrint('STOP SUCCESS');
       return;
     }
 
-    debugPrint('CREATING NEW PLAYER');
+    await grammarVideoController?.pause();
 
+    await audioPlayer?.stop();
     await audioPlayer?.dispose();
+    await audioCompleteSubscription?.cancel();
 
     audioPlayer = AudioPlayer();
 
-    audioCompleteSubscription?.cancel();
     audioCompleteSubscription =
         audioPlayer!.onPlayerComplete.listen((event) {
-      debugPrint('AUDIO COMPLETE');
-
       if (mounted) {
         setState(() {
           isPlaying = false;
@@ -115,29 +99,23 @@ Future<void> toggleAudio() async {
       }
     });
 
-    debugPrint('PLAYING AUDIO');
-
     await audioPlayer!.play(
       UrlSource(audioUrl),
     );
-
-    debugPrint('PLAY RETURNED');
 
     if (mounted) {
       setState(() {
         isPlaying = true;
       });
     }
-
-    debugPrint('PLAY SUCCESS');
   } catch (e, st) {
     debugPrint('AUDIO ERROR = $e');
     debugPrintStack(stackTrace: st);
 
     await audioPlayer?.dispose();
-    audioPlayer = null;
+    await audioCompleteSubscription?.cancel();
 
-    audioCompleteSubscription?.cancel();
+    audioPlayer = null;
     audioCompleteSubscription = null;
 
     if (mounted) {
