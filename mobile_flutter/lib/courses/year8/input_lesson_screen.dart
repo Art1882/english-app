@@ -101,11 +101,11 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
     await audioPlayer.stop();
 
-    final result = await audioPlayer.play(
+    await audioPlayer.play(
       AssetSource(audioPath),
     );
 
-    debugPrint('PLAY RESULT = $result');
+    debugPrint('PLAY RETURNED');
 
     if (mounted) {
       setState(() {
