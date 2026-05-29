@@ -57,105 +57,83 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   Map<int, String> shortAnswers = {};
   bool shortAnswersSubmitted = false;
 
-  @override
-    void initState() {
-      super.initState();
-      data = widget.data;
-    }
+@override
+void initState() {
+  super.initState();
+  data = widget.data;
+}
 
 Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
   final audioUrl = Uri.base.resolve('assets/$audioPath').toString();
 
-  try {
-    debugPrint('URL = $audioUrl');
-
-    if (isPlaying) {
-      await audioPlayer?.stop();
-
-      if (mounted) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
-
-      return;
-    }
-
-    await grammarVideoController?.pause();
-
+  if (isPlaying) {
     await audioPlayer?.stop();
-    await audioPlayer?.dispose();
-    await audioCompleteSubscription?.cancel();
-
-    audioPlayer = AudioPlayer();
-
-    audioCompleteSubscription =
-        audioPlayer!.onPlayerComplete.listen((event) {
-      if (mounted) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
-    });
-
-    await audioPlayer!.play(
-      UrlSource(audioUrl),
-    );
-
-    if (mounted) {
-      setState(() {
-        isPlaying = true;
-      });
-    }
-  } catch (e, st) {
-    debugPrint('AUDIO ERROR = $e');
-    debugPrintStack(stackTrace: st);
-
-    await audioPlayer?.dispose();
-    await audioCompleteSubscription?.cancel();
-
-    audioPlayer = null;
-    audioCompleteSubscription = null;
-
-    if (mounted) {
-      setState(() {
-        isPlaying = false;
-      });
-    }
-  }
-}
-  Future<void> nextStep() async {
-    await stopGrammarVideo();
-
-    await audioPlayer?.stop();
-    await audioPlayer?.dispose();
-
-    audioPlayer = null;
-
-    await audioCompleteSubscription?.cancel();
-    audioCompleteSubscription = null;
 
     if (!mounted) return;
-
     setState(() {
-      step++;
-      feedback = '';
       isPlaying = false;
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 50), () {
-        if (mounted && scrollController.hasClients) {
-          scrollController.animateTo(
-            0,
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeOut,
-          );
-        }
-      });
-    });
+    return;
   }
+
+  await grammarVideoController?.pause();
+
+  await audioPlayer?.stop();
+  await audioPlayer?.dispose();
+  await audioCompleteSubscription?.cancel();
+
+  audioPlayer = AudioPlayer();
+
+  audioCompleteSubscription = audioPlayer!.onPlayerComplete.listen((event) {
+    if (!mounted) return;
+    setState(() {
+      isPlaying = false;
+    });
+  });
+
+  await audioPlayer!.play(
+    UrlSource(audioUrl),
+  );
+
+  if (!mounted) return;
+  setState(() {
+    isPlaying = true;
+  });
+}
+
+Future<void> nextStep() async {
+  await stopGrammarVideo();
+
+  await audioPlayer?.stop();
+  await audioPlayer?.dispose();
+  await audioCompleteSubscription?.cancel();
+
+  audioPlayer = null;
+  audioCompleteSubscription = null;
+
+  if (!mounted) return;
+
+  setState(() {
+    step++;
+    feedback = '';
+    isPlaying = false;
+  });
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(const Duration(milliseconds: 50), () {
+      if (mounted && scrollController.hasClients) {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  });
+}
+
   String normaliseBasic(String value) {
     return value
         .toLowerCase()
