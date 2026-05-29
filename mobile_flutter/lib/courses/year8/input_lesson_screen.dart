@@ -31,7 +31,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
   final ScrollController scrollController = ScrollController();
 
-  final AudioPlayer audioPlayer = AudioPlayer();
+  AudioPlayer? audioPlayer;
   bool isPlaying = false;
   StreamSubscription<void>? audioCompleteSubscription;
 
@@ -58,18 +58,10 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
   bool shortAnswersSubmitted = false;
 
   @override
-  void initState() {
-    super.initState();
-    data = widget.data;
-
-    audioCompleteSubscription = audioPlayer.onPlayerComplete.listen((event) {
-      if (mounted) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
-    });
-  }
+    void initState() {
+      super.initState();
+      data = widget.data;
+    }
 
 Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
@@ -87,7 +79,13 @@ Future<void> toggleAudio() async {
     if (isPlaying) {
       debugPrint('STOPPING AUDIO');
 
-      await audioPlayer.stop();
+      await audioPlayer?.stop();
+      await audioPlayer?.dispose();
+
+      audioPlayer = null;
+
+      audioCompleteSubscription?.cancel();
+      audioCompleteSubscription = null;
 
       if (mounted) {
         setState(() {
@@ -99,11 +97,27 @@ Future<void> toggleAudio() async {
       return;
     }
 
+    debugPrint('CREATING NEW PLAYER');
+
+    await audioPlayer?.dispose();
+
+    audioPlayer = AudioPlayer();
+
+    audioCompleteSubscription?.cancel();
+    audioCompleteSubscription =
+        audioPlayer!.onPlayerComplete.listen((event) {
+      debugPrint('AUDIO COMPLETE');
+
+      if (mounted) {
+        setState(() {
+          isPlaying = false;
+        });
+      }
+    });
+
     debugPrint('PLAYING AUDIO');
 
-    await audioPlayer.stop();
-
-    await audioPlayer.play(
+    await audioPlayer!.play(
       UrlSource(audioUrl),
     );
 
@@ -120,6 +134,12 @@ Future<void> toggleAudio() async {
     debugPrint('AUDIO ERROR = $e');
     debugPrintStack(stackTrace: st);
 
+    await audioPlayer?.dispose();
+    audioPlayer = null;
+
+    audioCompleteSubscription?.cancel();
+    audioCompleteSubscription = null;
+
     if (mounted) {
       setState(() {
         isPlaying = false;
@@ -129,7 +149,14 @@ Future<void> toggleAudio() async {
 }
   Future<void> nextStep() async {
     await stopGrammarVideo();
-    await audioPlayer.stop();
+
+    await audioPlayer?.stop();
+    await audioPlayer?.dispose();
+
+    audioPlayer = null;
+
+    await audioCompleteSubscription?.cancel();
+    audioCompleteSubscription = null;
 
     if (!mounted) return;
 
@@ -1471,9 +1498,12 @@ Future<void> toggleAudio() async {
   @override
   void dispose() {
     audioCompleteSubscription?.cancel();
-    scrollController.dispose();
-    audioPlayer.dispose();
+
+    audioPlayer?.dispose();
+
     grammarVideoController?.dispose();
+    scrollController.dispose();
+
     super.dispose();
   }
 
