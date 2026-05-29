@@ -71,12 +71,14 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     });
   }
 
- Future<void> toggleAudio() async {
+Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
+  final audioUrl = Uri.base.resolve('assets/$audioPath').toString();
 
   debugPrint('====================');
   debugPrint('BUTTON PRESSED');
   debugPrint('PATH = $audioPath');
+  debugPrint('URL = $audioUrl');
   debugPrint('isPlaying = $isPlaying');
 
   try {
@@ -102,7 +104,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     await audioPlayer.stop();
 
     await audioPlayer.play(
-      AssetSource(audioPath),
+      UrlSource(audioUrl),
     );
 
     debugPrint('PLAY RETURNED');
@@ -129,6 +131,8 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
     await stopGrammarVideo();
     await audioPlayer.stop();
 
+    if (!mounted) return;
+
     setState(() {
       step++;
       feedback = '';
@@ -147,7 +151,6 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
       });
     });
   }
-
   String normaliseBasic(String value) {
     return value
         .toLowerCase()
@@ -681,7 +684,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: toggleAudio,
-                child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
+                child: Text(isPlaying ? 'Stop audio' : 'Play audio'),
               ),
             ],
           ),
@@ -1229,7 +1232,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: toggleAudio,
-            child: Text(isPlaying ? 'Pause audio' : 'Play audio'),
+            child: Text(isPlaying ? 'Stop audio' : 'Play audio'),
           ),
         ] else ...[
           const Text(
