@@ -65,7 +65,7 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 
 Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
-  final audioUrl = Uri.base.resolve('assets/assets/$audioPath').toString();
+  final audioUrl = Uri.base.resolve('assets/$audioPath').toString();
 
   try {
     debugPrint('URL = $audioUrl');
