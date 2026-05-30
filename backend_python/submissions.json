@@ -40,5 +40,203 @@
         },
         "feedback": "Saved for teacher review.",
         "timestamp": "2026-05-26 14:38"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 1 - Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 1,
+            "vocabularyScore": 3,
+            "grammarScore": 0,
+            "comprehensionScore": 2
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Why learning languages is useful",
+                "1": "Chinese",
+                "2": "Only children should learn languages"
+            },
+            "vocabularyAnswers": {
+                "0": "communicate",
+                "1": "confidence",
+                "2": "communicate",
+                "3": "successfully",
+                "4": "communicate",
+                "5": "opportunities",
+                "6": "communicate",
+                "7": "connect"
+            },
+            "grammarAnswers": {
+                "0": "a",
+                "1": "a",
+                "2": "a",
+                "3": "a",
+                "4": "a"
+            },
+            "comprehensionAnswers": {
+                "0": "Because English has fewer grammar rules",
+                "1": "To stop using technology",
+                "2": "Different cultures and traditions",
+                "3": "Proud",
+                "4": "muscle strength"
+            },
+            "shortAnswers": {
+                "0": "a",
+                "1": "a",
+                "2": "a",
+                "3": "a",
+                "4": "a"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-30 11:47"
+    },
+    {
+        "student": "Jiwon",
+        "class": "Y8",
+        "lesson": "Unit 1 - Lesson 2: Different Ways to Say the Same Thing",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 1,
+            "vocabularyScore": 3,
+            "grammarScore": 0,
+            "comprehensionScore": 1
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "Different foods around the world",
+                "1": "thank you",
+                "2": "It helps people understand others better"
+            },
+            "vocabularyAnswers": {
+                "0": "programme",
+                "1": "greeting",
+                "2": "politeness",
+                "3": "culture",
+                "4": "expressions",
+                "5": "culture",
+                "6": "politeness",
+                "7": "describe"
+            },
+            "grammarAnswers": {
+                "0": "a",
+                "1": "a",
+                "2": "f",
+                "3": "ffdsfddfs",
+                "4": "ffffddsdfsdfsdfddfsdfs"
+            },
+            "comprehensionAnswers": {
+                "0": "bonjour",
+                "1": "thank you",
+                "2": "rice",
+                "3": "bow slightly",
+                "4": "homework answers"
+            },
+            "shortAnswers": {
+                "0": "sdaasd",
+                "1": "ssad",
+                "2": "adssad",
+                "3": "sadd",
+                "4": "ads"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-30 12:03"
+    },
+    {
+        "student": "Yulhui",
+        "class": "Y8",
+        "lesson": "Unit 1 - Unit 1 Review Test",
+        "activity": "Unit review test completed",
+        "answer": {
+            "vocabularyScore": 2,
+            "vocabularyTotal": 10,
+            "grammarScore": 2,
+            "grammarTotal": 10,
+            "totalScore": 4,
+            "totalPossible": 20
+        },
+        "responses": {
+            "vocabularyAnswers": {
+                "0": "communicate",
+                "1": "nervous",
+                "2": "gesture",
+                "3": "misunderstandings",
+                "4": "polite",
+                "5": "polite",
+                "6": "culture",
+                "7": "communicate",
+                "8": "confidence",
+                "9": "express"
+            },
+            "grammarAnswers": {
+                "0": "Where",
+                "1": "What",
+                "2": "wd",
+                "3": "sdsd",
+                "4": "sdd",
+                "5": "ssd",
+                "6": "ssdds",
+                "7": "ssd",
+                "8": "ssd",
+                "9": "sdd"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-30 14:06"
+    },
+    {
+        "student": "Coco",
+        "class": "Y8",
+        "lesson": "Unit 1 - Lesson 1: Why Do People Learn Languages?",
+        "activity": "Lesson completed",
+        "answer": {
+            "inputScore": 1,
+            "vocabularyScore": 4,
+            "grammarScore": 0,
+            "comprehensionScore": 1
+        },
+        "responses": {
+            "inputAnswers": {
+                "0": "How to travel around the world",
+                "1": "English",
+                "2": "Most people dislike language learning"
+            },
+            "vocabularyAnswers": {
+                "0": "confidence",
+                "1": "increasingly",
+                "2": "rewarding",
+                "3": "traditions",
+                "4": "rewarding",
+                "5": "opportunities",
+                "6": "communicate",
+                "7": "connect"
+            },
+            "grammarAnswers": {
+                "0": "d",
+                "1": "d",
+                "2": "d",
+                "3": "d",
+                "4": "d"
+            },
+            "comprehensionAnswers": {
+                "0": "Because English is only spoken in Europe",
+                "1": "To avoid homework",
+                "2": "Different cultures and traditions",
+                "3": "Angry",
+                "4": "muscle strength"
+            },
+            "shortAnswers": {
+                "0": "ww",
+                "1": "d",
+                "2": "d",
+                "3": "d",
+                "4": "d"
+            }
+        },
+        "feedback": "Saved for teacher review.",
+        "timestamp": "2026-05-30 14:15"
     }
 ]

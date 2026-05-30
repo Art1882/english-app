@@ -63,7 +63,19 @@ void initState() {
   data = widget.data;
   loadSavedLessonProgress();
 }
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
 
+  final imagePath = data['imagePath'] as String?;
+
+  if (imagePath != null) {
+    precacheImage(
+      AssetImage(imagePath),
+      context,
+    );
+  }
+}
 Map<int, String> decodeStringMap(String? value) {
   if (value == null || value.isEmpty) {
     return {};
@@ -826,10 +838,13 @@ Future<void> nextStep() async {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: toggleAudio,
-                child: Text(isPlaying ? 'Stop audio' : 'Play audio'),
+              Center(
+                child: ElevatedButton(
+                  onPressed: toggleAudio,
+                  child: Text(isPlaying ? 'Stop audio' : 'Play audio'),
+                ),
               ),
+              const SizedBox(height: 40),
             ],
           ),
         const SizedBox(height: 30),
@@ -858,22 +873,28 @@ Future<void> nextStep() async {
           );
         }),
         const SizedBox(height: 12),
-        if (!inputSubmitted)
-          ElevatedButton(
-            onPressed: submitInputAnswers,
-            child: const Text('Submit answers'),
-          )
-        else ...[
+        if (!inputSubmitted) ...[
+          Center(
+            child: ElevatedButton(
+              onPressed: submitInputAnswers,
+              child: const Text('Submit answers'),
+            ),
+          ),
+          const SizedBox(height: 40),
+        ] else ...[
           Text(
             'You got $inputScore / ${questions.length} correct.',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: nextStep,
-            child: const Text('Continue'),
+          Center(
+            child: ElevatedButton(
+              onPressed: nextStep,
+              child: const Text('Continue'),
+            ),
           ),
+          const SizedBox(height: 40),
         ],
       ],
     );
@@ -976,12 +997,15 @@ Future<void> nextStep() async {
           );
         }),
         const SizedBox(height: 12),
-        if (!vocabularySubmitted)
-          ElevatedButton(
-            onPressed: submitVocabularyAnswers,
-            child: const Text('Submit answers'),
-          )
-        else ...[
+        if (!vocabularySubmitted) ...[
+          Center(
+            child: ElevatedButton(
+              onPressed: submitVocabularyAnswers,
+              child: const Text('Submit answers'),
+            ),
+          ),
+          const SizedBox(height: 40),
+        ] else ...[
           Text(
             'You got $vocabularyScore / ${questions.length} correct.',
             style: const TextStyle(
@@ -991,10 +1015,13 @@ Future<void> nextStep() async {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: nextStep,
-            child: const Text('Continue'),
+          Center(
+            child: ElevatedButton(
+              onPressed: nextStep,
+              child: const Text('Continue'),
+            ),
           ),
+          const SizedBox(height: 40),
         ],
       ],
     );
@@ -1051,8 +1078,9 @@ Future<void> nextStep() async {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: () {
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
                       setState(() {
                         controller.value.isPlaying
                             ? controller.pause()
@@ -1060,11 +1088,13 @@ Future<void> nextStep() async {
                       });
                     },
                     child: Text(
-                      controller.value.isPlaying
-                          ? 'Pause video'
-                          : 'Play video',
+                        controller.value.isPlaying
+                            ? 'Pause video'
+                            : 'Play video',
+                      ),
                     ),
                   ),
+                  const SizedBox(height: 40),
                 ],
               );
             },
@@ -1310,22 +1340,25 @@ Future<void> nextStep() async {
           );
         }),
         const SizedBox(height: 12),
-        if (!grammarSubmitted)
-          ElevatedButton(
-            onPressed: () {
-              submitGrammarAnswers();
+        if (!grammarSubmitted) ...[
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                submitGrammarAnswers();
 
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (scrollController.hasClients) {
-                  scrollController.jumpTo(
-                    scrollController.position.maxScrollExtent,
-                  );
-                }
-              });
-            },
-            child: const Text('Submit grammar answers'),
-          )
-        else ...[
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (scrollController.hasClients) {
+                    scrollController.jumpTo(
+                      scrollController.position.maxScrollExtent,
+                    );
+                  }
+                });
+              },
+              child: const Text('Submit grammar answers'),
+            ),
+          ),
+          const SizedBox(height: 40),
+        ] else ...[
           Text(
             'You got $grammarScore / ${practice.length} correct.',
             style: const TextStyle(
@@ -1334,10 +1367,13 @@ Future<void> nextStep() async {
             ),
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: nextStep,
-            child: const Text('Continue'),
+          Center(
+            child: ElevatedButton(
+              onPressed: nextStep,
+              child: const Text('Continue'),
+            ),
           ),
+          const SizedBox(height: 40),
         ],
       ],
     );
@@ -1497,12 +1533,15 @@ Future<void> nextStep() async {
           }),
         ],
         const SizedBox(height: 12),
-        if (!comprehensionSubmitted)
-          ElevatedButton(
-            onPressed: submitComprehensionAnswers,
-            child: const Text('Submit comprehension answers'),
-          )
-        else ...[
+        if (!comprehensionSubmitted) ...[
+          Center(
+            child: ElevatedButton(
+              onPressed: submitComprehensionAnswers,
+              child: const Text('Submit comprehension answers'),
+            ),
+          ),
+          const SizedBox(height: 40),
+        ] else ...[
           Text(
             'You got $comprehensionScore / $totalComprehensionQuestions correct.',
             style: const TextStyle(
@@ -1511,10 +1550,13 @@ Future<void> nextStep() async {
             ),
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: nextStep,
-            child: const Text('Continue'),
+          Center(
+            child: ElevatedButton(
+              onPressed: nextStep,
+              child: const Text('Continue'),
+            ),
           ),
+          const SizedBox(height: 40),
         ],
       ],
     );
@@ -1602,8 +1644,9 @@ Future<void> nextStep() async {
           ),
         ),
         const SizedBox(height: 30),
-        ElevatedButton(
-          onPressed: () async {
+        Center(
+          child: ElevatedButton(
+            onPressed: () async {
             await saveLessonComplete();
 
             try {
@@ -1616,7 +1659,9 @@ Future<void> nextStep() async {
             Navigator.pop(context);
           },
           child: Text(data['backButtonText'] as String),
+          ),
         ),
+        const SizedBox(height: 40),
       ],
     );
   }

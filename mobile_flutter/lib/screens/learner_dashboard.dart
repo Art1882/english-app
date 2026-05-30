@@ -5,17 +5,20 @@ import 'unit_one_overview_screen.dart';
 import 'unit_two_overview_screen.dart';
 
 import '../courses/year8/input_lesson_screen.dart';
+import '../courses/year8/unit_test_screen.dart';
 
 import '../courses/year8/unit1/lesson_1_data.dart' as unit1_lesson1_data;
 import '../courses/year8/unit1/lesson_2_data.dart' as unit1_lesson2_data;
 import '../courses/year8/unit1/lesson_3_data.dart' as unit1_lesson3_data;
 import '../courses/year8/unit1/lesson_4_data.dart' as unit1_lesson4_data;
 import '../courses/year8/unit1/lesson_5_data.dart' as unit1_lesson5_data;
+import '../courses/year8/unit1/unit_1_test_data.dart' as unit1_test_data;
 
 import '../courses/year8/unit2/lesson_1_data.dart' as unit2_lesson1_data;
 import '../courses/year8/unit2/lesson_2_data.dart' as unit2_lesson2_data;
 import '../courses/year8/unit2/lesson_3_data.dart' as unit2_lesson3_data;
 import '../courses/year8/unit2/lesson_4_data.dart' as unit2_lesson4_data;
+import '../courses/year8/unit2/unit_2_test_data.dart' as unit2_test_data;
 
 class LearnerDashboard extends StatefulWidget {
   final String studentName;
@@ -36,6 +39,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
   int unit2CompletedItems = 0;
 
   String? currentLessonId;
+  String? currentTestId;
 
   @override
   void initState() {
@@ -63,10 +67,36 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
       prefs.getBool('unit2_test_complete') ?? false,
     ].where((item) => item).length;
 
+    final savedCurrentLessonId = prefs.getString('current_lesson_id');
+    final savedCurrentTestId = prefs.getString('current_test_id');
+
+    String? unfinishedTestId = savedCurrentTestId;
+
+    // Safety fallback: if the test screen saved progress but did not save
+    // current_test_id, the dashboard can still find an unfinished test.
+    if (unfinishedTestId == null) {
+      final unit1TestHasProgress =
+          prefs.getInt('unit1_test_current_step') != null;
+      final unit2TestHasProgress =
+          prefs.getInt('unit2_test_current_step') != null;
+
+      final unit1TestComplete = prefs.getBool('unit1_test_complete') ?? false;
+      final unit2TestComplete = prefs.getBool('unit2_test_complete') ?? false;
+
+      if (unit1TestHasProgress && !unit1TestComplete) {
+        unfinishedTestId = 'unit1_test';
+      } else if (unit2TestHasProgress && !unit2TestComplete) {
+        unfinishedTestId = 'unit2_test';
+      }
+    }
+
+    if (!mounted) return;
+
     setState(() {
       unit1CompletedItems = unit1Completed;
       unit2CompletedItems = unit2Completed;
-      currentLessonId = prefs.getString('current_lesson_id');
+      currentLessonId = savedCurrentLessonId;
+      currentTestId = unfinishedTestId;
     });
   }
 
@@ -117,6 +147,17 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     }
   }
 
+  String getCurrentTestTitle(String testId) {
+    switch (testId) {
+      case 'unit1_test':
+        return 'Unit 1 Review Test: How People Communicate';
+      case 'unit2_test':
+        return 'Unit 2 Review Test: The World Around Us';
+      default:
+        return 'Unfinished unit test';
+    }
+  }
+
   Widget? getResumeLessonScreen(String lessonId) {
     switch (lessonId) {
       case 'unit1_lesson1':
@@ -142,6 +183,17 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     }
   }
 
+  Widget? getResumeTestScreen(String testId) {
+    switch (testId) {
+      case 'unit1_test':
+        return UnitTestScreen(data: unit1_test_data.unit1Test);
+      case 'unit2_test':
+        return UnitTestScreen(data: unit2_test_data.unit2Test);
+      default:
+        return null;
+    }
+  }
+
   Future<void> resumeCurrentLesson() async {
     final lessonId = currentLessonId;
 
@@ -155,6 +207,34 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Could not resume this lesson. Please open it manually.'),
+        ),
+      );
+      return;
+    }
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ),
+    );
+
+    await loadUnitProgress();
+  }
+
+  Future<void> resumeCurrentTest() async {
+    final testId = currentTestId;
+
+    if (testId == null) {
+      return;
+    }
+
+    final screen = getResumeTestScreen(testId);
+
+    if (screen == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not resume this test. Please open it manually.'),
         ),
       );
       return;
@@ -206,58 +286,24 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
             const SizedBox(height: 24),
 
             if (currentLessonId != null) ...[
-              Card(
+              ResumeCard(
+                title: 'Resume unfinished lesson',
+                subtitle: getCurrentLessonTitle(currentLessonId!),
+                helperText: 'Continue where you left off',
                 color: Colors.amber.shade100,
-                margin: const EdgeInsets.only(bottom: 16),
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: resumeCurrentLesson,
-                  child: Padding(
-                    padding: const EdgeInsets.all(18),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.play_arrow,
-                          size: 38,
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Resume unfinished lesson',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                getCurrentLessonTitle(currentLessonId!),
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                              const SizedBox(height: 8),
-                              const Text(
-                                'Continue where you left off',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Icon(Icons.chevron_right),
-                      ],
-                    ),
-                  ),
-                ),
+                icon: Icons.play_arrow,
+                onTap: resumeCurrentLesson,
+              ),
+            ],
+
+            if (currentTestId != null) ...[
+              ResumeCard(
+                title: 'Resume unfinished unit test',
+                subtitle: getCurrentTestTitle(currentTestId!),
+                helperText: 'Continue your saved test',
+                color: Colors.purple.shade100,
+                icon: Icons.assignment,
+                onTap: resumeCurrentTest,
               ),
             ],
 
@@ -311,6 +357,82 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ResumeCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String helperText;
+  final Color color;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const ResumeCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.helperText,
+    required this.color,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: color,
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 38,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      helperText,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right),
+            ],
+          ),
         ),
       ),
     );

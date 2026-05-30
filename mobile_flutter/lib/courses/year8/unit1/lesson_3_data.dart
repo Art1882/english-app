@@ -151,7 +151,7 @@ final lesson3 = {
     'sentence':
         'Love is a powerful ______.',
     'options': [
-      'gesture',
+      'express',
       'rude',
       'misunderstandings',
       'emotion',
@@ -358,6 +358,7 @@ final lesson3 = {
           'What movement do people often use to say “yes”?',
       'answer': 'Nodding their heads',
       'acceptedAnswers': [
+        'nod',
         'nodding',
         'nodding their head',
         'nod their heads',

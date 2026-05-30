@@ -37,12 +37,113 @@ class _UnitTestScreenState extends State<UnitTestScreen> {
   void initState() {
     super.initState();
     data = widget.data;
+    loadSavedTestProgress();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final imagePath = data['imagePath'] as String?;
+
+    if (imagePath != null) {
+      precacheImage(
+        AssetImage(imagePath),
+        context,
+      );
+    }
+  }
+  String getTestId() {
+    return data['testId'] as String? ??
+        data['lessonId'] as String? ??
+        'unit_test';
   }
 
-  void nextStep() {
+  Map<int, String> decodeAnswerMap(String? jsonString) {
+    if (jsonString == null || jsonString.isEmpty) {
+      return {};
+    }
+
+    final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
+
+    return decoded.map(
+      (key, value) => MapEntry(int.parse(key), value.toString()),
+    );
+  }
+
+  String encodeAnswerMap(Map<int, String> answers) {
+    return jsonEncode(
+      answers.map((key, value) => MapEntry(key.toString(), value)),
+    );
+  }
+
+  Future<void> loadSavedTestProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final testId = getTestId();
+
+    final savedStep = prefs.getInt('${testId}_current_step');
+
+    if (savedStep == null || !mounted) {
+      return;
+    }
+
+    setState(() {
+      step = savedStep;
+
+      vocabularyAnswers = decodeAnswerMap(
+        prefs.getString('${testId}_vocabulary_answers'),
+      );
+
+      grammarAnswers = decodeAnswerMap(
+        prefs.getString('${testId}_grammar_answers'),
+      );
+
+      vocabularySubmitted =
+          prefs.getBool('${testId}_vocabulary_submitted') ?? false;
+      grammarSubmitted = prefs.getBool('${testId}_grammar_submitted') ?? false;
+
+      vocabularyScore = prefs.getInt('${testId}_vocabulary_score') ?? 0;
+      grammarScore = prefs.getInt('${testId}_grammar_score') ?? 0;
+    });
+  }
+
+  Future<void> saveTestProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final testId = getTestId();
+
+    await prefs.setInt('${testId}_current_step', step);
+    await prefs.setString(
+      '${testId}_vocabulary_answers',
+      encodeAnswerMap(vocabularyAnswers),
+    );
+    await prefs.setString(
+      '${testId}_grammar_answers',
+      encodeAnswerMap(grammarAnswers),
+    );
+    await prefs.setBool('${testId}_vocabulary_submitted', vocabularySubmitted);
+    await prefs.setBool('${testId}_grammar_submitted', grammarSubmitted);
+    await prefs.setInt('${testId}_vocabulary_score', vocabularyScore);
+    await prefs.setInt('${testId}_grammar_score', grammarScore);
+  }
+
+  Future<void> clearSavedTestProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final testId = getTestId();
+
+    await prefs.remove('${testId}_current_step');
+    await prefs.remove('${testId}_vocabulary_answers');
+    await prefs.remove('${testId}_grammar_answers');
+    await prefs.remove('${testId}_vocabulary_submitted');
+    await prefs.remove('${testId}_grammar_submitted');
+    await prefs.remove('${testId}_vocabulary_score');
+    await prefs.remove('${testId}_grammar_score');
+  }
+
+  Future<void> nextStep() async {
     setState(() {
       step++;
     });
+
+    await saveTestProgress();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (scrollController.hasClients) {
@@ -123,6 +224,8 @@ String normaliseAnswer(String value) {
       vocabularyScore = score;
       vocabularySubmitted = true;
     });
+
+    saveTestProgress();
   }
 
   void submitGrammarAnswers() {
@@ -151,6 +254,8 @@ String normaliseAnswer(String value) {
       grammarScore = score;
       grammarSubmitted = true;
     });
+
+    saveTestProgress();
   }
 
   Widget getStep() {
@@ -190,11 +295,10 @@ String normaliseAnswer(String value) {
 
   Future<void> saveTestComplete() async {
     final prefs = await SharedPreferences.getInstance();
-
-    final testId =
-        data['testId'] as String? ?? data['lessonId'] as String? ?? 'unit_test';
+    final testId = getTestId();
 
     await prefs.setBool('${testId}_complete', true);
+    await clearSavedTestProgress();
   }
 
   Future<void> saveTeacherTestSubmission() async {
@@ -362,6 +466,7 @@ String normaliseAnswer(String value) {
                               setState(() {
                                 vocabularyAnswers[index] = value ?? '';
                               });
+                              saveTestProgress();
                             },
                     );
                   }),
@@ -388,10 +493,14 @@ String normaliseAnswer(String value) {
         const SizedBox(height: 12),
 
         if (!vocabularySubmitted) ...[
-          ElevatedButton(
+          Center(
+          child: ElevatedButton(
             onPressed: submitVocabularyAnswers,
             child: const Text('Submit vocabulary answers'),
           ),
+        ),
+
+        const SizedBox(height: 40),
         ] else ...[
           Text(
             'You got $vocabularyScore / ${questions.length} vocabulary questions correct.',
@@ -403,10 +512,14 @@ String normaliseAnswer(String value) {
 
           const SizedBox(height: 20),
 
-          ElevatedButton(
+          Center(
+          child: ElevatedButton(
             onPressed: nextStep,
             child: const Text('Continue to grammar test'),
           ),
+        ),
+
+        const SizedBox(height: 40),
         ],
       ],
     );
@@ -493,12 +606,14 @@ String normaliseAnswer(String value) {
 
                   const SizedBox(height: 12),
 
-                  TextField(
+                  TextFormField(
+                    initialValue: grammarAnswers[index] ?? '',
                     enabled: !grammarSubmitted,
                     decoration:
                         buildAnswerInputDecoration('Missing word(s) only'),
                     onChanged: (value) {
                       grammarAnswers[index] = value;
+                      saveTestProgress();
                     },
                   ),
 
@@ -527,10 +642,14 @@ String normaliseAnswer(String value) {
         const SizedBox(height: 12),
 
         if (!grammarSubmitted) ...[
-          ElevatedButton(
+          Center(
+          child: ElevatedButton(
             onPressed: submitGrammarAnswers,
             child: const Text('Submit grammar answers'),
           ),
+        ),
+
+        const SizedBox(height: 40),
         ] else ...[
           Text(
             'You got $grammarScore / ${questions.length} grammar questions correct.',
@@ -542,10 +661,14 @@ String normaliseAnswer(String value) {
 
           const SizedBox(height: 20),
 
-          ElevatedButton(
+          Center(
+          child: ElevatedButton(
             onPressed: nextStep,
             child: const Text('See results'),
           ),
+        ),
+
+        const SizedBox(height: 40),
         ],
       ],
     );
@@ -608,7 +731,8 @@ String normaliseAnswer(String value) {
 
         const SizedBox(height: 30),
 
-        ElevatedButton(
+        Center(
+          child: ElevatedButton(
           onPressed: () async {
             await saveTestComplete();
 
@@ -625,6 +749,9 @@ String normaliseAnswer(String value) {
             data['backButtonText'] as String? ?? 'Back to Unit',
           ),
         ),
+        ),
+
+        const SizedBox(height: 40),
       ],
     );
   }
