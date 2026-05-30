@@ -4,6 +4,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'unit_one_overview_screen.dart';
 import 'unit_two_overview_screen.dart';
 
+import '../courses/year8/input_lesson_screen.dart';
+
+import '../courses/year8/unit1/lesson_1_data.dart' as unit1_lesson1_data;
+import '../courses/year8/unit1/lesson_2_data.dart' as unit1_lesson2_data;
+import '../courses/year8/unit1/lesson_3_data.dart' as unit1_lesson3_data;
+import '../courses/year8/unit1/lesson_4_data.dart' as unit1_lesson4_data;
+import '../courses/year8/unit1/lesson_5_data.dart' as unit1_lesson5_data;
+
+import '../courses/year8/unit2/lesson_1_data.dart' as unit2_lesson1_data;
+import '../courses/year8/unit2/lesson_2_data.dart' as unit2_lesson2_data;
+import '../courses/year8/unit2/lesson_3_data.dart' as unit2_lesson3_data;
+import '../courses/year8/unit2/lesson_4_data.dart' as unit2_lesson4_data;
+
 class LearnerDashboard extends StatefulWidget {
   final String studentName;
   final String studentClass;
@@ -21,6 +34,8 @@ class LearnerDashboard extends StatefulWidget {
 class _LearnerDashboardState extends State<LearnerDashboard> {
   int unit1CompletedItems = 0;
   int unit2CompletedItems = 0;
+
+  String? currentLessonId;
 
   @override
   void initState() {
@@ -51,35 +66,114 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     setState(() {
       unit1CompletedItems = unit1Completed;
       unit2CompletedItems = unit2Completed;
+      currentLessonId = prefs.getString('current_lesson_id');
     });
   }
 
-String getUnitStatus(
-  int completedItems,
-  int totalItems,
-) {
-  if (completedItems == totalItems) {
-    return 'Unit completed';
+  String getUnitStatus(
+    int completedItems,
+    int totalItems,
+  ) {
+    if (completedItems == totalItems) {
+      return 'Unit completed';
+    }
+
+    if (completedItems > 0) {
+      return 'In progress';
+    }
+
+    return 'Start learning';
   }
 
-  if (completedItems > 0) {
-    return 'In progress';
+  double getUnitProgressValue(
+    int completedItems,
+    int totalItems,
+  ) {
+    return completedItems / totalItems;
   }
 
-  return 'Start learning';
-}
+  String getCurrentLessonTitle(String lessonId) {
+    switch (lessonId) {
+      case 'unit1_lesson1':
+        return 'Unit 1 Lesson 1: Why Do People Learn Languages?';
+      case 'unit1_lesson2':
+        return 'Unit 1 Lesson 2: Different Ways to Say the Same Thing';
+      case 'unit1_lesson3':
+        return 'Unit 1 Lesson 3: Communicating Without Words';
+      case 'unit1_lesson4':
+        return 'Unit 1 Lesson 4: What Are People Doing Online?';
+      case 'unit1_lesson5':
+        return 'Unit 1 Lesson 5: Feelings, Ideas and Identity';
+      case 'unit2_lesson1':
+        return 'Unit 2 Lesson 1: Everyday Objects';
+      case 'unit2_lesson2':
+        return 'Unit 2 Lesson 2: Imagining Different Worlds';
+      case 'unit2_lesson3':
+        return 'Unit 2 Lesson 3: Amazing Buildings';
+      case 'unit2_lesson4':
+        return 'Unit 2 Lesson 4: Building a Better Future';
+      default:
+        return 'Unfinished lesson';
+    }
+  }
 
-double getUnitProgressValue(
-  int completedItems,
-  int totalItems,
-) {
-  return completedItems / totalItems;
-}
+  Widget? getResumeLessonScreen(String lessonId) {
+    switch (lessonId) {
+      case 'unit1_lesson1':
+        return InputLessonScreen(data: unit1_lesson1_data.lesson1);
+      case 'unit1_lesson2':
+        return InputLessonScreen(data: unit1_lesson2_data.lesson2);
+      case 'unit1_lesson3':
+        return InputLessonScreen(data: unit1_lesson3_data.lesson3);
+      case 'unit1_lesson4':
+        return InputLessonScreen(data: unit1_lesson4_data.lesson4);
+      case 'unit1_lesson5':
+        return InputLessonScreen(data: unit1_lesson5_data.lesson5);
+      case 'unit2_lesson1':
+        return InputLessonScreen(data: unit2_lesson1_data.lesson1);
+      case 'unit2_lesson2':
+        return InputLessonScreen(data: unit2_lesson2_data.lesson2);
+      case 'unit2_lesson3':
+        return InputLessonScreen(data: unit2_lesson3_data.lesson3);
+      case 'unit2_lesson4':
+        return InputLessonScreen(data: unit2_lesson4_data.lesson4);
+      default:
+        return null;
+    }
+  }
+
+  Future<void> resumeCurrentLesson() async {
+    final lessonId = currentLessonId;
+
+    if (lessonId == null) {
+      return;
+    }
+
+    final screen = getResumeLessonScreen(lessonId);
+
+    if (screen == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not resume this lesson. Please open it manually.'),
+        ),
+      );
+      return;
+    }
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ),
+    );
+
+    await loadUnitProgress();
+  }
 
   @override
   Widget build(BuildContext context) {
-  final unit1Status = getUnitStatus(unit1CompletedItems, 6);
-  final unit2Status = getUnitStatus(unit2CompletedItems, 5);
+    final unit1Status = getUnitStatus(unit1CompletedItems, 6);
+    final unit2Status = getUnitStatus(unit2CompletedItems, 5);
 
     return Scaffold(
       appBar: AppBar(
@@ -111,6 +205,62 @@ double getUnitProgressValue(
 
             const SizedBox(height: 24),
 
+            if (currentLessonId != null) ...[
+              Card(
+                color: Colors.amber.shade100,
+                margin: const EdgeInsets.only(bottom: 16),
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: resumeCurrentLesson,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.play_arrow,
+                          size: 38,
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Resume unfinished lesson',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                getCurrentLessonTitle(currentLessonId!),
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Continue where you left off',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.chevron_right),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+
             LearnerUnitCard(
               title: '🗣 Unit 1',
               subtitle: 'How people communicate',
@@ -120,8 +270,7 @@ double getUnitProgressValue(
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const UnitOneOverviewScreen(),
+                    builder: (context) => const UnitOneOverviewScreen(),
                   ),
                 );
 
@@ -138,8 +287,7 @@ double getUnitProgressValue(
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const UnitTwoOverviewScreen(),
+                    builder: (context) => const UnitTwoOverviewScreen(),
                   ),
                 );
 

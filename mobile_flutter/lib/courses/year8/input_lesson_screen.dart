@@ -61,8 +61,138 @@ class _InputLessonScreenState extends State<InputLessonScreen> {
 void initState() {
   super.initState();
   data = widget.data;
+  loadSavedLessonProgress();
 }
 
+Map<int, String> decodeStringMap(String? value) {
+  if (value == null || value.isEmpty) {
+    return {};
+  }
+
+  final decoded = jsonDecode(value) as Map<String, dynamic>;
+
+  return decoded.map(
+    (key, value) => MapEntry(
+      int.parse(key),
+      value.toString(),
+    ),
+  );
+}
+
+Map<int, String?> decodeNullableStringMap(String? value) {
+  if (value == null || value.isEmpty) {
+    return {};
+  }
+
+  final decoded = jsonDecode(value) as Map<String, dynamic>;
+
+  return decoded.map(
+    (key, value) => MapEntry(
+      int.parse(key),
+      value?.toString(),
+    ),
+  );
+}
+
+String encodeStringMap(Map<int, String> answers) {
+  return jsonEncode(
+    answers.map(
+      (key, value) => MapEntry(key.toString(), value),
+    ),
+  );
+}
+
+String encodeNullableStringMap(Map<int, String?> answers) {
+  return jsonEncode(
+    answers.map(
+      (key, value) => MapEntry(key.toString(), value),
+    ),
+  );
+}
+
+Future<void> saveLessonProgress() async {
+  final prefs = await SharedPreferences.getInstance();
+  final lessonId = data['lessonId'] as String;
+
+  await prefs.setString('current_lesson_id', lessonId);
+  await prefs.setInt('${lessonId}_current_step', step);
+
+  await prefs.setString(
+    '${lessonId}_input_answers',
+    encodeStringMap(inputAnswers),
+  );
+  await prefs.setString(
+    '${lessonId}_vocabulary_answers',
+    encodeStringMap(vocabularyAnswers),
+  );
+  await prefs.setString(
+    '${lessonId}_grammar_answers',
+    encodeStringMap(grammarAnswers),
+  );
+  await prefs.setString(
+    '${lessonId}_comprehension_answers',
+    encodeNullableStringMap(comprehensionAnswers),
+  );
+  await prefs.setString(
+    '${lessonId}_short_answers',
+    encodeStringMap(shortAnswers),
+  );
+
+  await prefs.setBool('${lessonId}_input_submitted', inputSubmitted);
+  await prefs.setBool('${lessonId}_vocabulary_submitted', vocabularySubmitted);
+  await prefs.setBool('${lessonId}_grammar_submitted', grammarSubmitted);
+  await prefs.setBool(
+    '${lessonId}_comprehension_submitted',
+    comprehensionSubmitted,
+  );
+  await prefs.setBool('${lessonId}_short_answers_submitted', shortAnswersSubmitted);
+
+  await prefs.setInt('${lessonId}_input_score', inputScore);
+  await prefs.setInt('${lessonId}_vocabulary_score', vocabularyScore);
+  await prefs.setInt('${lessonId}_grammar_score', grammarScore);
+  await prefs.setInt('${lessonId}_comprehension_score', comprehensionScore);
+}
+
+Future<void> loadSavedLessonProgress() async {
+  final prefs = await SharedPreferences.getInstance();
+  final lessonId = data['lessonId'] as String;
+
+  if (!mounted) return;
+
+  setState(() {
+    step = prefs.getInt('${lessonId}_current_step') ?? 0;
+
+    inputAnswers = decodeStringMap(
+      prefs.getString('${lessonId}_input_answers'),
+    );
+    vocabularyAnswers = decodeStringMap(
+      prefs.getString('${lessonId}_vocabulary_answers'),
+    );
+    grammarAnswers = decodeStringMap(
+      prefs.getString('${lessonId}_grammar_answers'),
+    );
+    comprehensionAnswers = decodeNullableStringMap(
+      prefs.getString('${lessonId}_comprehension_answers'),
+    );
+    shortAnswers = decodeStringMap(
+      prefs.getString('${lessonId}_short_answers'),
+    );
+
+    inputSubmitted = prefs.getBool('${lessonId}_input_submitted') ?? false;
+    vocabularySubmitted =
+        prefs.getBool('${lessonId}_vocabulary_submitted') ?? false;
+    grammarSubmitted = prefs.getBool('${lessonId}_grammar_submitted') ?? false;
+    comprehensionSubmitted =
+        prefs.getBool('${lessonId}_comprehension_submitted') ?? false;
+    shortAnswersSubmitted =
+        prefs.getBool('${lessonId}_short_answers_submitted') ?? false;
+
+    inputScore = prefs.getInt('${lessonId}_input_score') ?? 0;
+    vocabularyScore = prefs.getInt('${lessonId}_vocabulary_score') ?? 0;
+    grammarScore = prefs.getInt('${lessonId}_grammar_score') ?? 0;
+    comprehensionScore = prefs.getInt('${lessonId}_comprehension_score') ?? 0;
+  });
+}
 Future<void> toggleAudio() async {
   final audioPath = data['audioPath'] as String;
   final audioUrl = Uri.base.resolve('assets/$audioPath').toString();
@@ -120,6 +250,8 @@ Future<void> nextStep() async {
     feedback = '';
     isPlaying = false;
   });
+
+  await saveLessonProgress();
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
     Future.delayed(const Duration(milliseconds: 50), () {
@@ -314,6 +446,8 @@ Future<void> nextStep() async {
       inputScore = score;
       inputSubmitted = true;
     });
+
+    saveLessonProgress();
   }
 
   void submitVocabularyAnswers() {
@@ -338,6 +472,8 @@ Future<void> nextStep() async {
       vocabularyScore = score;
       vocabularySubmitted = true;
     });
+
+    saveLessonProgress();
   }
 
   void submitGrammarAnswers() {
@@ -364,6 +500,8 @@ Future<void> nextStep() async {
       grammarScore = score;
       grammarSubmitted = true;
     });
+
+    saveLessonProgress();
   }
 
   void submitComprehensionAnswers() {
@@ -397,6 +535,8 @@ Future<void> nextStep() async {
       comprehensionSubmitted = true;
       shortAnswersSubmitted = true;
     });
+
+    saveLessonProgress();
   }
 
   int getTotalPossibleScore() {
@@ -434,12 +574,33 @@ Future<void> nextStep() async {
     }
   }
 
-  Future<void> saveLessonComplete() async {
-    final prefs = await SharedPreferences.getInstance();
+ Future<void> saveLessonComplete() async {
+  final prefs = await SharedPreferences.getInstance();
 
-    final lessonId = data['lessonId'] as String;
-    await prefs.setBool('${lessonId}_complete', true);
-  }
+  final lessonId = data['lessonId'] as String;
+
+  await prefs.setBool('${lessonId}_complete', true);
+
+  await prefs.remove('current_lesson_id');
+  await prefs.remove('${lessonId}_current_step');
+
+  await prefs.remove('${lessonId}_input_answers');
+  await prefs.remove('${lessonId}_vocabulary_answers');
+  await prefs.remove('${lessonId}_grammar_answers');
+  await prefs.remove('${lessonId}_comprehension_answers');
+  await prefs.remove('${lessonId}_short_answers');
+
+  await prefs.remove('${lessonId}_input_submitted');
+  await prefs.remove('${lessonId}_vocabulary_submitted');
+  await prefs.remove('${lessonId}_grammar_submitted');
+  await prefs.remove('${lessonId}_comprehension_submitted');
+  await prefs.remove('${lessonId}_short_answers_submitted');
+
+  await prefs.remove('${lessonId}_input_score');
+  await prefs.remove('${lessonId}_vocabulary_score');
+  await prefs.remove('${lessonId}_grammar_score');
+  await prefs.remove('${lessonId}_comprehension_score');
+}
 
   Future<void> saveTeacherSubmission() async {
     final prefs = await SharedPreferences.getInstance();
@@ -692,6 +853,7 @@ Future<void> nextStep() async {
               setState(() {
                 inputAnswers[index] = value ?? '';
               });
+              saveLessonProgress();
             },
           );
         }),
@@ -809,6 +971,7 @@ Future<void> nextStep() async {
               setState(() {
                 vocabularyAnswers[index] = value ?? '';
               });
+              saveLessonProgress();
             },
           );
         }),
@@ -1116,13 +1279,16 @@ Future<void> nextStep() async {
                     ),
                   ],
                   const SizedBox(height: 12),
-                  TextField(
+                  TextFormField(
+                    key: ValueKey('grammar_$index'),
+                    initialValue: grammarAnswers[index] ?? '',
                     enabled: !grammarSubmitted,
                     decoration: buildAnswerInputDecoration(
                       'Missing word(s) only',
                     ),
                     onChanged: (value) {
                       grammarAnswers[index] = value;
+                      saveLessonProgress();
                     },
                   ),
                   if (grammarSubmitted) ...[
@@ -1259,6 +1425,7 @@ Future<void> nextStep() async {
               setState(() {
                 comprehensionAnswers[index] = value;
               });
+              saveLessonProgress();
             },
           );
         }),
@@ -1300,11 +1467,14 @@ Future<void> nextStep() async {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    TextField(
+                    TextFormField(
+                      key: ValueKey('short_$index'),
+                      initialValue: shortAnswers[index] ?? '',
                       enabled: !shortAnswersSubmitted,
                       decoration: buildAnswerInputDecoration('Short answer'),
                       onChanged: (value) {
                         shortAnswers[index] = value;
+                        saveLessonProgress();
                       },
                     ),
                     if (shortAnswersSubmitted) ...[
