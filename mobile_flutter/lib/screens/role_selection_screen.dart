@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dashboard_screen.dart';
 
-class RoleSelectionScreen extends StatelessWidget {
+class RoleSelectionScreen extends StatefulWidget {
   const RoleSelectionScreen({super.key});
 
-  void openDashboard(BuildContext context, String role) {
-    Navigator.push(
+  @override
+  State<RoleSelectionScreen> createState() => _RoleSelectionScreenState();
+}
+
+class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
+  @override
+  void initState() {
+    super.initState();
+    checkSavedRole();
+  }
+
+  Future<void> checkSavedRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedRole = prefs.getString('userRole');
+
+    if (savedRole == null) return;
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DashboardScreen(role: savedRole),
+      ),
+    );
+  }
+
+  Future<void> openDashboard(BuildContext context, String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userRole', role);
+
+    if (!context.mounted) return;
+
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => DashboardScreen(role: role),

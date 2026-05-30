@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'teacher_pin_screen.dart';
+
 import '../config.dart';
 import 'learner_dashboard.dart';
+import 'teacher_dashboard.dart';
+import 'teacher_pin_screen.dart';
 
 class LearnerSetupScreen extends StatefulWidget {
   const LearnerSetupScreen({super.key});
@@ -22,15 +25,29 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
   String? selectedLearner;
   bool loadingLearners = false;
 
- @override
+  @override
   void initState() {
     super.initState();
-    checkExistingLearner();
+    checkExistingUser();
     fetchClasses();
   }
 
-  Future<void> checkExistingLearner() async {
+  Future<void> checkExistingUser() async {
     final prefs = await SharedPreferences.getInstance();
+
+    final teacherLoggedIn = prefs.getBool('teacherLoggedIn') ?? false;
+
+    if (teacherLoggedIn) {
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const TeacherDashboard(),
+        ),
+      );
+      return;
+    }
 
     final savedName = prefs.getString('studentName');
     final savedClass = prefs.getString('studentClass');
@@ -54,17 +71,36 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
   }
 
   Future<void> fetchClasses() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/classes'),
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/classes'),
+      );
 
-    final data = jsonDecode(response.body);
+      if (response.statusCode != 200) {
+        if (!mounted) return;
+        setState(() {
+          loadingClasses = false;
+        });
+        return;
+      }
 
-    setState(() {
-      classes = List<String>.from(data['classes']);
-      loadingClasses = false;
-    });
+      final data = jsonDecode(response.body);
+
+      if (!mounted) return;
+
+      setState(() {
+        classes = List<String>.from(data['classes']);
+        loadingClasses = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        loadingClasses = false;
+      });
+    }
   }
+
   Future<void> fetchLearners(String className) async {
     setState(() {
       loadingLearners = true;
@@ -72,16 +108,34 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
       selectedLearner = null;
     });
 
-    final response = await http.get(
-      Uri.parse('$baseUrl/learners/$className'),
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/learners/$className'),
+      );
 
-    final data = jsonDecode(response.body);
+      if (response.statusCode != 200) {
+        if (!mounted) return;
+        setState(() {
+          loadingLearners = false;
+        });
+        return;
+      }
 
-    setState(() {
-      learners = List<String>.from(data['learners']);
-      loadingLearners = false;
-    });
+      final data = jsonDecode(response.body);
+
+      if (!mounted) return;
+
+      setState(() {
+        learners = List<String>.from(data['learners']);
+        loadingLearners = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        loadingLearners = false;
+      });
+    }
   }
 
   Future<void> saveLearnerDetails() async {
@@ -96,9 +150,11 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
       'studentClass',
       selectedClass ?? '',
     );
+
+    await prefs.remove('teacherLoggedIn');
   }
 
-  void continueToDashboard() async {
+  Future<void> continueToDashboard() async {
     if (selectedClass == null || selectedLearner == null) {
       return;
     }
@@ -117,6 +173,20 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
       ),
     );
   }
+
+  Future<void> openTeacherAccess() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const TeacherPinScreen(),
+      ),
+    );
+
+    if (!mounted) return;
+
+    await checkExistingUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,14 +279,7 @@ class _LearnerSetupScreenState extends State<LearnerSetupScreen> {
                 TextButton.icon(
                   icon: const Icon(Icons.admin_panel_settings_outlined),
                   label: const Text('Teacher access'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const TeacherPinScreen(),
-                      ),
-                    );
-                  },
+                  onPressed: openTeacherAccess,
                 ),
               ],
             ),

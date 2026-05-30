@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'teacher_dashboard.dart';
 
 class TeacherPinScreen extends StatefulWidget {
@@ -12,8 +14,14 @@ class _TeacherPinScreenState extends State<TeacherPinScreen> {
   final TextEditingController pinController = TextEditingController();
   String errorMessage = '';
 
-  void checkPin() {
+  Future<void> checkPin() async {
     if (pinController.text.trim() == '2005') {
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setBool('teacherLoggedIn', true);
+
+      if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -48,7 +56,9 @@ class _TeacherPinScreenState extends State<TeacherPinScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(Icons.lock_outline, size: 60),
+
                 const SizedBox(height: 20),
+
                 const Text(
                   'Enter teacher PIN',
                   style: TextStyle(
@@ -56,7 +66,9 @@ class _TeacherPinScreenState extends State<TeacherPinScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 20),
+
                 TextField(
                   controller: pinController,
                   obscureText: true,
@@ -67,7 +79,9 @@ class _TeacherPinScreenState extends State<TeacherPinScreen> {
                   ),
                   onSubmitted: (_) => checkPin(),
                 ),
+
                 const SizedBox(height: 12),
+
                 if (errorMessage.isNotEmpty)
                   Text(
                     errorMessage,
@@ -76,7 +90,9 @@ class _TeacherPinScreenState extends State<TeacherPinScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                 const SizedBox(height: 20),
+
                 ElevatedButton(
                   onPressed: checkPin,
                   child: const Text('Open teacher dashboard'),
