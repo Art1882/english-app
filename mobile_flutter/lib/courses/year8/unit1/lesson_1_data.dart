@@ -205,7 +205,7 @@ final lesson1 = {
         'We use question words to ask for information.',
 
     'form':
-        'Who + verb ... ?\nWhat + auxiliary + subject + verb ... ?\nWhere + auxiliary + subject + verb ... ?',
+        'Who + verb... ?\nWhat + auxiliary + subject + verb... ?\nWhere + auxiliary + subject + verb ... ?',
 
     'examples': [
       'Who lives in Melbourne?',
