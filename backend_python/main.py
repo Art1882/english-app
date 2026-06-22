@@ -91,7 +91,7 @@ def get_all_classes():
     return {"classes": classes}
 
 learners = {
-    "Y10": ["Art"]
+    "Y10": ["Alice"]
 }
 
 
