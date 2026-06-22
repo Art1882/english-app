@@ -81,11 +81,6 @@ def get_submissions():
 # 🔥 teacher classes
 @app.get("/teacher/classes")
 def get_teacher_classes():
-
-    classes = list(set(
-        submission["class"] for submission in submissions
-    ))
-
     return {"classes": classes}
 classes = [
     "Y10"
@@ -96,7 +91,7 @@ def get_all_classes():
     return {"classes": classes}
 
 learners = {
-    "Y10": ["Tine"]
+    "Y10": ["Art"]
 }
 
 
