@@ -90,13 +90,13 @@ def get_teacher_classes():
 classes = [
     "Y10"
 ]
-#classes
+
 @app.get("/classes")
 def get_all_classes():
     return {"classes": classes}
 
 learners = {
-    "Y10": ["Tine"],
+    "Y10": ["Tine"]
 }
 
 
