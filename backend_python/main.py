@@ -88,10 +88,7 @@ def get_teacher_classes():
 
     return {"classes": classes}
 classes = [
-    "Y7",
-    "Y8",
-    "Y9",
-    "Y10",
+    "Y10"
 ]
 #classes
 @app.get("/classes")
@@ -99,9 +96,6 @@ def get_all_classes():
     return {"classes": classes}
 
 learners = {
-    "Y7": ["Arthur", "Candy", "Gabriel", "Mugeon", "Jack", "Peter"],
-    "Y8": ["Jiwon", "Jerry", "Coco", "Yulhui"],
-    "Y9": ["Paul"],
     "Y10": ["Tine"]
 }
 
